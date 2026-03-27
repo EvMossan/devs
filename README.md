@@ -17,9 +17,6 @@ It forces the work through a short loop:
 
 `clarify -> specify -> implement -> verify`
 
-The point is not ceremony.
-The point is to stop guessing.
-
 ```mermaid
 %%{init: {
   "theme": "base",
@@ -61,6 +58,12 @@ flowchart LR
     class E verify;
     class H1,H2 memory;
 ```
+
+The point is not ceremony.
+The point is to stop guessing.
+
+If the diagram does not render in VS Code Markdown Preview, install the recommended `Markdown Preview Mermaid Support` extension for this workspace.
+
 
 ## The actual problem
 
