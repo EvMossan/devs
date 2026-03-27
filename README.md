@@ -20,6 +20,48 @@ It forces the work through a short loop:
 The point is not ceremony.
 The point is to stop guessing.
 
+```mermaid
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "basis",
+    "nodeSpacing": 40,
+    "rankSpacing": 42
+  },
+  "themeVariables": {
+    "fontFamily": "Inter, Segoe UI, Arial, sans-serif",
+    "fontSize": "15px",
+    "primaryTextColor": "#0f172a",
+    "lineColor": "#64748b"
+  }
+}}%%
+flowchart LR
+    A(["Feature<br/>request"]) --> B["Clarify"]
+    B --> C["Specify"]
+
+    C --> H1[("Active handoff<br/>scope • tests • done")]
+    H1 --> D["Implement"]
+
+    D --> H2[("Active handoff<br/>evidence • risks • next owner")]
+    H2 --> E{"Verify"}
+
+    E -->|"pass"| F(["Feature<br/>ready"])
+    E -->|"fix spec"| C
+    E -->|"fix impl"| D
+
+    classDef startend fill:#f8fafc,stroke:#94a3b8,color:#0f172a,stroke-width:1.2px;
+    classDef spec fill:#eaf3ff,stroke:#7aa2d8,color:#0f172a,stroke-width:1.2px;
+    classDef build fill:#ecf8f0,stroke:#7cb391,color:#0f172a,stroke-width:1.2px;
+    classDef verify fill:#fff0f0,stroke:#d99a9a,color:#0f172a,stroke-width:1.2px;
+    classDef memory fill:#fff7e8,stroke:#d7b97a,color:#0f172a,stroke-width:1.2px,stroke-dasharray: 5 3;
+
+    class A,F startend;
+    class B,C spec;
+    class D build;
+    class E verify;
+    class H1,H2 memory;
+```
+
 ## The actual problem
 
 Most agent workflows fail in the same boring ways:
