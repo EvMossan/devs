@@ -1,4 +1,4 @@
-# Devs Project Design
+# Devs
 
 > Draft: `Devs` is an early open-source draft of an agentic development
 > workflow. This repository currently contains the core process design, skills,
@@ -15,7 +15,7 @@ It is a repo-native workstream protocol for structured software delivery.
 
 ## Why It Exists
 
-AI coding often starts with one vague request in one long chat.
+AI-assisted coding often starts with one vague request in one long chat.
 
 That usually leads to:
 
@@ -25,11 +25,14 @@ That usually leads to:
 4. messy context
 5. weak verification
 
-`Devs` is a draft attempt to make that workflow more disciplined.
+`Devs` exists to turn work with agents into a more standardized engineering
+process.
 
-Instead of starting with direct implementation, `Devs` starts by clarifying
-the work, turning it into a contract, and carrying that contract through
-implementation and independent verification.
+Instead of relying on improvisation and fragile chat context, `Devs` starts by
+clarifying the work, turning it into an explicit contract, and carrying that
+contract through implementation and independent verification. It also preserves
+enough state that the next session can continue the work cleanly instead of
+starting over.
 
 ## How It Works
 
@@ -44,40 +47,22 @@ A workstream moves through a simple loop:
 5. verify in a fresh session
 6. continue the work from saved state in the next session
 
-## What Devs Stores Under The Hood
+## What You Get
 
-`Devs` relies on persistent artifacts so work can continue across chats without
-depending on chat history alone.
+`Devs` is designed to make AI-assisted development easier to trust.
 
-These draft artifact types include:
+It gives you:
 
-1. project foundation documents
-2. technical specifications
-3. session memory and hand-off records
-4. verification evidence
+1. a clearer path from a vague request to an explicit specification
+2. bounded implementation instead of improvising everything in one long chat
+3. independent verification instead of self-approved completion
+4. persistent state across sessions, so work does not depend on chat history
+   alone
+5. a workflow that can keep moving forward without starting over every time
 
-Users should not need to manage these artifacts manually every time.
+## Current Status
 
-## Draft Principles
+`Devs` is still an early draft.
 
-The current draft principles are:
-
-1. one workstream at a time
-2. one delivery phase per session
-3. no implementation before clarification and specification
-4. implementation does not self-approve final completion
-5. verification is independent
-6. each phase leaves a persistent hand-off artifact
-7. each completed phase should produce the next-session prompt
-
-## Draft Status
-
-This repository is still a design draft.
-
-The current direction is clear, but several parts are still open:
-
-1. bootstrap flow for new projects
-2. brownfield onboarding for existing repositories
-3. exact workstream file layout
-4. clarification interview format
-5. strength of same-session blocking between phases
+The core workflow is here. Installation, bootstrap, and broader adoption
+guidance are still being developed.
