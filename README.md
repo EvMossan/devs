@@ -32,7 +32,7 @@ It forces the work through a short loop:
     "lineColor": "#64748b"
   }
 }}%%
-flowchart LR
+flowchart TD
     A(["Feature<br/>request"]) --> B["Clarify"]
     B --> C["Specify"]
 
