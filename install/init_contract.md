@@ -24,7 +24,7 @@ It does **not** require a local mirror of the source installer internals.
 6. Copy the current authoritative Devs work-role skills verbatim from the
    source repo into the target repo:
    - `devs_spec_author`
-   - `devs_runtime_implementer`
+   - `devs_runtime_implementor`
    - `devs_runtime_verifier`
 7. Copy the current authoritative workstream templates verbatim from the
    source repo into the target repo.
@@ -40,6 +40,10 @@ It does **not** require a local mirror of the source installer internals.
     default.
 15. Repo classification is advisory metadata only. It must not fork the Devs
     role workflow into separate mobile/backend/data-only processes.
+16. A Devs GitHub repo URL, git URL, or raw install URL is **source context**,
+    not a package-install request. Do not default to `submodule vs vendored
+    repo copy` questions unless the user explicitly asks for that packaging
+    model.
 
 ## Source Repo Discovery
 
@@ -52,6 +56,19 @@ Acceptable source forms:
 3. raw URL pointing directly at `install/INSTALL.md`
 
 If only a raw URL is provided, infer the source repository root from that URL.
+
+## Source URL Interpretation
+
+When the user gives a GitHub repo URL or git URL for Devs:
+
+1. treat that repo as the authoritative **source** of install instructions,
+   skill files, and workstream templates
+2. resolve `install/INSTALL.md` inside that repo
+3. generate or patch files in the current target repo
+
+Do not ask whether the whole Devs repo should be added to the target repo as a
+submodule or copied into the tree unless the user explicitly requests that
+installation model.
 
 ## Current Authoritative Source Paths
 
@@ -66,7 +83,7 @@ Use these exact source paths in the current Devs repo:
 
 3. `skills/init_repo/SKILL.md`
 4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementer/SKILL.md`
+5. `skills/runtime_implementor/SKILL.md`
 6. `skills/runtime_verifier/SKILL.md`
 
 ### Workstream templates
@@ -196,13 +213,13 @@ Ask the user one concise question block **only** for unresolved points.
 ### Repo-local Claude skills
 
 8. `.claude/skills/devs_spec_author/SKILL.md`
-9. `.claude/skills/devs_runtime_implementer/SKILL.md`
+9. `.claude/skills/devs_runtime_implementor/SKILL.md`
 10. `.claude/skills/devs_runtime_verifier/SKILL.md`
 
 ### Repo-local Codex skills
 
 11. `.agents/skills/devs_spec_author/SKILL.md`
-12. `.agents/skills/devs_runtime_implementer/SKILL.md`
+12. `.agents/skills/devs_runtime_implementor/SKILL.md`
 13. `.agents/skills/devs_runtime_verifier/SKILL.md`
 
 ## File Writing Rules
@@ -234,7 +251,7 @@ Recommended sections:
    - point to `workstreams/`
 4. `Role Routing`
    - when to use `devs_spec_author`
-   - when to use `devs_runtime_implementer`
+   - when to use `devs_runtime_implementor`
    - when to use `devs_runtime_verifier`
 5. `Core Guardrails`
    - no implementation before a bounded workstream contract exists
@@ -259,46 +276,41 @@ If a root `CLAUDE.md` already exists:
 - ensure it imports `@AGENTS.md` if that is safe
 - if the file already carries a valid import or equivalent shared bootstrap, do
   not duplicate it
+- if safe patching is ambiguous, ask the merge question
 
 ### `devs/project.md`
 
-Create this file directly from the blueprint below.
-No source-level template file is required.
+Create from the blueprint below and fill only the sections that are actually
+useful.
 
-#### `devs/project.md` blueprint
+Rules:
 
-Keep operational facts only.
+1. keep operational facts only
+2. prefer concrete commands and paths over prose
+3. record detected companion systems
+4. record merge / patch decisions made during install
+5. keep repo classification advisory and concise
+6. include only the repo-type notes that are actually relevant
 
 Recommended sections:
 
-1. `Repo Snapshot`
+1. `Repository Profile`
    - repo mode
    - primary project type
    - technology tags
-2. `Important Paths`
-   - key app / service / package roots
-3. `Canonical Commands`
+2. `Canonical Commands`
    - setup / install
    - build
    - test
    - lint
    - typecheck
-4. `Human Approval Required`
-   - operations that always require explicit approval
-5. `Existing Agent / Process Systems`
-   - existing `AGENTS.md`, `CLAUDE.md`, `.claude/`, `.agents/`, `.specify/`,
-     Superpowers, Spec Kit, other notable systems
-6. `Install Notes`
-   - merge choices
-   - warnings
-   - unresolved follow-ups
-
-Rules:
-
-1. prefer concrete commands and paths over prose
-2. remove or mark irrelevant subsections as `N/A`
-3. keep it repo-specific and readable
-4. do not copy generic Devs theory here
+3. `Approval-Sensitive Operations`
+4. `Detected Companion Systems`
+5. `Instruction File Notes`
+6. `Workstream Notes`
+   - where workstream contracts and state live
+7. `Open Install Warnings`
+   - only if needed
 
 ### `devs/install_manifest.json`
 
@@ -306,25 +318,14 @@ Record:
 
 1. source repo URL or local path
 2. source ref if known
-3. source entrypoint path
+3. source entrypoint used
 4. install timestamp
 5. target repo mode
-6. target primary project type
+6. primary project type
 7. technology tags
 8. questions asked and answers
-9. files written
-10. files patched
-11. notable warnings or unresolved issues
-
-Suggested top-level keys:
-
-- `installed_at`
-- `source`
-- `target`
-- `questions`
-- `files_written`
-- `files_patched`
-- `warnings`
+9. files written and patched
+10. notable warnings or unresolved issues
 
 ### `workstreams/`
 
@@ -333,48 +334,49 @@ Copy current authoritative workstream templates from the source repo:
 - `workstream_templates/spec_template.md` -> `workstreams/_templates/spec.md`
 - `workstream_templates/state_template.md` -> `workstreams/_templates/workstream.md`
 
-Create `workstreams/README.md` directly from the blueprint below.
+Create `workstreams/README.md` from the blueprint below.
 
 #### `workstreams/README.md` blueprint
 
-Recommended contents:
+Keep it short.
 
-1. what belongs in this folder
-2. how to start a new bounded workstream
-3. how to use the two templates
-4. naming guidance:
-   - choose descriptive names
-   - keep contract and state paired
-5. reminder that verification is a separate role
+Recommended sections:
 
-This file should explain the local workstream convention only.
-It should not restate all Devs theory.
+1. `Purpose`
+   - Devs stores the current workstream contract and state here
+2. `Templates`
+   - `workstreams/_templates/spec.md`
+   - `workstreams/_templates/workstream.md`
+3. `Suggested Flow`
+   - spec author writes a bounded contract
+   - implementor executes one approved slice
+   - verifier decides pass or blocked
+4. `Naming`
+   - descriptive workstream names
+   - keep one current contract and one current state file per workstream where possible
 
 ### Role skills
 
-Copy these source skill files verbatim into both tool directories:
+Copy each authoritative work-role skill file verbatim into both:
 
-- `skills/spec_author/SKILL.md`
-- `skills/runtime_implementer/SKILL.md`
-- `skills/runtime_verifier/SKILL.md`
+- `.claude/skills/<skill-name>/SKILL.md`
+- `.agents/skills/<skill-name>/SKILL.md`
 
-Map them to:
+Install these by default:
 
-- `.claude/skills/devs_spec_author/SKILL.md`
-- `.claude/skills/devs_runtime_implementer/SKILL.md`
-- `.claude/skills/devs_runtime_verifier/SKILL.md`
-- `.agents/skills/devs_spec_author/SKILL.md`
-- `.agents/skills/devs_runtime_implementer/SKILL.md`
-- `.agents/skills/devs_runtime_verifier/SKILL.md`
+- `devs_spec_author`
+- `devs_runtime_implementor`
+- `devs_runtime_verifier`
 
-Do not rewrite the role content during install.
+Do not install `devs_init_repo` into the target repo unless the user explicitly
+asks for repo-local refresh tooling.
 
 ### Existing local skills
 
 Do not delete unrelated project skills in `.claude/skills` or `.agents/skills`.
 
-For local `devs_*` skill directories:
-- overwrite the three installed work roles with the current source versions
+For local `devs_*` role skills:
+- overwrite them with the source versions from this install
 - record the refresh in `devs/install_manifest.json`
 
 ## Companion Systems
@@ -388,8 +390,17 @@ But if they already exist locally:
 
 1. detect them
 2. record them in `devs/project.md`
-3. keep Devs as the governing workstream contract unless the repo explicitly
-   says otherwise
+3. keep Devs as the governing contract and workstream system unless the repo
+   explicitly says otherwise
+
+## Execution Mode Default
+
+For v1 installs, the default is:
+
+- `manual_roles`
+
+The installer may record other local preferences in `devs/project.md`, but it
+does not need to scaffold controller/orchestrator files in this version.
 
 ## Success Criteria
 
@@ -398,39 +409,23 @@ The install is complete only when:
 1. the target repo has a short root `AGENTS.md`
 2. the target repo has a root `CLAUDE.md` shim
 3. the target repo has `devs/project.md`
-4. the target repo has `devs/install_manifest.json`
-5. the target repo has `workstreams/README.md`
-6. the target repo has local workstream templates
-7. the target repo has repo-local Devs work roles for both Claude and Codex
-8. the install did not require a source-level `install/templates/` directory
-9. the install did not silently create `devs/bootstrap/*` mirror files
-10. the agent has not silently started feature work
+4. the target repo has `workstreams/README.md`
+5. the target repo has local workstream templates
+6. the target repo has repo-local Devs skills for both Claude and Codex
+7. `devs/install_manifest.json` truthfully records what happened
+8. the agent has not silently started feature work
 
 ## Final Output Contract
 
 After installation, report:
 
 1. target repo mode
-2. target primary project type
+2. primary project type
 3. technology tags
-4. questions asked and answers
-5. files written
-6. files patched
-7. unresolved or manual follow-up items
-8. the exact next suggested prompt to start the first real workstream
+4. files written
+5. files patched
+6. any unresolved or manual follow-up items
+7. the exact next suggested prompt to start the first real workstream
 
-Also remind the user that future sessions can use the repo-local Devs work-role
-skills directly.
-
-## Suggested First Next Prompt
-
-The installer should usually suggest a prompt in this shape:
-
-`Use devs_spec_author to define the first workstream for: <user goal>.`
-
-Tool-specific invocation hints:
-
-- Claude Code: `/devs_spec_author`
-- Codex: `$devs_spec_author`
-
-Do not run that next prompt automatically.
+Also remind the user that future sessions can use the repo-local role skills
+directly.

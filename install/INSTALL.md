@@ -23,7 +23,7 @@ Before writing anything in the target repo:
 1. read `install/init_contract.md`
 2. read `skills/init_repo/SKILL.md`
 3. read `skills/spec_author/SKILL.md`
-4. read `skills/runtime_implementer/SKILL.md`
+4. read `skills/runtime_implementor/SKILL.md`
 5. read `skills/runtime_verifier/SKILL.md`
 6. read `workstream_templates/spec_template.md`
 7. read `workstream_templates/state_template.md`
@@ -39,7 +39,7 @@ In the current Devs repository, the authoritative install inputs are:
 2. `install/init_contract.md`
 3. `skills/init_repo/SKILL.md`
 4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementer/SKILL.md`
+5. `skills/runtime_implementor/SKILL.md`
 6. `skills/runtime_verifier/SKILL.md`
 7. `workstream_templates/spec_template.md`
 8. `workstream_templates/state_template.md`
@@ -49,6 +49,27 @@ Do not block on it.
 This install version uses the blueprints in `install/init_contract.md` instead of
 source bootstrap templates.
 
+## Source-repo interpretation rule
+
+If the user provides a GitHub repo URL, git URL, or raw `install/INSTALL.md`
+URL for Devs, treat it as **source context only**.
+
+That means:
+
+1. resolve the install entrypoint inside that source repo
+2. read the source files from that repo
+3. generate or patch bootstrap files in the current target repo
+
+It does **not** mean:
+
+1. add the Devs repo as a git submodule
+2. vendor the whole Devs repo into the target repo
+3. ask `submodule vs copied repo files` as the first install decision
+
+Unless the user explicitly asks for submodule-based reuse, default to
+**generated target files + copied repo-local skills/templates**, not repo
+embedding.
+
 ## Non-negotiable behavior
 
 1. Treat the current repo as the target repo.
@@ -57,7 +78,7 @@ source bootstrap templates.
    Copy the authoritative source versions verbatim into the target repo.
 4. Install the repo-local work roles by default:
    - `devs_spec_author`
-   - `devs_runtime_implementer`
+   - `devs_runtime_implementor`
    - `devs_runtime_verifier`
 5. Do not install or generate `devs_init_repo` inside the target repo unless the
    user explicitly asks for local refresh tooling.
@@ -82,10 +103,10 @@ source bootstrap templates.
 6. `workstreams/_templates/spec.md`
 7. `workstreams/_templates/workstream.md`
 8. `.claude/skills/devs_spec_author/SKILL.md`
-9. `.claude/skills/devs_runtime_implementer/SKILL.md`
+9. `.claude/skills/devs_runtime_implementor/SKILL.md`
 10. `.claude/skills/devs_runtime_verifier/SKILL.md`
 11. `.agents/skills/devs_spec_author/SKILL.md`
-12. `.agents/skills/devs_runtime_implementer/SKILL.md`
+12. `.agents/skills/devs_runtime_implementor/SKILL.md`
 13. `.agents/skills/devs_runtime_verifier/SKILL.md`
 
 ## Execution summary

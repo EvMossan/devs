@@ -1,6 +1,6 @@
 ---
 name: devs_init_repo
-version: v1
+version: v1.1
 description: Use when installing Devs into the current repository or refreshing an existing Devs install. Scan first, ask only unresolved questions, create or patch the repo-local bootstrap and workstream scaffolding, install the current Devs work-role skills for Claude and Codex, and stop before feature work begins.
 ---
 
@@ -18,7 +18,7 @@ Before writing or patching anything:
 
 1. `install/init_contract.md` from the source Devs repo
 2. `skills/spec_author/SKILL.md` from the source Devs repo
-3. `skills/runtime_implementer/SKILL.md` from the source Devs repo
+3. `skills/runtime_implementor/SKILL.md` from the source Devs repo
 4. `skills/runtime_verifier/SKILL.md` from the source Devs repo
 5. `workstream_templates/spec_template.md` from the source Devs repo
 6. `workstream_templates/state_template.md` from the source Devs repo
@@ -40,7 +40,9 @@ If a required input cannot be read, stop and surface the blocker.
 8. Do not require or look for `install/templates/*`.
 9. Do not create `devs/bootstrap/*` mirror files unless the user explicitly
    asks for local installer copies.
-10. Stop after installation. Do not start feature work.
+10. A GitHub repo URL for Devs is source context, not a submodule/vendoring
+    request, unless the user explicitly asks for that packaging model.
+11. Stop after installation. Do not start feature work.
 
 ## Workflow
 
@@ -49,6 +51,9 @@ If a required input cannot be read, stop and surface the blocker.
 1. The current repo is the target.
 2. The Devs repo containing the install files is the source.
 3. If only a raw URL was provided, infer the source repo root from it.
+4. If a GitHub repo URL was provided, resolve `install/INSTALL.md` inside that
+   source repo and continue. Do not stop to ask `submodule vs copy repo files`
+   unless the user explicitly asked for repo embedding.
 
 ### 2. Read the exact source inputs
 
@@ -56,7 +61,7 @@ Read these exact source paths:
 
 1. `install/init_contract.md`
 2. `skills/spec_author/SKILL.md`
-3. `skills/runtime_implementer/SKILL.md`
+3. `skills/runtime_implementor/SKILL.md`
 4. `skills/runtime_verifier/SKILL.md`
 5. `workstream_templates/spec_template.md`
 6. `workstream_templates/state_template.md`
@@ -112,10 +117,10 @@ Do not block on missing source bootstrap templates.
 Copy the current source role skills into:
 
 - `.claude/skills/devs_spec_author/SKILL.md`
-- `.claude/skills/devs_runtime_implementer/SKILL.md`
+- `.claude/skills/devs_runtime_implementor/SKILL.md`
 - `.claude/skills/devs_runtime_verifier/SKILL.md`
 - `.agents/skills/devs_spec_author/SKILL.md`
-- `.agents/skills/devs_runtime_implementer/SKILL.md`
+- `.agents/skills/devs_runtime_implementor/SKILL.md`
 - `.agents/skills/devs_runtime_verifier/SKILL.md`
 
 Do not install `devs_init_repo` into the target repo unless the user explicitly
@@ -150,6 +155,8 @@ Your final install report must include:
 2. blocking on a non-existent `install/templates/` source folder
 3. overwriting existing root instruction files blindly
 4. rewriting the current role skills during install
-5. copying installer internals into the target repo without a user request
-6. leaving the target repo dependent on the source repo for everyday Devs work
-7. starting real feature work before bootstrap is complete
+5. asking `submodule vs copied repo files` when the user only supplied Devs as a
+   remote source repo
+6. copying installer internals into the target repo without a user request
+7. leaving the target repo dependent on the source repo for everyday Devs work
+8. starting real feature work before bootstrap is complete
