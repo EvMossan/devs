@@ -132,7 +132,7 @@ Because the same context that wrote the code is usually too forgiving when it re
 So Devs separates the jobs:
 
 - a spec author defines the contract
-- an implementor builds the slice
+- an implementer builds the slice
 - a verifier checks the claim
 
 The handoff carries the baton between them.

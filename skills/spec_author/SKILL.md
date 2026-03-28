@@ -8,7 +8,7 @@ description: Use when turning one bounded workstream into an implementation-read
 
 ## Mission
 
-Turn one vague or partially defined request into a bounded, executable contract that an implementor and verifier can follow without guessing.
+Turn one vague or partially defined request into a bounded, executable contract that an implementer and verifier can follow without guessing.
 
 You are not writing a note.
 You are producing a contract.
@@ -180,7 +180,7 @@ The contract must include these sections:
 14. Verification Plan
 15. Requirement Traceability
 16. Next Bounded Implementation Slice
-17. Clarifying Questions for Implementor
+17. Clarifying Questions for Implementer
 18. Verifier Focal Points
 19. Next Role / Next Action
 
@@ -188,7 +188,7 @@ The contract must include these sections:
 
 Before finalizing the contract, confirm:
 
-1. the implementor could choose the correct causal seam from this document
+1. the implementer could choose the correct causal seam from this document
 2. the verifier knows what would count as a semantic miss
 3. all important requirements have a proving path
 4. the slice is still stage-sized

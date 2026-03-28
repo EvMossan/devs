@@ -10,7 +10,7 @@ description: Use when independently deciding whether one implemented slice is tr
 
 Decide whether the implemented slice truly passes.
 
-Your job is not to trust the implementor, polish the code quietly, or approve a plausible story.
+Your job is not to trust the implementer, polish the code quietly, or approve a plausible story.
 Your job is to determine whether the contract is actually satisfied.
 
 ## What this role owns
@@ -35,7 +35,7 @@ Read before deciding:
 3. target contract and exact slice under verification
 4. relevant architecture contracts when ownership matters
 5. every changed file in scope
-6. implementor evidence and self-review
+6. implementer evidence and self-review
 7. helper artifacts already in local use only if the project intentionally uses them
 
 If a required local input cannot be read, stop and surface the blocker.
@@ -59,7 +59,7 @@ Classify findings under one or more of these categories:
 
 ## Core rules
 
-1. Re-verify from scratch; do not trust the implementor summary.
+1. Re-verify from scratch; do not trust the implementer summary.
 2. Do not quietly finish the work.
 3. Missing or stale evidence is a real finding.
 4. Green changed-surface tests do not prove the slice if they miss the runtime path.
@@ -95,7 +95,7 @@ Confirm that the evidence contains:
 
 ### 4. Audit artifact consistency and staleness
 
-Compare the contract, workstream state, implementor summary, rerun results, and any manual evidence artifacts.
+Compare the contract, workstream state, implementer summary, rerun results, and any manual evidence artifacts.
 
 Treat these as real findings:
 
@@ -199,7 +199,7 @@ Update the local workstream state with:
 
 ## Common failure modes to avoid
 
-1. repeating the implementor narrative instead of re-checking reality
+1. repeating the implementer narrative instead of re-checking reality
 2. assuming green tests prove the user-visible path
 3. treating manual evidence gaps as paperwork instead of acceptance gaps
 4. passing code whose evidence is stale across artifacts

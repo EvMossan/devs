@@ -82,7 +82,7 @@ I also have an explicit orchestration contract for the agent runtime. That contr
 
 The most important part of my method is not the model itself. It is the workflow I built around it.
 
-At the repository level, my workflow document establishes a strict source-of-truth order, a change-request protocol, a stage contract, test-first implementation, self-review, verification, a runtime reality gate, and a three-pass completion sweep before a stage can be treated as closed (Internal Project, 2026a). The same repository also contains a technical specification authoring standard that forces every technical spec to include a problem statement, scope boundaries, implementation plan, testing and verification plan, requirement traceability set, definition of done, clarifying questions, and a user decisions log (Internal Project, 2026c). The visual workflow map then turns this into a clear multi-role conveyor: `spec-author -> runtime-implementor -> runtime-verifier`, with a shared active handoff carrying the baton until the verifier records `PASS` (Internal Project, 2026b).
+At the repository level, my workflow document establishes a strict source-of-truth order, a change-request protocol, a stage contract, test-first implementation, self-review, verification, a runtime reality gate, and a three-pass completion sweep before a stage can be treated as closed (Internal Project, 2026a). The same repository also contains a technical specification authoring standard that forces every technical spec to include a problem statement, scope boundaries, implementation plan, testing and verification plan, requirement traceability set, definition of done, clarifying questions, and a user decisions log (Internal Project, 2026c). The visual workflow map then turns this into a clear multi-role conveyor: `spec-author -> runtime-implementer -> runtime-verifier`, with a shared active handoff carrying the baton until the verifier records `PASS` (Internal Project, 2026b).
 
 The result is that the “program” I write is no longer just Swift or backend code. It is a larger operational program composed of contracts, roles, transitions, and evidence.
 
@@ -93,7 +93,7 @@ The result is that the “program” I write is no longer just Swift or backend 
 | Intent | What problem am I solving and why? | Human | Problem statement, user request |
 | Architecture | What owns what? What are the invariants? | Human | Architecture contracts |
 | Specification | What is in scope, out of scope, and done? | Human + spec-author agent | Technical specs, DoD, traceability |
-| Implementation | How is the spec translated into code and tests? | Runtime-implementor agent | Code, tests, diffs, self-review |
+| Implementation | How is the spec translated into code and tests? | Runtime-implementer agent | Code, tests, diffs, self-review |
 | Verification | Did it actually work on the real runtime path? | Runtime-verifier agent + runtime/test system + human when needed | Evidence, handoff, PASS/BLOCKED verdict |
 
 Several parts of this workflow matter more than they may first appear.
@@ -129,7 +129,7 @@ One of the most useful ways I now understand my own method is through the idea o
 I often do not personally inspect every generated code file. From a traditional perspective, that seems like abdication. But that is not actually what is happening. The code is still being read, edited, tested, and checked. What has changed is **who** or **what** performs each part of that cognition.
 
 - I hold the product intent, architecture, priorities, and acceptance logic.
-- The implementor agent reads and edits the relevant code surfaces.
+- The implementer agent reads and edits the relevant code surfaces.
 - The verifier agent re-reads changed surfaces and re-runs checks.
 - The test harness checks executable behavior.
 - The runtime reality gate checks the live stack.
@@ -176,7 +176,7 @@ To keep the claim honest, I need to say clearly what it does not mean.
 
 ### 8.1 It does not mean code is irrelevant
 
-Even Anthropic’s work that most strongly supports a shift away from low-level code authorship still emphasizes debugging, code reading, and conceptual understanding as central skills for supervising AI-generated code (Anthropic, 2026a). My own workflow also depends on code being read by the implementor and verifier roles. The truth is not “no code.” The truth is “less direct human line-by-line authorship, more indirect governance of code through process.”
+Even Anthropic’s work that most strongly supports a shift away from low-level code authorship still emphasizes debugging, code reading, and conceptual understanding as central skills for supervising AI-generated code (Anthropic, 2026a). My own workflow also depends on code being read by the implementer and verifier roles. The truth is not “no code.” The truth is “less direct human line-by-line authorship, more indirect governance of code through process.”
 
 ### 8.2 It does not mean pure delegation is safe
 

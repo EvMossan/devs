@@ -16,7 +16,7 @@ Requirements:
 4. Use the current authoritative source paths in the Devs repo:
    - `skills/init_repo/SKILL.md`
    - `skills/spec_author/SKILL.md`
-   - `skills/runtime_implementor/SKILL.md`
+   - `skills/runtime_implementer/SKILL.md`
    - `skills/runtime_verifier/SKILL.md`
    - `workstream_templates/spec_template.md`
    - `workstream_templates/state_template.md`
@@ -42,7 +42,7 @@ Requirements:
 4. Use the current authoritative source paths in the Devs repo:
    - `skills/init_repo/SKILL.md`
    - `skills/spec_author/SKILL.md`
-   - `skills/runtime_implementor/SKILL.md`
+   - `skills/runtime_implementer/SKILL.md`
    - `skills/runtime_verifier/SKILL.md`
    - `workstream_templates/spec_template.md`
    - `workstream_templates/state_template.md`

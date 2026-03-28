@@ -6,7 +6,7 @@
 - Overall status: `<draft|in_progress|candidate|blocked|done>`
 - Current phase: `<clarify/specify|implement|verify>`
 - Latest verdict: `<pending|pass|blocked>`
-- Next role: `<spec-author|runtime-implementor|runtime-verifier|user>`
+- Next role: `<spec-author|runtime-implementer|runtime-verifier|user>`
 - Next action: `<single concrete next action>`
 
 ## Source Links
@@ -80,5 +80,5 @@
 
 ## Next Owner / Next Action
 
-- Next owner: `<spec-author|runtime-implementor|runtime-verifier|user|none>`
+- Next owner: `<spec-author|runtime-implementer|runtime-verifier|user|none>`
 - Next action: `<single concrete next action>`

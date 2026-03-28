@@ -4,7 +4,7 @@
 
 - Workstream ID: `<slug>`
 - Status: `draft`
-- Last updated by role: `<spec-author|runtime-implementor|runtime-verifier>`
+- Last updated by role: `<spec-author|runtime-implementer|runtime-verifier>`
 
 ## Objective
 
@@ -126,7 +126,7 @@ If no lead decisions were needed, state that explicitly in the first row.
 
 State the exact slice that should be built now.
 
-## Clarifying Questions for Implementor
+## Clarifying Questions for Implementer
 
 1. `<question or None — requirements are fully specified>`
 
@@ -136,5 +136,5 @@ State the exact slice that should be built now.
 
 ## Next Role / Next Action
 
-- Next role: `runtime-implementor`
+- Next role: `runtime-implementer`
 - Next action: `<single concrete next action>`

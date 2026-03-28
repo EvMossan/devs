@@ -1,10 +1,10 @@
 ---
-name: devs_runtime_implementor
+name: devs_runtime_implementer
 version: v4-draft
 description: Use when implementing one approved workstream slice at the correct causal seam, with red-first evidence, explicit owner/source-of-truth discipline, truthful artifact updates, and subordinate helper-skill integration.
 ---
 
-# Devs Runtime Implementor
+# Devs Runtime Implementer
 
 ## Mission
 
