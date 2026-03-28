@@ -23,7 +23,7 @@ Before writing anything in the target repo:
 1. read `install/init_contract.md`
 2. read `skills/init_repo/SKILL.md`
 3. read `skills/spec_author/SKILL.md`
-4. read `skills/runtime_implementor/SKILL.md`
+4. read `skills/runtime_implementer/SKILL.md`
 5. read `skills/runtime_verifier/SKILL.md`
 6. read `workstream_templates/spec_template.md`
 7. read `workstream_templates/state_template.md`
@@ -39,7 +39,7 @@ In the current Devs repository, the authoritative install inputs are:
 2. `install/init_contract.md`
 3. `skills/init_repo/SKILL.md`
 4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementor/SKILL.md`
+5. `skills/runtime_implementer/SKILL.md`
 6. `skills/runtime_verifier/SKILL.md`
 7. `workstream_templates/spec_template.md`
 8. `workstream_templates/state_template.md`
@@ -78,7 +78,7 @@ embedding.
    Copy the authoritative source versions verbatim into the target repo.
 4. Install the repo-local work roles by default:
    - `devs_spec_author`
-   - `devs_runtime_implementor`
+   - `devs_runtime_implementer`
    - `devs_runtime_verifier`
 5. Do not install or generate `devs_init_repo` inside the target repo unless the
    user explicitly asks for local refresh tooling.
@@ -103,10 +103,10 @@ embedding.
 6. `workstreams/_templates/spec.md`
 7. `workstreams/_templates/workstream.md`
 8. `.claude/skills/devs_spec_author/SKILL.md`
-9. `.claude/skills/devs_runtime_implementor/SKILL.md`
+9. `.claude/skills/devs_runtime_implementer/SKILL.md`
 10. `.claude/skills/devs_runtime_verifier/SKILL.md`
 11. `.agents/skills/devs_spec_author/SKILL.md`
-12. `.agents/skills/devs_runtime_implementor/SKILL.md`
+12. `.agents/skills/devs_runtime_implementer/SKILL.md`
 13. `.agents/skills/devs_runtime_verifier/SKILL.md`
 
 ## Execution summary

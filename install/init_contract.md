@@ -24,7 +24,7 @@ It does **not** require a local mirror of the source installer internals.
 6. Copy the current authoritative Devs work-role skills verbatim from the
    source repo into the target repo:
    - `devs_spec_author`
-   - `devs_runtime_implementor`
+   - `devs_runtime_implementer`
    - `devs_runtime_verifier`
 7. Copy the current authoritative workstream templates verbatim from the
    source repo into the target repo.
@@ -83,7 +83,7 @@ Use these exact source paths in the current Devs repo:
 
 3. `skills/init_repo/SKILL.md`
 4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementor/SKILL.md`
+5. `skills/runtime_implementer/SKILL.md`
 6. `skills/runtime_verifier/SKILL.md`
 
 ### Workstream templates
@@ -213,13 +213,13 @@ Ask the user one concise question block **only** for unresolved points.
 ### Repo-local Claude skills
 
 8. `.claude/skills/devs_spec_author/SKILL.md`
-9. `.claude/skills/devs_runtime_implementor/SKILL.md`
+9. `.claude/skills/devs_runtime_implementer/SKILL.md`
 10. `.claude/skills/devs_runtime_verifier/SKILL.md`
 
 ### Repo-local Codex skills
 
 11. `.agents/skills/devs_spec_author/SKILL.md`
-12. `.agents/skills/devs_runtime_implementor/SKILL.md`
+12. `.agents/skills/devs_runtime_implementer/SKILL.md`
 13. `.agents/skills/devs_runtime_verifier/SKILL.md`
 
 ## File Writing Rules
@@ -251,7 +251,7 @@ Recommended sections:
    - point to `workstreams/`
 4. `Role Routing`
    - when to use `devs_spec_author`
-   - when to use `devs_runtime_implementor`
+   - when to use `devs_runtime_implementer`
    - when to use `devs_runtime_verifier`
 5. `Core Guardrails`
    - no implementation before a bounded workstream contract exists
@@ -349,7 +349,7 @@ Recommended sections:
    - `workstreams/_templates/workstream.md`
 3. `Suggested Flow`
    - spec author writes a bounded contract
-   - implementor executes one approved slice
+   - implementer executes one approved slice
    - verifier decides pass or blocked
 4. `Naming`
    - descriptive workstream names
@@ -365,7 +365,7 @@ Copy each authoritative work-role skill file verbatim into both:
 Install these by default:
 
 - `devs_spec_author`
-- `devs_runtime_implementor`
+- `devs_runtime_implementer`
 - `devs_runtime_verifier`
 
 Do not install `devs_init_repo` into the target repo unless the user explicitly
