@@ -36,10 +36,10 @@ flowchart TD
     A(["Feature<br/>request"]) --> B["Clarify"]
     B --> C["Specify"]
 
-    C --> H1[("Active handoff<br/>scope • tests • done")]
+    C --> H1[("WorkstreamState")]
     H1 --> D["Implement"]
 
-    D --> H2[("Active handoff<br/>evidence • risks • next owner")]
+    D --> H2[("WorkstreamState")]
     H2 --> E{"Verify"}
 
     E -->|"pass"| F(["Feature<br/>ready"])
@@ -85,8 +85,39 @@ It is a way to run AI-assisted work inside a repo so that:
 - verification is independent
 - the next session can continue without starting from zero
 
-Each piece of work becomes a workstream.
-That workstream gets a spec, a state/handoff file, a current owner, and a next action.
+Each bounded outcome becomes a workstream.
+That workstream is the main continuity and delivery unit.
+It is the full loop for one target outcome: `clarify -> specify -> implement -> verify`,
+including same-target fix loops until the result is truthfully done.
+
+Same-target fix loops stay inside the same workstream.
+A new workstream opens only when the target outcome or scope changes materially.
+
+Each workstream gets one living `state.md`.
+It may also link to a formal spec, but the formal spec is optional.
+
+`spec-less` work is allowed, but not contract-less work.
+If there is no formal spec, the minimal contract still lives in `state.md`.
+
+## Artifact model
+
+Devs uses one hidden system layer and one visible project layer:
+
+- `.devs/` for hidden system files and refreshable Devs support files
+- `devs/` for visible project artifacts
+- `devs/specs/` for formal contract artifacts
+- `devs/workstreams/` for living workstream continuity
+
+Formal specs may plan `Slice S1..N`.
+A slice is a planned unit inside the workstream, not a second workstream.
+Repo workstreams use IDs such as `ws-001-some-target`.
+Those are related, but they are not the same thing.
+
+Inside one workstream, `stage` means the lifecycle position:
+
+- `clarify/specify`
+- `implement`
+- `verify`
 
 ## This is not vibe coding
 
@@ -129,40 +160,11 @@ So Devs separates the jobs:
 - an implementer builds the slice
 - a verifier checks the claim
 
-The handoff carries the baton between them.
-It keeps the current state, evidence, findings, next owner, and next action in the repo instead of burying them in chat history.
-
-## What is in this repo now
-
-This repository is still a draft, but the shape is already visible.
-
-You will find:
-
-- the core `clarify -> specify -> implement -> verify` workflow
-- role-separated skills for spec work, implementation, and verification
-- an orchestration/controller prototype
-- repo artifacts for specs and workstream state
-- the longer thesis behind the project
-
-You will not find a fully finished product yet.
-Some important parts are still open:
-
-- bootstrap and installation
-- brownfield onboarding
-- stronger technical enforcement
-- final public UX
+The workstream state carries the baton between them.
+It keeps the current contract, state, evidence, findings, next owner, and next action in the repo instead of burying them in chat history.
 
 ## Who this is for
 
 Use Devs if AI helps you start fast but keeps making the finish messy.
 
-Skip it if you are happy doing everything in one long chat and do not care much about specs, handoffs, or independent verification.
-
-## Read next
-
-Start with:
-
-- `README.md`
-- `docs/notes/process_programming_thesis.md`
-
-Then read the orchestration docs and role prompts if you want the operational details.
+Skip it if you are happy doing everything in one long chat and do not care much about explicit contracts, workstream continuity, or independent verification.
