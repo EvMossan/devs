@@ -2,7 +2,7 @@
 
 A simple workflow for AI-assisted development that does not rely on one long chat, vague scope, or self-approved code.
 
-**Status:** early draft. The core process is here. The installation story is not.
+**Status:** early draft.
 
 If you've used coding agents for real work, you know the pattern.
 You ask for a feature.
@@ -58,12 +58,6 @@ flowchart TD
     class E verify;
     class H1,H2 memory;
 ```
-
-The point is not ceremony.
-The point is to stop guessing.
-
-If the diagram does not render in VS Code Markdown Preview, install the recommended `Markdown Preview Mermaid Support` extension for this workspace.
-
 
 ## The actual problem
 
