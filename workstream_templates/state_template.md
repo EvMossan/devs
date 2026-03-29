@@ -1,17 +1,35 @@
 # Workstream State: <Workstream Name>
 
+Use this file as the one living continuity record for a repo workstream.
+Keep same-target fix loops inside this file and this workstream.
+Open a new workstream only when the target outcome or scope changes materially.
+
+If there is no formal spec, the minimal contract section below is still
+required.
+`spec-less` is allowed here, but never `contract-less`.
+
 ## Workstream Status
 
-- Workstream ID: `<slug>`
+- Workstream ID: `<ws-001-short-name>`
 - Overall status: `<draft|in_progress|candidate|blocked|done>`
-- Current phase: `<clarify/specify|implement|verify>`
+- Current stage: `<clarify/specify|implement|verify>`
 - Latest verdict: `<pending|pass|blocked>`
+- Linked spec: `<devs/specs/<spec-id>/spec.md or none>`
+- Current spec slice: `<S1|S2|none>`
 - Next role: `<spec-author|runtime-implementer|runtime-verifier|user>`
 - Next action: `<single concrete next action>`
 
+## Minimal Contract Snapshot
+
+- Objective: `<value>`
+- In scope now: `<value>`
+- Out of scope now: `<value>`
+- Acceptance target: `<value>`
+- Source request or link: `<value>`
+
 ## Source Links
 
-1. Contract: `<path>`
+1. Formal spec: `<path or none>`
 2. Relevant architecture docs: `<path(s) or N/A>`
 3. Related failure artifacts: `<path(s) or N/A>`
 4. Helper artifacts in use (`plan`, `tasks`, etc.): `<path(s) or N/A>`
@@ -19,16 +37,16 @@
 ## Clarification Status
 
 - Clarification complete: `<yes|no>`
-- Contract clarification record: `<spec path + section anchor>`
+- Contract source: `<spec path + section anchor or this file>`
 - Open user questions: `<none or short list>`
 - Explicit deferred decisions: `<none or short list>`
 
-## Current Slice
+## Current Truth
 
 - Slice summary: `<value>`
-- In scope now: `<value>`
-- Out of scope now: `<value>`
+- Current scope statement: `<value>`
 - Changed surface: `<files or modules in scope>`
+- Current blocker or risk: `<value or none>`
 
 ## Semantic Execution Map
 

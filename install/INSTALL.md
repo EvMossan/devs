@@ -13,7 +13,7 @@ The install should feel native:
 1. scan first
 2. ask only the minimum unresolved questions
 3. create or patch the target bootstrap files
-4. install the current Devs workstream skills and templates locally
+4. install the current Devs work-role skills and support templates locally
 5. stop after installation
 
 ## Required read order
@@ -92,22 +92,44 @@ embedding.
 11. Prefer patching existing root instruction files over blind overwrite.
 12. Keep the install generic. Repo classification is advisory metadata, not a
     workflow fork.
+13. `.devs/` is the hidden Devs system layer.
+14. `devs/` is the visible project artifact layer.
+15. Visible `devs/` artifacts are project-owned. Do not describe them as
+    refresh-owned installer scaffolding.
+16. `workstream` is the main continuity and delivery unit.
+17. Same-target fix loops stay inside one workstream.
+18. A formal spec is optional, but `spec-less` never means contract-less.
 
 ## What this install writes by default
 
 1. `AGENTS.md`
 2. `CLAUDE.md`
-3. `devs/project.md`
-4. `devs/install_manifest.json`
-5. `workstreams/README.md`
-6. `workstreams/_templates/spec.md`
-7. `workstreams/_templates/workstream.md`
-8. `.claude/skills/devs_spec_author/SKILL.md`
-9. `.claude/skills/devs_runtime_implementer/SKILL.md`
-10. `.claude/skills/devs_runtime_verifier/SKILL.md`
-11. `.agents/skills/devs_spec_author/SKILL.md`
-12. `.agents/skills/devs_runtime_implementer/SKILL.md`
-13. `.agents/skills/devs_runtime_verifier/SKILL.md`
+3. `.devs/project.md`
+4. `.devs/install_manifest.json`
+5. `.devs/templates/spec_template.md`
+6. `.devs/templates/state_template.md`
+7. `devs/README.md`
+8. `devs/specs/`
+9. `devs/workstreams/`
+10. `.claude/skills/devs_spec_author/SKILL.md`
+11. `.claude/skills/devs_runtime_implementer/SKILL.md`
+12. `.claude/skills/devs_runtime_verifier/SKILL.md`
+13. `.agents/skills/devs_spec_author/SKILL.md`
+14. `.agents/skills/devs_runtime_implementer/SKILL.md`
+15. `.agents/skills/devs_runtime_verifier/SKILL.md`
+
+The target repo should describe the artifact model consistently:
+
+- `.devs/` = hidden system support files
+- `devs/specs/` = formal contract layer
+- `devs/workstreams/` = living continuity layer
+- specs may plan `Slice S1..N` inside a workstream
+- repo workstreams use `ws-*`
+- `stage` means lifecycle position inside one workstream
+
+One workstream gets one living `state.md`.
+That `state.md` carries the minimal contract whenever the workstream has no
+formal spec.
 
 ## Execution summary
 

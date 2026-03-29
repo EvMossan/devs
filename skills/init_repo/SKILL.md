@@ -1,7 +1,7 @@
 ---
 name: devs_init_repo
-version: v1.1
-description: Use when installing Devs into the current repository or refreshing an existing Devs install. Scan first, ask only unresolved questions, create or patch the repo-local bootstrap and workstream scaffolding, install the current Devs work-role skills for Claude and Codex, and stop before feature work begins.
+version: v1.2
+description: Use when installing Devs into the current repository or refreshing an existing Devs install. Scan first, ask only unresolved questions, create or patch the repo-local bootstrap, hidden `.devs/` support files, visible `devs/` artifact layer, install the current Devs work-role skills for Claude and Codex, and stop before feature work begins.
 ---
 
 # Devs Init Repo
@@ -9,8 +9,9 @@ description: Use when installing Devs into the current repository or refreshing 
 ## Mission
 
 Install or refresh Devs in the current repository so future sessions can use a
-repo-local Devs bootstrap, repo-local workstream templates, and repo-local
-Devs work-role skills without relying on one long chat.
+repo-local Devs bootstrap, hidden support files under `.devs/`, visible work
+artifacts under `devs/`, and repo-local Devs work-role skills without relying
+on one long chat.
 
 ## Required reads
 
@@ -33,7 +34,7 @@ If a required input cannot be read, stop and surface the blocker.
 2. Ask only the minimum unresolved questions.
 3. Keep `AGENTS.md` short and broadly applicable.
 4. Keep `CLAUDE.md` as a thin shim over `AGENTS.md`.
-5. Copy the current authoritative work-role skills and workstream templates
+5. Copy the current authoritative work-role skills and support templates
    verbatim. Do not redesign them during install.
 6. Install repo-local work-role skills for both Claude and Codex by default.
 7. Do not install Superpowers or Spec Kit by default.
@@ -42,7 +43,16 @@ If a required input cannot be read, stop and surface the blocker.
    asks for local installer copies.
 10. A GitHub repo URL for Devs is source context, not a submodule/vendoring
     request, unless the user explicitly asks for that packaging model.
-11. Stop after installation. Do not start feature work.
+11. `.devs/` is the hidden system layer.
+12. `devs/` is the visible project artifact layer.
+13. Visible `devs/` artifacts are project-owned, not refresh-owned installer
+    scaffolding.
+14. `workstream` is the main continuity and delivery unit.
+15. Same-target fix loops stay inside one workstream.
+16. A formal spec is optional, but `spec-less` never means contract-less.
+17. Specs use planned `Slice S1..N` inside a workstream, while repo workstreams use `ws-*`.
+18. `stage` means lifecycle position inside one workstream.
+19. Stop after installation. Do not start feature work.
 
 ## Workflow
 
@@ -103,14 +113,17 @@ Create or patch:
 
 1. `AGENTS.md`
 2. `CLAUDE.md`
-3. `devs/project.md`
-4. `devs/install_manifest.json`
-5. `workstreams/README.md`
-6. `workstreams/_templates/spec.md`
-7. `workstreams/_templates/workstream.md`
+3. `.devs/project.md`
+4. `.devs/install_manifest.json`
+5. `.devs/templates/spec_template.md`
+6. `.devs/templates/state_template.md`
+7. `devs/README.md`
+8. `devs/specs/`
+9. `devs/workstreams/`
 
 Use the blueprints in `install/init_contract.md` for generated files.
 Do not block on missing source bootstrap templates.
+Do not present visible `devs/` artifacts as installer-owned scaffolding.
 
 ### 6. Install local work-role skills
 
@@ -160,3 +173,5 @@ Your final install report must include:
 6. copying installer internals into the target repo without a user request
 7. leaving the target repo dependent on the source repo for everyday Devs work
 8. starting real feature work before bootstrap is complete
+9. treating visible `devs/` artifacts as refresh-owned support files
+10. letting `spec-less` turn into `contract-less`

@@ -1,14 +1,19 @@
-# Workstream Contract: <Workstream Name>
+# Formal Spec: <Spec Name>
+
+Use this template for a formal spec when the work needs a larger contract.
+A workstream may also run without a formal spec, but it must still keep a
+minimal contract in `devs/workstreams/<ws-id>/state.md`.
 
 ## Metadata
 
-- Workstream ID: `<slug>`
-- Status: `draft`
+- Spec ID: `<001-short-name>`
+- Status: `<draft|active|done|superseded>`
 - Last updated by role: `<spec-author|runtime-implementer|runtime-verifier>`
+- Linked workstream: `<ws-001-... or TBD>`
 
 ## Objective
 
-State the concrete outcome this workstream should produce.
+State the concrete outcome this spec should make possible.
 
 ## Problem / Context
 
@@ -39,7 +44,8 @@ Explain the problem being solved, why it matters, and any essential background.
 |---|---|---|---|---|---|---|---|---|
 | `UE-1` | `<domain>` | `<question>` | `<why>` | `<options>` | `<recommended>` | `<why recommended>` | `<answer>` | `<impact>` |
 
-If no material clarification was needed, still include one row stating that no material clarification was required.
+If no material clarification was needed, still include one row stating that no
+material clarification was required.
 
 ### Explicit Unknowns / Deferred Decisions
 
@@ -84,6 +90,35 @@ If no lead decisions were needed, state that explicitly in the first row.
 ## Non-Negotiable Rules
 
 1. `<rule>`
+2. Specs plan work as `Slice S1..N` inside the workstream.
+3. Planned `S1..N` and workstream IDs such as `ws-*` stay distinct.
+4. `stage` means lifecycle position inside the workstream.
+5. `spec-less` is allowed elsewhere in the repo, but never contract-less.
+
+## Planned Slices
+
+Add one block per planned slice.
+Use `Slice S1`, `Slice S2`, and so on here.
+A slice is a planned unit inside the workstream, not a separate workstream.
+Do not replace these planned IDs with the workstream ID such as `ws-001`.
+When execution starts, record the active slice explicitly in the linked
+workstream state.
+
+### Slice S1: <Planned Slice Name>
+
+- Objective: `<value>`
+- In scope: `<value>`
+- Out of scope: `<value>`
+- Acceptance target: `<value>`
+- Notes: `<value or none>`
+
+### Slice S2: <Planned Slice Name or remove section>
+
+- Objective: `<value>`
+- In scope: `<value>`
+- Out of scope: `<value>`
+- Acceptance target: `<value>`
+- Notes: `<value or none>`
 
 ## Owner / Source-of-Truth Map
 
@@ -112,8 +147,8 @@ If no lead decisions were needed, state that explicitly in the first row.
 
 ### Evidence Artifacts
 
-1. Contract artifact: `<this file path>`
-2. Workstream state artifact: `<path>`
+1. Spec artifact: `<this file path>`
+2. Workstream state artifact: `<path or TBD>`
 3. Manual evidence artifact: `<path or N/A>`
 
 ## Requirement Traceability
@@ -124,7 +159,8 @@ If no lead decisions were needed, state that explicitly in the first row.
 
 ## Next Bounded Implementation Slice
 
-State the exact slice that should be built now.
+State which planned `Slice S1..N` should start now inside the linked
+workstream.
 
 ## Clarifying Questions for Implementer
 
@@ -137,4 +173,4 @@ State the exact slice that should be built now.
 ## Next Role / Next Action
 
 - Next role: `runtime-implementer`
-- Next action: `<single concrete next action>`
+- Next action: `<continue the linked workstream on the next planned slice>`
