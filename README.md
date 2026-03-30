@@ -168,3 +168,9 @@ It keeps the current contract, state, evidence, findings, next owner, and next a
 Use Devs if AI helps you start fast but keeps making the finish messy.
 
 Skip it if you are happy doing everything in one long chat and do not care much about explicit contracts, workstream continuity, or independent verification.
+
+## Installation
+
+Copy-paste this to your agent:
+
+`Install Devs in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md`
