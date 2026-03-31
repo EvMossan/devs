@@ -33,6 +33,8 @@ If a required input cannot be read, stop and surface the blocker.
 1. Scan first, ask second.
 2. Ask only the minimum unresolved questions.
 3. Keep `AGENTS.md` short and broadly applicable.
+   When patching an existing file, prefer one Devs-managed marker block rather
+   than freeform whole-file rewrites.
 4. Keep `CLAUDE.md` as a thin shim over `AGENTS.md`.
 5. Copy the current authoritative work-role skills and support templates
    verbatim. Do not redesign them during install.
@@ -45,14 +47,15 @@ If a required input cannot be read, stop and surface the blocker.
     request, unless the user explicitly asks for that packaging model.
 11. `.devs/` is the hidden system layer.
 12. `devs/` is the visible project artifact layer.
-13. Visible `devs/` artifacts are project-owned, not refresh-owned installer
-    scaffolding.
-14. `workstream` is the main continuity and delivery unit.
-15. Same-target fix loops stay inside one workstream.
-16. A formal spec is optional, but `spec-less` never means contract-less.
-17. Specs use planned `Slice S1..N` inside a workstream, while repo workstreams use `ws-*`.
-18. `stage` means lifecycle position inside one workstream.
-19. Stop after installation. Do not start feature work.
+13. `devs/README.md` is Devs-managed and refreshable.
+14. `devs/repo.md`, `devs/specs/`, and `devs/workstreams/` are repo-owned.
+15. `workstream` is the main continuity and delivery unit.
+16. Same-target fix loops stay inside one workstream.
+17. A formal spec is optional, but `spec-less` never means contract-less.
+18. Specs use planned `Slice S1..N` inside a workstream, while repo workstreams use `ws-*`.
+19. `stage` means lifecycle position inside one workstream.
+20. Do not infer repo truth from repo contents during install.
+21. Stop after installation. Do not start feature work.
 
 ## Workflow
 
@@ -82,13 +85,9 @@ Do not substitute guessed source paths if these exist.
 
 Determine:
 
-1. repo mode
-2. primary project type
-3. technology tags
-4. likely setup / build / test / lint / typecheck commands
-5. existing agent instruction files
-6. existing companion systems
-7. high-risk operations that should require approval
+1. whether Devs is already installed here
+2. existing root instruction files and local skill folders
+3. existing `devs/repo.md` when Devs is already installed
 
 ### 4. Ask the adaptive question block
 
@@ -99,13 +98,14 @@ Ask only when something remains unresolved after the scan.
 Typical reasons to ask:
 
 1. existing root instruction files cannot be patched safely
-2. canonical commands remain ambiguous
-3. approval-sensitive operations remain unclear
-4. repo mode or primary type would be misleading if guessed
+2. on fresh install, after bootstrap decisions are resolved, you need to ask
+   the optional final question about attaching local guidance docs now
 
 Ask in one concise block.
 Do not ask deep implementation trivia.
 Do not ask questions that do not change install output.
+Do not present repo-discovered candidate docs.
+Do not ask the local-guidance question during normal refresh.
 
 ### 5. Write or patch target bootstrap files
 
@@ -113,7 +113,7 @@ Create or patch:
 
 1. `AGENTS.md`
 2. `CLAUDE.md`
-3. `.devs/project.md`
+3. `devs/repo.md`
 4. `.devs/install_manifest.json`
 5. `.devs/templates/spec_template.md`
 6. `.devs/templates/state_template.md`
@@ -124,6 +124,11 @@ Create or patch:
 Use the blueprints in `install/init_contract.md` for generated files.
 Do not block on missing source bootstrap templates.
 Do not present visible `devs/` artifacts as installer-owned scaffolding.
+If the target repo already has Devs installed, treat this run as a refresh:
+apply the refresh ownership rules from `install/init_contract.md` rather than a
+blind reinstall.
+Use the managed patch rule for `AGENTS.md` whenever the target file already
+exists.
 
 ### 6. Install local work-role skills
 
@@ -143,24 +148,24 @@ asks for local refresh tooling.
 
 Return:
 
-1. repo classification
-2. questions asked and answers
-3. files written
-4. files patched
-5. unresolved issues
-6. the exact next suggested prompt for the first real workstream
+1. install mode
+2. local guidance status (`attached`, `skipped`, or `preserved unchanged`)
+3. questions asked and answers
+4. files written
+5. files patched
+6. unresolved issues
+7. the exact next suggested prompt for the first real workstream
 
 ## Output requirements
 
 Your final install report must include:
 
-1. target repo mode
-2. primary project type
-3. technology tags
-4. files written
-5. files patched
-6. checks or decisions still pending
-7. next suggested prompt
+1. install mode
+2. local guidance status (`attached`, `skipped`, or `preserved unchanged`)
+3. files written
+4. files patched
+5. checks or decisions still pending
+6. next suggested prompt
 
 ## Common failure modes to avoid
 
@@ -175,3 +180,5 @@ Your final install report must include:
 8. starting real feature work before bootstrap is complete
 9. treating visible `devs/` artifacts as refresh-owned support files
 10. letting `spec-less` turn into `contract-less`
+11. overwriting an existing `devs/repo.md` during refresh
+12. asking the user to review repo-wide discovered docs

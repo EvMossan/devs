@@ -1,20 +1,21 @@
-# Devs Agent-Native Install
+# Devs Agent-Native Install / Refresh
 
-Use this file as the single bootstrap entrypoint when an agent installs Devs
-into another repository.
+Use this file as the single bootstrap entrypoint when an agent installs or
+refreshes Devs inside another repository.
 
 Definitions:
 
 - **Target repo** = the repository the agent is currently working in.
 - **Source repo** = the Devs repository that contains this file.
 
-The install should feel native:
+The install or refresh should feel native:
 
-1. scan first
-2. ask only the minimum unresolved questions
+1. scan bootstrap state first
+2. ask only merge questions when patching is ambiguous and, on fresh install
+   only, one optional final docs question
 3. create or patch the target bootstrap files
 4. install the current Devs work-role skills and support templates locally
-5. stop after installation
+5. stop after bootstrap
 
 ## Required read order
 
@@ -84,27 +85,36 @@ embedding.
    user explicitly asks for local refresh tooling.
 6. Do not create a local mirror of installer internals such as
    `devs/bootstrap/*` unless the user explicitly asks for it.
-7. Do not start feature work after install.
+7. Do not start feature work after install or refresh.
 8. Do not install Superpowers or Spec Kit by default.
-   If they already exist locally, detect and record them.
 9. Keep `AGENTS.md` short, broadly applicable, and workstream-centered.
+   When patching an existing file, prefer one Devs-managed marker block instead
+   of freeform whole-file editing.
 10. Keep `CLAUDE.md` as a thin shim over `AGENTS.md`.
 11. Prefer patching existing root instruction files over blind overwrite.
-12. Keep the install generic. Repo classification is advisory metadata, not a
-    workflow fork.
+12. Keep the install simple. Do not infer repo truth from repo contents.
 13. `.devs/` is the hidden Devs system layer.
 14. `devs/` is the visible project artifact layer.
-15. Visible `devs/` artifacts are project-owned. Do not describe them as
-    refresh-owned installer scaffolding.
-16. `workstream` is the main continuity and delivery unit.
-17. Same-target fix loops stay inside one workstream.
-18. A formal spec is optional, but `spec-less` never means contract-less.
+15. `devs/README.md` is Devs-managed and may be refreshed directly.
+16. `devs/repo.md` is a repo-owned index of local guidance docs and must not be
+    overwritten during normal refresh.
+17. Visible `devs/specs/` and `devs/workstreams/` artifacts are project-owned.
+18. `workstream` is the main continuity and delivery unit.
+19. Same-target fix loops stay inside one workstream.
+20. A formal spec is optional, but `spec-less` never means contract-less.
+21. If the target repo already has Devs installed, treat this run as a refresh:
+    refresh hidden/system support files and repo-local Devs role skills, patch
+    shared bootstrap files minimally, preserve repo-owned visible work
+    artifacts, and never overwrite an existing `devs/repo.md` during a normal
+    refresh.
+22. Do not discover commands, candidate docs, or other repo truth to populate
+    `devs/repo.md`.
 
 ## What this install writes by default
 
 1. `AGENTS.md`
 2. `CLAUDE.md`
-3. `.devs/project.md`
+3. `devs/repo.md`
 4. `.devs/install_manifest.json`
 5. `.devs/templates/spec_template.md`
 6. `.devs/templates/state_template.md`
@@ -121,6 +131,8 @@ embedding.
 The target repo should describe the artifact model consistently:
 
 - `.devs/` = hidden system support files
+- `devs/README.md` = Devs-managed artifact map
+- `devs/repo.md` = repo-owned index of local guidance docs
 - `devs/specs/` = formal contract layer
 - `devs/workstreams/` = living continuity layer
 - specs may plan `Slice S1..N` inside a workstream
@@ -131,16 +143,35 @@ One workstream gets one living `state.md`.
 That `state.md` carries the minimal contract whenever the workstream has no
 formal spec.
 
+## Refresh behavior
+
+If the target repo already has Devs installed, treat the run as refresh, not
+blind reinstall.
+
+Refresh should:
+
+1. refresh Devs-managed hidden support files and repo-local Devs role skills
+2. patch shared bootstrap files minimally
+   - `AGENTS.md` should be updated through the Devs-managed marker block when
+     that model is in use
+3. preserve repo-owned visible work artifacts and local guidance docs
+4. not ask the fresh-install docs question during normal refresh
+5. never overwrite an existing `devs/repo.md` during a normal refresh
+6. fail the refresh audit if any required bootstrap target remains stale
+
+The exact refresh ownership rules live in `install/init_contract.md`.
+
 ## Execution summary
 
 Follow the algorithm in `install/init_contract.md`.
 
 At the end, report:
 
-1. target repo mode
-2. advisory project classification and technology tags
+1. install mode
+2. local guidance status (`attached`, `skipped`, or `preserved unchanged`)
 3. questions asked and answers
 4. files written
 5. files patched
 6. unresolved issues or manual follow-ups
-7. the exact next suggested prompt for the first real workstream
+7. the exact next suggested prompt for the first real workstream or next
+   Devs-role action

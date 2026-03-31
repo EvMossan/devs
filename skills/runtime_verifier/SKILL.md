@@ -31,14 +31,24 @@ You do **not** edit runtime code, tests, or the contract while verifying.
 Read before deciding:
 
 1. repository bootstrap (`AGENTS.md` or equivalent)
-2. active workstream state / session memory
-3. target contract and exact slice under verification
-4. relevant architecture contracts when ownership matters
-5. every changed file in scope
-6. implementer evidence and self-review
-7. helper artifacts already in local use only if the project intentionally uses them
+2. local guidance index (`devs/repo.md`) when Devs is installed
+3. active workstream state / session memory
+4. target contract and exact slice under verification (`spec.md` when linked,
+   otherwise the contract captured in `state.md`)
+5. any additional local guidance or task-specific references explicitly linked
+   from `devs/repo.md`, the active `state.md`, or the linked `spec.md` when
+   they matter to this verification
+6. every changed file in scope
+7. implementer evidence and self-review
+8. helper artifacts already in local use only if the project intentionally uses them
 
 If a required local input cannot be read, stop and surface the blocker.
+If Devs is installed but `devs/repo.md` is missing, stop and surface
+bootstrap drift before verifying.
+Do not stop at repo-level guidance alone: if the active `state.md` or linked
+`spec.md` explicitly points to task-specific docs needed for this verification,
+read them. Do not discover extra repo guidance outside those explicit
+references.
 
 ## Gate model
 

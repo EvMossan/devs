@@ -32,14 +32,17 @@ You do **not** own runtime code changes or final acceptance.
 Read the project-local materials that define reality before drafting the contract:
 
 1. repository bootstrap (`AGENTS.md` or equivalent)
-2. active workstream state / session memory
-3. project-local authoring standard, if present
-4. relevant architecture contracts
+2. local guidance index (`devs/repo.md`) when Devs is installed
+3. active workstream state / session memory
+4. local guidance docs explicitly referenced by `AGENTS.md`, `devs/repo.md`,
+   the active `state.md`, or the linked `spec.md`
 5. nearby implementation reality when current ownership matters
 6. prior failure or verifier artifacts when the work repairs an earlier miss
 7. existing helper artifacts only if the local project intentionally uses them
 
-If a required local standard is missing, stop and surface the gap.
+If an explicitly referenced local guidance doc is missing, stop and surface the gap.
+If Devs is installed but `devs/repo.md` is missing, stop and surface
+bootstrap drift before drafting.
 
 ## Core rules
 
@@ -53,6 +56,8 @@ If a required local standard is missing, stop and surface the gap.
 8. Repository artifacts must remain in English unless the local project says otherwise.
 9. Clarification is not complete until it is preserved as an artifact in the contract.
 10. Do not finalize a contract while material behavior, ownership, scope, or verification questions are still implicit.
+11. Do not discover additional repo guidance outside the explicit guidance
+    chain defined by `AGENTS.md`, `devs/repo.md`, `state.md`, and `spec.md`.
 
 ## Clarification artifact rule
 

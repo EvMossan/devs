@@ -2,16 +2,16 @@
 
 ## Purpose
 
-Install Devs into the current repository in a way that is:
+Install or refresh Devs in the current repository in a way that is:
 
 1. low-friction on first run
-2. adaptive to the target project
+2. safe around existing bootstrap files
 3. self-contained for future Devs work after installation
-4. clear about hidden system files vs visible project artifacts
+4. clear about Devs-owned files vs repo-owned files
 5. consistent with the workstream-based artifact model
 
 Self-contained means the target repo can run future Devs work from repo-local
-bootstrap files, repo-local support templates, repo-local role skills, and
+bootstrap files, hidden support templates, repo-local role skills, and
 project-owned Devs artifacts.
 It does **not** require a local mirror of the source installer internals.
 
@@ -20,9 +20,10 @@ It does **not** require a local mirror of the source installer internals.
 Use this model consistently:
 
 1. `.devs/` = hidden Devs system layer
-2. `devs/` = visible project artifact layer
-3. `devs/specs/` = formal contract layer
-4. `devs/workstreams/` = living continuity layer
+2. `devs/README.md` = visible Devs-managed artifact map
+3. `devs/repo.md` = visible repo-owned index of local guidance docs
+4. `devs/specs/` = formal contract layer
+5. `devs/workstreams/` = living continuity layer
 
 The main continuity and delivery unit is the `workstream`.
 
@@ -56,22 +57,28 @@ Rules:
 8. Install repo-local skills for both Claude and Codex by default so the target
    repo is ready regardless of which tool the next session uses.
 9. Do not install Superpowers or Spec Kit by default.
-10. Detect existing companion systems and record them in `.devs/project.md`.
-11. Do not start feature work after install. Stop after bootstrap.
+10. Do not infer repo truth from repo contents during install.
+11. Do not start feature work after install or refresh. Stop after bootstrap.
 12. If an existing repo instruction file cannot be patched safely, ask the user
     how to merge it instead of overwriting it.
 13. Do not require or reference a source-level `install/templates/` directory.
 14. Do not generate `devs/bootstrap/*` mirror files in the target repo by
     default.
-15. Repo classification is advisory metadata only. It must not fork the Devs
-    role workflow into separate mobile/backend/data-only processes.
-16. A Devs GitHub repo URL, git URL, or raw install URL is **source context**,
+15. A Devs GitHub repo URL, git URL, or raw install URL is **source context**,
     not a package-install request. Do not default to `submodule vs vendored
     repo copy` questions unless the user explicitly asks for that packaging
     model.
-17. Visible `devs/` artifacts are project-owned. Do not describe them as
-    refresh-owned installer scaffolding.
+16. `.devs/**`, `devs/README.md`, and repo-local Devs role skills are
+    Devs-owned and refresh-managed.
+17. `devs/repo.md`, `devs/specs/**`, and `devs/workstreams/**` are repo-owned.
 18. Do not fall back to a project-wide state file or a per-session state model.
+19. If Devs is already installed, treat the run as a refresh, not a blind
+    reinstall.
+20. Refresh Devs-owned support files directly, patch shared bootstrap files
+    minimally, preserve repo-owned files, and never overwrite an existing
+    `devs/repo.md` during a normal refresh.
+21. Do not report refresh `pass` unless every required bootstrap target is
+    present and synchronized.
 
 ## Source Repo Discovery
 
@@ -123,75 +130,17 @@ If any required source file above is missing, stop with a bootstrap blocker.
 
 ## Target Repo Scan
 
-Before asking questions, scan the target repo for:
+Before asking questions, scan the target repo only for bootstrap state:
 
 1. git root and current working directory
-2. empty/new vs existing/brownfield state
-3. likely commands:
-   - setup / install
-   - build
-   - test
-   - lint
-   - typecheck
-4. package / workspace signals:
-   - manifest files
-   - lockfiles
-   - project roots
-   - monorepo markers
-5. existing `AGENTS.md`, `CLAUDE.md`, `.claude/`, `.agents/`, `.specify/`,
-   `docs/`, `.codex/`, and other process or agent instruction files
-6. existing companion systems such as Superpowers or Spec Kit
-7. obvious high-risk operations:
-   - deploy
-   - infrastructure apply
-   - production migrations
-   - destructive data changes
-8. repo language / framework signals useful for `.devs/project.md`
-
-## Advisory Classification Model
-
-Use the simplest truthful classification that fits the target repo.
-
-### Repo mode
-
-1. `greenfield`
-2. `brownfield`
-3. `mixed`
-
-### Primary project type
-
-Use one advisory value:
-
-1. `application`
-2. `service`
-3. `library`
-4. `mobile`
-5. `data`
-6. `infra`
-7. `monorepo`
-8. `generic`
-
-### Technology tags
-
-Also record a short list of observed tags, for example:
-
-- `swift`
-- `ios`
-- `python`
-- `typescript`
-- `node`
-- `terraform`
-- `postgres`
-- `react`
-- `monorepo`
-
-These tags are descriptive only.
-They help fill `.devs/project.md`.
-They do not change the Devs role model.
+2. whether Devs is already installed here
+3. existing `AGENTS.md`, `CLAUDE.md`, `.claude/`, `.agents/`, `devs/`,
+   `.devs/`, and other root instruction files relevant to safe patching
+4. existing `devs/repo.md` if Devs is already installed
 
 ## Minimal Adaptive Questionnaire
 
-Ask the user one concise question block **only** for unresolved points.
+Ask the user one concise question block **only** for unresolved merge points.
 
 ### Ask only when needed
 
@@ -200,25 +149,30 @@ Ask the user one concise question block **only** for unresolved points.
    - `patch existing`
    - `import / shim where possible`
    - `proposal only`
-2. Canonical commands remain ambiguous after scanning.
-   Ask to confirm or correct:
-   - setup / install
-   - build
-   - test
-   - lint
-   - typecheck
-3. Approval-sensitive operations are unclear.
-   Ask which operations always require explicit human approval.
-4. Repo mode or primary project type is genuinely unclear and would make
-   `.devs/project.md` misleading if guessed.
+
+### Fresh-install optional docs step
+
+On fresh install only, after bootstrap decisions are otherwise resolved, ask one
+optional final question unless the user already answered it:
+
+- whether they want to attach local guidance docs now
+- if yes, ask for explicit repo paths or a short explanation of what to attach
+- if no, continue without blocking install
+
+On refresh:
+
+- do not ask this question during normal refresh
+- preserve `devs/repo.md` unchanged
+- if `devs/repo.md` is missing, stop and surface bootstrap drift
 
 ### Question rules
 
 1. Ask in one concise block.
-2. Prefer explicit options over open-ended questions.
-3. Do not ask deep implementation trivia.
-4. Do not ask questions that do not change install output.
-5. If the scan is already clear enough, ask nothing and proceed.
+2. Keep the local-guidance step optional and skippable.
+3. Do not present repo-discovered candidate docs.
+4. Do not ask about commands, approval-sensitive operations, or inferred repo
+   standards.
+5. Do not ask questions that do not change install output.
 
 ## Files to Generate or Patch in the Target Repo
 
@@ -229,14 +183,17 @@ Ask the user one concise question block **only** for unresolved points.
 
 ### Hidden Devs system layer
 
-3. `.devs/project.md`
-4. `.devs/install_manifest.json`
-5. `.devs/templates/spec_template.md`
-6. `.devs/templates/state_template.md`
+3. `.devs/install_manifest.json`
+4. `.devs/templates/spec_template.md`
+5. `.devs/templates/state_template.md`
 
-### Visible project artifact layer
+### Visible Devs-managed artifact layer
 
-7. `devs/README.md`
+6. `devs/README.md`
+
+### Visible repo-owned artifact layer
+
+7. `devs/repo.md`
 8. `devs/specs/`
 9. `devs/workstreams/`
 
@@ -261,8 +218,26 @@ If no root `AGENTS.md` exists:
 
 If a root `AGENTS.md` already exists:
 - preserve existing project truth
-- patch it minimally with Devs sections rather than replacing it wholesale
+- patch it through one Devs-managed block rather than replacing it wholesale
 - if patching would be ambiguous or destructive, ask the merge question
+
+#### Managed patch rule
+
+When patching an existing `AGENTS.md`, use one managed block with exact markers:
+
+```md
+<!-- DEVS:BOOTSTRAP:START -->
+...Devs-managed bootstrap content...
+<!-- DEVS:BOOTSTRAP:END -->
+```
+
+Rules:
+
+1. if the markers already exist, update only the content inside them
+2. do not rewrite unrelated repo-owned sections outside the markers
+3. if no markers exist yet, add one Devs-managed block in a safe location rather
+   than attempting a freeform whole-file rewrite
+4. if no safe insertion point exists, stop and ask the merge question
 
 #### `AGENTS.md` blueprint
 
@@ -278,14 +253,17 @@ Recommended sections:
    - a workstream is the full loop for one target outcome
    - repo artifacts, not chat memory, hold the contract and state
 3. `Local Devs Files`
-   - point to `.devs/project.md`
    - point to `devs/README.md`
+   - point to `devs/repo.md`
    - point to `devs/specs/` and `devs/workstreams/`
 4. `Context Loading`
    - read `AGENTS.md` first
    - when entering Devs operational work, read `devs/README.md`
+   - then read `devs/repo.md` for any repo-specific guidance docs Devs should
+     read
    - for a specific workstream, read the relevant `state.md`
-   - if that `state.md` links a formal spec and contract details matter, read the linked `spec.md`
+   - if that `state.md` links a formal spec and contract details matter, read
+     the linked `spec.md`
 5. `Role Routing`
    - when to use `devs_spec_author`
    - when to use `devs_runtime_implementer`
@@ -297,6 +275,9 @@ Recommended sections:
    - implementation does not self-approve
    - report checks not run
    - keep changes bounded to the current slice
+
+For fresh installs, the generated Devs bootstrap content may be wrapped in the
+same managed markers to make later refreshes deterministic.
 
 Do **not** turn `AGENTS.md` into a second long workflow manual.
 Do **not** duplicate the full skill content there.
@@ -317,42 +298,34 @@ If a root `CLAUDE.md` already exists:
   not duplicate it
 - if safe patching is ambiguous, ask the merge question
 
-### `.devs/project.md`
+### `devs/repo.md`
 
-Create from the blueprint below and fill only the sections that are actually
-useful.
+Create this file on fresh install.
+
+During refresh:
+
+1. if `devs/repo.md` already exists, preserve it
+2. if `devs/repo.md` is missing and Devs is otherwise installed, stop and surface
+   bootstrap drift instead of guessing
 
 Rules:
 
-1. keep operational facts only
-2. prefer concrete commands and paths over prose
-3. record detected companion systems
-4. record merge / patch decisions made during install
-5. keep repo classification advisory and concise
-6. include only the repo-type notes that are actually relevant
-7. point visible work artifacts at `devs/specs/` and `devs/workstreams/`
+1. keep repo-owned guidance only
+2. include only docs the user explicitly attached
+3. prefer repo-relative paths and short purpose notes over prose
+4. do not put install history, source refs, refresh mechanics, or inferred repo
+   facts here
+5. do not let refresh overwrite this file during normal operation
 
 Recommended sections:
 
-1. `Repository Profile`
-   - repo mode
-   - primary project type
-   - technology tags
-2. `Canonical Commands`
-   - setup / install
-   - build
-   - test
-   - lint
-   - typecheck
-3. `Approval-Sensitive Operations`
-4. `Detected Companion Systems`
-5. `Instruction File Notes`
-6. `Artifact Model`
-   - `.devs/` hidden system support files
-   - `devs/specs/` formal contract layer
-   - `devs/workstreams/` continuity layer
-7. `Open Install Warnings`
-   - only if needed
+1. `Active Local Guidance`
+   - repo-owned docs Devs should treat as active local guidance
+   - each item may include a short purpose note when useful
+
+If no local guidance docs were attached during install, create the file with a
+short note that none were attached yet and that maintainers can add paths
+later.
 
 ### `.devs/install_manifest.json`
 
@@ -362,9 +335,12 @@ Record:
 2. source ref if known
 3. source entrypoint used
 4. install timestamp
-5. target repo mode
-6. primary project type
-7. technology tags
+5. install mode (`install` or `refresh`)
+6. local guidance status:
+   - `attached`
+   - `skipped`
+   - `preserved unchanged`
+7. explicit local guidance docs attached, if any
 8. questions asked and answers
 9. files written and patched
 10. notable warnings or unresolved issues
@@ -390,9 +366,14 @@ Recommended sections:
 1. `Purpose`
    - `devs/` stores visible project-facing Devs artifacts
 2. `Structure`
+   - `devs/repo.md` stores a repo-owned index of local guidance docs
    - `devs/specs/` stores formal specs
    - `devs/workstreams/` stores repo workstreams
-3. `Workstream Rules`
+3. `Ownership`
+   - `devs/README.md` is Devs-managed
+   - `devs/repo.md` is repo-owned
+   - `devs/specs/` and `devs/workstreams/` are repo-owned
+4. `Workstream Rules`
    - `workstream` is the main continuity and delivery unit
    - a workstream is the full loop for one target outcome
    - same-target fix loops stay inside one workstream
@@ -400,24 +381,28 @@ Recommended sections:
    - a formal spec is optional
    - `spec-less` is allowed, but not contract-less
    - the minimal contract for spec-less work lives in `state.md`
-4. `Artifact Roles`
+5. `Artifact Roles`
    - `AGENTS.md` routes the agent to the right context
    - `devs/README.md` explains the Devs artifact map
+   - `devs/repo.md` lists local guidance docs Devs should read
    - `state.md` is the living truth for one workstream
    - `spec.md` is the formal contract for that workstream when present
    - role skills define how each role should work
-5. `How To Read This`
+6. `How To Read This`
    - start with `AGENTS.md`
    - read `devs/README.md` when doing Devs operational work
+   - read `devs/repo.md` for any local guidance docs Devs should read
    - read the relevant workstream `state.md` before acting
-   - read the linked `spec.md` when the state points to one and contract details matter
-6. `Naming`
+   - read the linked `spec.md` when the state points to one and contract details
+     matter
+7. `Naming`
    - specs may plan `Slice S1..N`
    - a slice is a planned unit inside the workstream, not a separate workstream
    - repo workstreams use `ws-*`
    - `stage` means the lifecycle position inside one workstream
 
-Do not describe `devs/` as refresh-owned installer scaffolding.
+Do not describe `devs/README.md` as repo-owned.
+It is visible but Devs-managed.
 
 ### Visible artifact directories
 
@@ -453,28 +438,45 @@ For local `devs_*` role skills:
 - overwrite them with the source versions from this install
 - record the refresh in `.devs/install_manifest.json`
 
-## Companion Systems
+## Refresh Ownership Rules
 
-Do not install or scaffold these by default:
+When the target repo already has Devs installed:
 
-1. Superpowers
-2. Spec Kit
+1. refresh directly:
+   - `.devs/install_manifest.json`
+   - `.devs/templates/*`
+   - `devs/README.md`
+   - `.claude/skills/devs_*`
+   - `.agents/skills/devs_*`
+2. patch minimally:
+   - `AGENTS.md` inside the managed marker block
+   - `CLAUDE.md`
+3. never recreate during normal refresh:
+   - if `devs/repo.md` is missing, stop and surface bootstrap drift
+4. preserve as repo-owned:
+   - `devs/repo.md` once it exists
+   - `devs/specs/**`
+   - `devs/workstreams/**`
+   - local guidance docs the user attached intentionally
 
-But if they already exist locally:
+## Exact Refresh Audit
 
-1. detect them
-2. record them in `.devs/project.md`
-3. keep Devs as the governing workstream and contract system unless the repo
-   explicitly says otherwise
+Refresh cannot report `pass` unless all of these are true:
 
-## Execution Mode Default
+1. `AGENTS.md` routes through `devs/README.md` and `devs/repo.md`
+   and the Devs-managed bootstrap block is present and current
+2. `CLAUDE.md` imports `@AGENTS.md` or an equivalent shared bootstrap safely
+3. `devs/README.md` describes `devs/repo.md` as repo-owned active local
+   guidance docs
+4. `devs/repo.md` exists
+5. hidden support templates match the authoritative source
+6. repo-local Devs role skills for both Claude and Codex match the
+   authoritative source
+7. the install manifest records the optional local-guidance decision and all
+   files written or patched
 
-For v1 installs, the default is:
-
-- `manual_roles`
-
-The installer may record other local preferences in `.devs/project.md`, but it
-does not need to scaffold controller/orchestrator files in this version.
+If any item above is false, the refresh must report a blocker or pending follow-up,
+not `pass`.
 
 ## Success Criteria
 
@@ -482,27 +484,33 @@ The install is complete only when:
 
 1. the target repo has a short root `AGENTS.md`
 2. the target repo has a root `CLAUDE.md` shim
-3. the target repo has `.devs/project.md`
+3. the target repo has `devs/repo.md`
 4. the target repo has `.devs/install_manifest.json`
 5. the target repo has hidden Devs support templates in `.devs/templates/`
 6. the target repo has `devs/README.md`
 7. the target repo has visible `devs/specs/` and `devs/workstreams/`
 8. the target repo has repo-local Devs skills for both Claude and Codex
-9. the artifact model is described consistently across root guidance and local
-   Devs files
-10. the agent has not silently started feature work
+9. `devs/repo.md` contains only explicitly attached local guidance docs or a
+   short empty-state note
+10. the artifact model is described consistently across root guidance, local
+    Devs files, and role skills
+11. the agent has not silently started feature work
 
 ## Final Output Contract
 
-After installation, report:
+After installation or refresh, report:
 
-1. target repo mode
-2. primary project type
-3. technology tags
+1. install mode
+2. local guidance status:
+   - `attached`
+   - `skipped`
+   - `preserved unchanged`
+3. questions asked and answers
 4. files written
 5. files patched
 6. any unresolved or manual follow-up items
-7. the exact next suggested prompt to start the first real workstream
+7. the exact next suggested prompt to start the first real workstream or next
+   Devs-role action
 
 Also remind the user that future sessions can use the repo-local role skills
 directly.

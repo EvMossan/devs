@@ -101,10 +101,12 @@ If there is no formal spec, the minimal contract still lives in `state.md`.
 
 ## Artifact model
 
-Devs uses one hidden system layer and one visible project layer:
+Devs uses one hidden system layer and one visible project layer, but it keeps
+ownership explicit inside that visible layer:
 
 - `.devs/` for hidden system files and refreshable Devs support files
-- `devs/` for visible project artifacts
+- `devs/README.md` for the visible Devs-managed artifact map
+- `devs/repo.md` for a repo-owned index of local guidance docs Devs should read
 - `devs/specs/` for formal contract artifacts
 - `devs/workstreams/` for living workstream continuity
 
@@ -174,3 +176,14 @@ Skip it if you are happy doing everything in one long chat and do not care much 
 Copy-paste this to your agent:
 
 `Install Devs in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md`
+
+## Updating
+
+Use the same bootstrap entrypoint when Devs is already installed:
+
+`Refresh the existing Devs install in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md`
+
+Refresh is install-or-refresh, not blind reinstall.
+It should refresh Devs-managed files, patch shared bootstrap files minimally,
+preserve repo-owned visible artifacts, and never overwrite `devs/repo.md`
+after that file has been created.

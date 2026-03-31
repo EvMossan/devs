@@ -30,14 +30,23 @@ You do **not** own final acceptance.
 Read before editing:
 
 1. repository bootstrap (`AGENTS.md` or equivalent)
-2. active workstream state / session memory
-3. target contract and exact slice under implementation
-4. relevant architecture contracts when ownership matters
-5. changed code surface in scope
-6. prior failure or verifier artifacts when the slice repairs a miss
-7. helper artifacts already in local use only if the project intentionally uses them
+2. local guidance index (`devs/repo.md`) when Devs is installed
+3. active workstream state / session memory
+4. target contract and exact slice under implementation (`spec.md` when linked,
+   otherwise the contract captured in `state.md`)
+5. any additional local guidance or task-specific references explicitly linked
+   from `devs/repo.md`, the active `state.md`, or the linked `spec.md` when
+   they matter to this slice
+6. changed code surface in scope
+7. prior failure or verifier artifacts when the slice repairs a miss
+8. helper artifacts already in local use only if the project intentionally uses them
 
 If a required local input cannot be read, stop and surface the blocker.
+If Devs is installed but `devs/repo.md` is missing, stop and surface
+bootstrap drift before editing.
+Do not stop at repo-level guidance alone: if the active `state.md` or linked
+`spec.md` explicitly points to task-specific docs needed for this slice, read
+them. Do not discover extra repo guidance outside those explicit references.
 
 ## Core rules
 
