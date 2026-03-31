@@ -115,6 +115,17 @@ Each domain must end as one of:
 3. explicitly deferred
 4. not applicable
 
+`Already decided` requires one of:
+
+1. the user already made the decision explicitly
+2. a repo-owned policy or standard fixes it as process
+3. an accepted workstream state or linked spec already fixed it
+
+Existing documentation, prior analysis, and current implementation evidence may
+justify a recommendation, but do not automatically close user tradeoffs about
+bounded scope depth, public contract depth, compatibility strategy, migration
+strictness, or acceptance strictness.
+
 ### Universal contract pressure lenses
 
 Pressure-test the request through these lenses. These lenses are not extra spec
@@ -151,6 +162,42 @@ Each relevant lens must end as one of:
 4. explicitly deferred
 5. not applicable
 
+### Clarification pressure rubric
+
+Score the current bounded spec against these axes:
+
+1. scope depth ambiguity
+   - `0`: bounded depth is already explicit
+   - `1`: bounded slice is clear, but depth still has one meaningful fork
+   - `2`: the spec could reasonably expand or shrink in materially different ways
+2. public contract / observable output impact
+   - `0`: no user-visible or consumer-visible contract depth choice remains
+   - `1`: one moderate contract-shape or observable-output choice remains
+   - `2`: the bounded spec changes a public contract, payload, block, API, CLI,
+     config, log, file, or other observable output in a way that still needs user confirmation
+3. compatibility / migration / change-strategy ambiguity
+   - `0`: compatibility strategy is explicit already
+   - `1`: there is one meaningful additive-vs-reshape or cutover-vs-bridge fork
+   - `2`: migration or compatibility policy materially changes risk, workstream size, or downstream contracts
+4. user-visible behavior ambiguity
+   - `0`: user-facing behavior for this slice is already fixed
+   - `1`: one material user-visible behavior choice remains
+   - `2`: multiple materially different behavior outcomes are still plausible
+5. failure / recovery / operational ambiguity
+   - `0`: failure and recovery expectations are already explicit enough
+   - `1`: one meaningful failure/recovery or operational policy choice remains
+   - `2`: failure, recovery, rollback, degraded mode, or operational impact is still materially underspecified
+6. verification / acceptance ambiguity
+   - `0`: acceptance strictness is already explicit
+   - `1`: one meaningful acceptance or evidence threshold choice remains
+   - `2`: the bounded spec could be accepted under materially different verification standards
+
+Thresholds:
+
+1. total `0-2`: a zero-question outcome may be valid only with an explicit `Zero-Question Proof`
+2. total `3-5`: at least one clarifying question block is required
+3. total `6+`: at least two clarifying question blocks are normally required unless earlier user decisions already closed the remaining tradeoffs
+
 ### Discovery pressure rules
 
 1. Group questions by domain or decision theme.
@@ -173,6 +220,10 @@ Each relevant lens must end as one of:
 11. If a decision is mostly internal engineering hygiene with weak user-visible
    consequence, prefer a lead recommendation with a chance to object over raw
    escalation.
+12. After the discovery sweep, generate candidate user decisions from the still-open
+    domains, lenses, and rubric axes before deciding that no clarification is needed.
+13. If no user question remains after that pass, do not proceed silently. Run an
+    explicit `Zero-Question Proof` first.
 
 ## Question delivery rules
 
@@ -257,7 +308,34 @@ When the work touches existing runtime behavior, identify:
 4. existing coupling or shared-owner seams
 5. prior failed attempts or verifier findings
 
-### 4. Ask material questions until the contract can stand on its own
+### 4. Generate candidate user decisions
+
+List the candidate user decisions that remain after discovery.
+
+Focus especially on:
+
+1. bounded scope depth
+2. public contract or observable-output depth
+3. compatibility / migration / cutover strategy
+4. acceptance and verification strictness
+5. any tradeoff that would materially change the size of this bounded slice
+
+For each candidate, classify it as:
+
+1. `question block`
+2. `lead decision`
+3. `already decided`
+4. `explicitly deferred`
+5. `not applicable`
+
+If no `question block` remains, produce a `Zero-Question Proof` that states:
+
+1. which relevant domains, lenses, and rubric axes were checked
+2. why each remaining tradeoff is truly closed, deferred, or internal
+3. why no unresolved choice belongs to the user
+4. why prior documentation or analysis did not merely substitute for user clarification
+
+### 5. Ask material questions until the contract can stand on its own
 
 A material question is one that changes:
 
@@ -273,7 +351,7 @@ Use the `Question block construction` pattern for every such decision.
 When using `planning-qna`, keep the detailed explanatory context in plain chat
 and use the compact choice only as the answer collection step.
 
-### 5. Write the contract
+### 6. Write the contract
 
 The contract must include these sections:
 
@@ -297,7 +375,7 @@ The contract must include these sections:
 18. Verifier Focal Points
 19. Next Role / Next Action
 
-### 6. Self-check before handoff
+### 7. Self-check before handoff
 
 Before finalizing the contract, confirm:
 
@@ -320,6 +398,9 @@ Before finalizing the contract, confirm:
     deferred
 13. I did not let one broad question block hide a missing angle such as
     interfaces, lifecycle, constraints, recovery, or change strategy
+14. I did not confuse strong discovery grounding with clarification complete
+15. if I asked zero user questions, the `Zero-Question Proof` is explicit and
+    actually persuasive
 
 ## External helper-skill policy
 
