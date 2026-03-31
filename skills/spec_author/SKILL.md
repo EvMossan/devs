@@ -58,6 +58,10 @@ bootstrap drift before drafting.
 10. Do not finalize a contract while material behavior, ownership, scope, or verification questions are still implicit.
 11. Do not discover additional repo guidance outside the explicit guidance
     chain defined by `AGENTS.md`, `devs/repo.md`, `state.md`, and `spec.md`.
+12. Do not expose raw internal architecture or code vocabulary to the user
+    without an explanatory bridge.
+13. Optimize clarification for user comprehension and answer quality, not for
+    brevity.
 
 ## Clarification artifact rule
 
@@ -65,14 +69,21 @@ The clarification interview must be visible inside the contract, not only in cha
 
 At minimum, the contract must preserve:
 
-1. clarification coverage by domain
-2. the material questions actually asked
-3. the options presented to the user when a real decision existed
-4. the recommended option and why it was recommended
-5. user answers or explicit waivers
-6. contract impacts of those answers
-7. explicit unknowns or deferred decisions
-8. lead decisions made by the spec author when the user did not need to choose directly
+1. clarification coverage by domain and relevant lens
+2. the material questions or decisions actually raised
+3. the explanatory `Decision Brief` or a short summary of it for each
+   context-heavy question block
+4. the delivery mode used for each block when user input was required:
+   `planning-qna` or `open-text`
+5. the options presented to the user when a real decision existed
+6. the practical consequence of each option when a real decision existed
+7. the recommended option and why it was recommended
+8. user answers or explicit waivers
+9. contract impacts of those answers
+10. explicit unknowns or deferred decisions, including where they will be
+    closed later when known
+11. lead decisions made by the spec author when the user did not need to
+    choose directly
 
 If no material clarification was needed, record that explicitly rather than omitting the section.
 
@@ -104,24 +115,118 @@ Each domain must end as one of:
 3. explicitly deferred
 4. not applicable
 
+### Universal contract pressure lenses
+
+Pressure-test the request through these lenses. These lenses are not extra spec
+sections. They are a discovery tool for surfacing hidden assumptions,
+contract gaps, and likely hallucination paths before drafting.
+Use them to check for missing angles, not to create a second independent
+questionnaire. One well-constructed question block may close multiple domains
+and multiple relevant lenses at once.
+
+1. outcome and scope boundary
+   - what must become true now, what success means, what remains outside this
+     contract
+2. actors, entry points, and operating flow
+   - who or what uses the system, through which entry points, in what sequence,
+     and in which operating modes
+3. interfaces, inputs, and observable outputs
+   - what is configured, submitted, emitted, rendered, written, logged,
+     reported, or otherwise observed
+4. state, lifecycle, and source of truth
+   - what is persistent, temporary, derived, canonical, or reconciled over
+     time
+5. constraints, dependencies, and trust boundaries
+   - external systems, environment assumptions, permissions, security,
+     reliability, performance, accuracy, cost, or compliance constraints
+6. failure, recovery, and change strategy
+   - edge cases, degraded modes, rollback, migration, compatibility, cutover,
+     and operational impact
+
+Each relevant lens must end as one of:
+
+1. clarified through a question block
+2. resolved as a lead decision
+3. already decided
+4. explicitly deferred
+5. not applicable
+
 ### Discovery pressure rules
 
 1. Group questions by domain or decision theme.
 2. For each still-open relevant domain, ask at least one real question block before finalizing the contract.
-3. A question block should usually contain `2-4` related questions.
-4. Do not stop after one short batch if two or more material domains are still open.
-5. If you skip a domain, record `already decided`, `explicitly deferred`, or `not applicable` with a one-line reason.
-6. After each question block, capture what changed in the contract.
+3. Pressure-test the workstream through the relevant lenses above. Do not let
+   one vague question block silently collapse multiple materially different
+   lenses.
+4. Do not ask separate questions merely to satisfy each lens. Use the lenses to
+   detect missing angles, not to multiply question count.
+5. In `planning-qna`, a question block should usually contain one material
+   decision.
+6. In plain chat, `2-4` related questions are acceptable only when they share
+   one explanatory framing and remain answerable without code reading.
+7. Do not ask low-level ownership, schema, compatibility, or reconciliation
+   questions before the user is aligned on product meaning and scope boundary.
+8. Do not stop after one short batch if two or more material domains are still open.
+9. If you skip a domain or close a relevant lens without user input, record the
+   truthful reason with a one-line justification.
+10. After each question block, capture what changed in the contract.
+11. If a decision is mostly internal engineering hygiene with weak user-visible
+   consequence, prefer a lead recommendation with a chance to object over raw
+   escalation.
 
-## Question framing rules
+## Question delivery rules
 
 1. Ask about behavior, priorities, tradeoffs, ownership, and verification.
 2. Do not ask deep implementation trivia the user cannot answer productively.
-3. When a user decision is material, present `2-4` concrete options.
-4. Mark exactly one option `(Recommended)`.
-5. Include a short `Why recommended` line.
-6. If an open-ended answer is genuinely needed, ask it only after exhausting a useful option frame.
-7. Keep the questions readable and direct. Avoid faux precision and internal jargon.
+3. Before any material question that depends on hidden code, architecture,
+   ownership, compatibility, schema, or legacy context, send a plain-chat
+   `Decision Brief`.
+4. A `Decision Brief` is required to be explanatory, not terse.
+5. A `Decision Brief` may be as detailed as needed. Optimize for user
+   comprehension and answer quality rather than brevity.
+6. Start one level above the local technical detail and explain what is being
+   decided in ordinary language first.
+7. Explain the relevant code reality in plain terms before relying on internal
+   names or jargon.
+8. Explain why the decision matters now, what risk or drift it prevents, and
+   what practically changes across the available options.
+9. If an internal term is necessary, define it in plain language on first use.
+10. Do not optimize clarification prompts for compression. Keep the detailed
+    explanatory context in plain chat, not inside a compact planning UI.
+11. Use `planning-qna` only after a sufficient `Decision Brief`, and only when
+    the decision can be reduced honestly to `2-3` clear options.
+12. In `planning-qna`, mark exactly one option `(Recommended)` and keep the
+    labels and descriptions compact while preserving practical consequences.
+13. Use `open-text` when nuance cannot be preserved honestly in compact
+    options.
+14. If the choice is mostly internal engineering hygiene with weak
+    user-visible impact, prefer `recommendation + opportunity to object` over
+    raw escalation.
+15. If the user would need to read code or decode internal jargon to answer,
+    rewrite the brief/question or take a lead decision instead.
+16. Keep the explanation concrete and patient without becoming patronizing.
+
+## Question block construction
+
+For each material decision, use this sequence:
+
+1. `Decision Brief` in plain chat
+2. choose the delivery mode:
+   - `planning-qna` for one compact, user-answerable decision with `2-3`
+     options
+   - `open-text` when nuance or novel constraints require freeform input
+   - lead decision when the tradeoff is mostly internal and the recommended
+     path is clear
+3. if `planning-qna` is unavailable on the current platform or in the current
+   mode, use plain chat with the same decision structure
+4. ask the question in the chosen mode:
+   - `planning-qna`: present `2-3` compact options and one recommended option
+   - `open-text`: ask directly, and provide a recommended default when helpful
+   - lead decision: state the recommendation, rationale, and clear chance to
+     object
+5. include a short `Why recommended`
+6. if deferring, say where that deferred edge is expected to be closed later
+7. after the answer or objection window, restate the contract impact explicitly
 
 ## Drafting workflow
 
@@ -129,7 +234,7 @@ Each domain must end as one of:
 
 Before final prose drafting, create a clarification artifact that records:
 
-1. clarification coverage summary by domain
+1. clarification coverage summary by domain and relevant lens
 2. `User Escalation Gate` table
 3. explicit unknowns / deferred decisions
 4. `Lead Decisions` table
@@ -164,6 +269,9 @@ A material question is one that changes:
 6. integration boundary
 
 If a material question remains open and cannot safely be deferred, do not finalize the contract.
+Use the `Question block construction` pattern for every such decision.
+When using `planning-qna`, keep the detailed explanatory context in plain chat
+and use the compact choice only as the answer collection step.
 
 ### 5. Write the contract
 
@@ -199,6 +307,19 @@ Before finalizing the contract, confirm:
 4. the slice is still stage-sized
 5. the clarification artifact is complete enough that the next session does not reconstruct the interview from chat
 6. no section depends on hidden chat memory
+7. every context-heavy decision included a sufficient explanatory
+   `Decision Brief` in plain chat
+8. every `planning-qna` choice was compact only after the real context had
+   already been established in chat
+9. a product-minded user could answer each escalated question without reading
+   code
+10. each option's practical consequence was clear
+11. I did not escalate a raw internal architecture fork where a lead decision
+    was more appropriate
+12. every relevant lens was either covered, truthfully closed, or explicitly
+    deferred
+13. I did not let one broad question block hide a missing angle such as
+    interfaces, lifecycle, constraints, recovery, or change strategy
 
 ## External helper-skill policy
 
