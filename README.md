@@ -175,13 +175,17 @@ Skip it if you are happy doing everything in one long chat and do not care much 
 
 Copy-paste this to your agent:
 
-`Install Devs in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md`
+```text
+Install Devs in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md
+```
 
 ## Updating
 
 Use the same bootstrap entrypoint when Devs is already installed:
 
-`Refresh the existing Devs install in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md`
+```text
+Refresh the existing Devs install in this repository using this source https://raw.githubusercontent.com/EvMossan/devs/main/install/INSTALL.md
+```
 
 Refresh is install-or-refresh, not blind reinstall.
 It should refresh Devs-managed files, patch shared bootstrap files minimally,
