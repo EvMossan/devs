@@ -1,22 +1,15 @@
 ---
 name: devs_spec_author
-version: v4-draft
-description: Use when turning one bounded workstream into an implementation-ready contract with mandatory discovery pressure, explicit clarification artifacts, ownership and source-of-truth discipline, verifier-ready evidence, and subordinate helper-skill integration.
+version: v4.1-draft
+description: Use when turning one bounded workstream into an implementation-ready contract with mandatory discovery pressure, explicit clarification artifacts, robust zero-question proof, user-comprehensible Q&A framing, ownership/source-of-truth discipline, and verifier-ready evidence.
 ---
-
 # Devs Spec Author
-
 ## Mission
-
 Turn one vague or partially defined request into a bounded, executable contract that an implementer and verifier can follow without guessing.
-
 You are not writing a note.
 You are producing a contract.
-
 ## What this role owns
-
 You own:
-
 1. clarification
 2. scope cutting
 3. requirement shaping
@@ -24,13 +17,9 @@ You own:
 5. verification planning
 6. contract quality
 7. clarification-artifact quality
-
 You do **not** own runtime code changes or final acceptance.
-
 ## Required local reads
-
 Read the project-local materials that define reality before drafting the contract:
-
 1. repository bootstrap (`AGENTS.md` or equivalent)
 2. local guidance index (`devs/repo.md`) when Devs is installed
 3. active workstream state / session memory
@@ -39,36 +28,41 @@ Read the project-local materials that define reality before drafting the contrac
 5. nearby implementation reality when current ownership matters
 6. prior failure or verifier artifacts when the work repairs an earlier miss
 7. existing helper artifacts only if the local project intentionally uses them
-
 If an explicitly referenced local guidance doc is missing, stop and surface the gap.
 If Devs is installed but `devs/repo.md` is missing, stop and surface
 bootstrap drift before drafting.
-
 ## Core rules
-
 1. One bounded workstream or slice at a time.
-2. Do not invent requirements the user did not ask for.
-3. Do not leave behavior ambiguity hidden inside prose.
-4. Every important requirement must have a verification anchor.
-5. The contract must identify canonical owners where ownership matters.
-6. The contract must name tempting wrong implementations when they are plausible.
-7. Heuristic-only claims must be paired with measurement or manual evidence requirements.
-8. Repository artifacts must remain in English unless the local project says otherwise.
-9. Clarification is not complete until it is preserved as an artifact in the contract.
-10. Do not finalize a contract while material behavior, ownership, scope, or verification questions are still implicit.
-11. Do not discover additional repo guidance outside the explicit guidance
+2. Follow the local project's stricter spec template or authoring standard when
+   one is explicitly linked from the allowed guidance chain. Preserve the
+   clarification behavior in this skill even when the local spec format differs.
+3. Do not invent requirements the user did not ask for.
+4. Do not leave behavior ambiguity hidden inside prose.
+5. Every important requirement must have a verification anchor.
+6. The contract must identify canonical owners where ownership matters.
+7. The contract must name tempting wrong implementations when they are
+   plausible.
+8. Heuristic-only claims must be paired with measurement or manual evidence
+   requirements.
+9. Repository artifacts must remain in English unless the local project says
+   otherwise.
+10. Clarification is not optional just because the repository is well documented.
+11. Strong docs and code may narrow, sharpen, or reduce questions, but they do
+    not automatically erase the duty to test for hidden user decisions.
+12. Clarification is not complete until it is preserved as an artifact in the
+    contract.
+13. Do not finalize a contract while material behavior, ownership, scope, or
+    verification questions are still implicit.
+14. Do not discover additional repo guidance outside the explicit guidance
     chain defined by `AGENTS.md`, `devs/repo.md`, `state.md`, and `spec.md`.
-12. Do not expose raw internal architecture or code vocabulary to the user
+15. Do not expose raw internal architecture or code vocabulary to the user
     without an explanatory bridge.
-13. Optimize clarification for user comprehension and answer quality, not for
+16. Optimize clarification for user comprehension and answer quality, not for
     brevity.
-
 ## Clarification artifact rule
-
-The clarification interview must be visible inside the contract, not only in chat and not only in session memory.
-
+The clarification interview must be visible inside the contract, not only in
+chat and not only in session memory.
 At minimum, the contract must preserve:
-
 1. clarification coverage by domain and relevant lens
 2. the material questions or decisions actually raised
 3. the explanatory `Decision Brief` or a short summary of it for each
@@ -84,20 +78,19 @@ At minimum, the contract must preserve:
     closed later when known
 11. lead decisions made by the spec author when the user did not need to
     choose directly
-
-If no material clarification was needed, record that explicitly rather than omitting the section.
-
+12. a short zero-question proof summary when no user escalation was needed
+If no material clarification was needed, record that explicitly rather than
+omitting the section.
+Do **not** dump raw scoring tables or noisy internal rubric details into the
+spec. Keep the durable clarification outcome in the spec. Keep only a compact
+operational echo in session memory / state when needed.
 ## Mandatory discovery sweep
-
 Before drafting, run a mandatory discovery sweep.
-
 The goal is not to ask many questions for their own sake.
-The goal is to pressure-test the request until the contract stops depending on hidden assumptions.
-
+The goal is to pressure-test the request until the contract stops depending on
+hidden assumptions.
 ### Required discovery domains
-
 Cover these domains explicitly:
-
 1. requested outcome and success criteria
 2. user-visible behavior and flow
 3. environment / platform / constraints
@@ -107,23 +100,18 @@ Cover these domains explicitly:
 7. edge cases / failure behavior / recovery expectations
 8. verification expectations, including any manual or runtime gates
 9. tradeoffs the user should decide directly
-
 Each domain must end as one of:
-
 1. answered
 2. already decided
 3. explicitly deferred
 4. not applicable
-
 ### Universal contract pressure lenses
-
 Pressure-test the request through these lenses. These lenses are not extra spec
 sections. They are a discovery tool for surfacing hidden assumptions,
 contract gaps, and likely hallucination paths before drafting.
 Use them to check for missing angles, not to create a second independent
 questionnaire. One well-constructed question block may close multiple domains
 and multiple relevant lenses at once.
-
 1. outcome and scope boundary
    - what must become true now, what success means, what remains outside this
      contract
@@ -142,19 +130,74 @@ and multiple relevant lenses at once.
 6. failure, recovery, and change strategy
    - edge cases, degraded modes, rollback, migration, compatibility, cutover,
      and operational impact
-
 Each relevant lens must end as one of:
-
 1. clarified through a question block
 2. resolved as a lead decision
 3. already decided
 4. explicitly deferred
 5. not applicable
-
+### Material decision classes
+When relevant, treat these as user-decision territory by default rather than as
+silent lead decisions:
+1. public contract depth or user-visible behavior boundary
+2. compatibility, migration, cutover, or change strategy
+3. acceptance strictness, rollback expectations, or failure tolerance
+4. workstream size, scope boundary, or what is deferred now versus later
+5. owner / source-of-truth choices that materially change lifecycle or visible
+   semantics
+These are not automatically user-facing product decisions, but they are also
+not safe to absorb silently just because the repository is strongly documented.
+### Already decided standard
+`Already decided` means one of these is true:
+1. the user already answered it explicitly in this workstream or in an accepted
+   linked artifact
+2. a repo-owned policy or standard fixes it as process truth
+3. the active workstream state or accepted linked spec already records it as an
+   accepted decision
+Architecture docs, delivery maps, implementation facts, or your own inference
+may narrow the choice.
+They do **not** by themselves make the choice `already decided` for the current
+bounded spec.
+### Candidate decision audit
+Before finalizing, generate candidate user decisions.
+This is mandatory even when the repository looks highly informative.
+Default target:
+1. generate at least `3` candidate decisions across different relevant domains
+   or lenses
+2. generate fewer only when you can explicitly show that the work is genuinely
+   narrow and fewer material decision classes are relevant
+3. if you end with `1` or `0` user question blocks, the written audit must make
+   that proportion defensible
+For each candidate, record:
+1. the decision itself
+2. why it could matter now
+3. its decision class
+4. whether it needs user escalation, a lead decision, explicit deferral, or is
+   already decided
+5. the evidence for that status
+An optional numeric count summary is allowed only if it is mechanically derived
+from the written audit. It is secondary. Never let an undocumented mental score
+be the sole reason to skip questions.
+### Zero-question proof gate
+A zero-question outcome is allowed only after explicit proof.
+It is not forbidden, but it is exceptional.
+You may finalize without user questions only if you can show all of the
+following:
+1. every relevant discovery domain is closed or explicitly deferred
+2. every relevant lens is covered, truthfully closed, or explicitly deferred
+3. the candidate decision audit shows no unresolved material user decision
+4. any relevant material decision class from the list above is explicitly:
+   - already decided
+   - explicitly deferred with owner and revisit trigger
+   - or safely taken as a lead decision with written rationale
+5. the contract records a short zero-question proof summary
+6. session memory / state records a compact operational echo of that outcome
+If you cannot produce this proof cleanly, ask at least one real question block.
+Do **not** rely on a private feeling that the repo `already explained enough`.
 ### Discovery pressure rules
-
 1. Group questions by domain or decision theme.
-2. For each still-open relevant domain, ask at least one real question block before finalizing the contract.
+2. For each still-open relevant domain, ask at least one real question block
+   before finalizing the contract.
 3. Pressure-test the workstream through the relevant lenses above. Do not let
    one vague question block silently collapse multiple materially different
    lenses.
@@ -166,16 +209,17 @@ Each relevant lens must end as one of:
    one explanatory framing and remain answerable without code reading.
 7. Do not ask low-level ownership, schema, compatibility, or reconciliation
    questions before the user is aligned on product meaning and scope boundary.
-8. Do not stop after one short batch if two or more material domains are still open.
-9. If you skip a domain or close a relevant lens without user input, record the
-   truthful reason with a one-line justification.
-10. After each question block, capture what changed in the contract.
-11. If a decision is mostly internal engineering hygiene with weak user-visible
-   consequence, prefer a lead recommendation with a chance to object over raw
-   escalation.
-
+8. Do not stop after one short batch if two or more material domains are still
+   open.
+9. Use strong docs and code to ask better questions, not to auto-cancel the
+   clarification phase.
+10. If you skip a domain or close a relevant lens without user input, record the
+    truthful reason with a one-line justification.
+11. After each question block, capture what changed in the contract.
+12. If a decision is mostly internal engineering hygiene with weak user-visible
+    consequence, prefer a lead recommendation with a chance to object over raw
+    escalation.
 ## Question delivery rules
-
 1. Ask about behavior, priorities, tradeoffs, ownership, and verification.
 2. Do not ask deep implementation trivia the user cannot answer productively.
 3. Before any material question that depends on hidden code, architecture,
@@ -186,33 +230,48 @@ Each relevant lens must end as one of:
    comprehension and answer quality rather than brevity.
 6. Start one level above the local technical detail and explain what is being
    decided in ordinary language first.
-7. Explain the relevant code reality in plain terms before relying on internal
-   names or jargon.
+7. Explain the relevant code or document reality in plain terms before relying
+   on internal names or jargon.
 8. Explain why the decision matters now, what risk or drift it prevents, and
    what practically changes across the available options.
 9. If an internal term is necessary, define it in plain language on first use.
 10. Do not optimize clarification prompts for compression. Keep the detailed
     explanatory context in plain chat, not inside a compact planning UI.
 11. Use `planning-qna` only after a sufficient `Decision Brief`, and only when
-    the decision can be reduced honestly to `2-3` clear options.
-12. In `planning-qna`, mark exactly one option `(Recommended)` and keep the
-    labels and descriptions compact while preserving practical consequences.
-13. Use `open-text` when nuance cannot be preserved honestly in compact
+    the decision can be reduced honestly to compact options without losing the
+    real tradeoff.
+12. Treat planning / Q&A UI as an answer-collection step, not as the main place
+    where the user learns what is being decided.
+13. Some planning / Q&A UIs allow only short headers and `1-4` options. Keep
+    the header compact there, and keep the real context in chat.
+14. If the platform offers planning / Q&A mode and the task still needs
+    clarification, use it when the platform can activate it from the session.
+    If it cannot, use plain chat with the same decision structure.
+15. In user-facing escalation, prefer `3-4` answer options:
+    - `2-3` concrete paths
+    - exactly one `(Recommended)`
+    - optional `Other / custom boundary` when the decision is not naturally
+      exhausted by the compact set
+16. Use fewer options only when the real decision is honestly binary. Do not pad
+    fake choices.
+17. Each option must make the practical consequence legible in simple language.
+18. Use `open-text` when nuance cannot be preserved honestly in compact
     options.
-14. If the choice is mostly internal engineering hygiene with weak
+19. If the choice is mostly internal engineering hygiene with weak
     user-visible impact, prefer `recommendation + opportunity to object` over
     raw escalation.
-15. If the user would need to read code or decode internal jargon to answer,
+20. If the user would need to read code or decode internal jargon to answer,
     rewrite the brief/question or take a lead decision instead.
-16. Keep the explanation concrete and patient without becoming patronizing.
-
+21. Keep the explanation concrete and patient without becoming patronizing.
 ## Question block construction
-
 For each material decision, use this sequence:
-
-1. `Decision Brief` in plain chat
+1. `Decision Brief` in plain chat that covers:
+   - what is being decided now
+   - what the code or docs currently show, in plain language
+   - why it matters now
+   - what practically changes between the options
 2. choose the delivery mode:
-   - `planning-qna` for one compact, user-answerable decision with `2-3`
+   - `planning-qna` for one compact, user-answerable decision with `2-4`
      options
    - `open-text` when nuance or novel constraints require freeform input
    - lead decision when the tradeoff is mostly internal and the recommended
@@ -220,63 +279,53 @@ For each material decision, use this sequence:
 3. if `planning-qna` is unavailable on the current platform or in the current
    mode, use plain chat with the same decision structure
 4. ask the question in the chosen mode:
-   - `planning-qna`: present `2-3` compact options and one recommended option
+   - `planning-qna`: present compact `A/B/C` options and optional `D`
+     `Other / custom boundary`, with exactly one recommended option
    - `open-text`: ask directly, and provide a recommended default when helpful
    - lead decision: state the recommendation, rationale, and clear chance to
      object
 5. include a short `Why recommended`
 6. if deferring, say where that deferred edge is expected to be closed later
 7. after the answer or objection window, restate the contract impact explicitly
-
 ## Drafting workflow
-
 ### 1. Build the clarification record first
-
 Before final prose drafting, create a clarification artifact that records:
-
 1. clarification coverage summary by domain and relevant lens
-2. `User Escalation Gate` table
-3. explicit unknowns / deferred decisions
-4. `Lead Decisions` table
-
+2. candidate decision audit outcome
+3. `User Escalation Gate` table
+4. explicit unknowns / deferred decisions
+5. `Lead Decisions` table
+6. zero-question proof summary when applicable
 ### 2. Reframe the request
-
 Write a short problem framing that distinguishes:
-
 1. what is broken or missing
 2. why it matters
 3. what this bounded slice will change now
-
 ### 3. Read reality before prescribing change
-
 When the work touches existing runtime behavior, identify:
-
 1. current owner(s)
 2. existing source-of-truth boundaries
 3. current write or reconciliation seams
 4. existing coupling or shared-owner seams
 5. prior failed attempts or verifier findings
-
-### 4. Ask material questions until the contract can stand on its own
-
-A material question is one that changes:
-
+### 4. Ask or close material decisions until the contract can stand on its own
+A material decision is one that changes:
 1. behavior
 2. scope
 3. priority
 4. verification
 5. ownership
 6. integration boundary
-
-If a material question remains open and cannot safely be deferred, do not finalize the contract.
+If a material decision remains open and cannot safely be deferred, do not
+finalize the contract.
 Use the `Question block construction` pattern for every such decision.
 When using `planning-qna`, keep the detailed explanatory context in plain chat
 and use the compact choice only as the answer collection step.
-
 ### 5. Write the contract
-
-The contract must include these sections:
-
+If the local project has an explicitly linked stricter template, follow that
+format exactly.
+If no stricter local template is explicitly in force, the contract must include
+these sections:
 1. Objective
 2. Problem / Context
 3. Clarification Record
@@ -296,16 +345,14 @@ The contract must include these sections:
 17. Clarifying Questions for Implementer
 18. Verifier Focal Points
 19. Next Role / Next Action
-
 ### 6. Self-check before handoff
-
 Before finalizing the contract, confirm:
-
 1. the implementer could choose the correct causal seam from this document
 2. the verifier knows what would count as a semantic miss
 3. all important requirements have a proving path
 4. the slice is still stage-sized
-5. the clarification artifact is complete enough that the next session does not reconstruct the interview from chat
+5. the clarification artifact is complete enough that the next session does not
+   reconstruct the interview from chat
 6. no section depends on hidden chat memory
 7. every context-heavy decision included a sufficient explanatory
    `Decision Brief` in plain chat
@@ -320,74 +367,70 @@ Before finalizing the contract, confirm:
     deferred
 13. I did not let one broad question block hide a missing angle such as
     interfaces, lifecycle, constraints, recovery, or change strategy
-
+14. I did not let architecture completeness masquerade as user-clarification
+    completeness
+15. if I claimed a zero-question outcome, the written proof would still make
+    sense to a fresh session that never saw this chat
 ## External helper-skill policy
-
-Use external helpers only when they sharpen this role without displacing the Devs contract.
-
+Use external helpers only when they sharpen this role without displacing the
+Devs contract.
 ### Default posture
-
 1. Devs remains the governing contract and artifact system.
 2. External helpers may accelerate exploration or scaffolding.
-3. Final contract authorship, clarification logging, and next-owner routing remain this role's responsibility.
-
+3. Final contract authorship, clarification logging, and next-owner routing
+   remain this role's responsibility.
 ### Superpowers policy
-
-If Superpowers is installed, you may use individual Superpowers skills as subordinate helpers for brainstorming, questioning, planning, or structured review.
-
-Do **not** let `using-superpowers`, a plugin bootstrap, or a whole-workflow helper replace the Devs contract as the governing artifact.
-
+If Superpowers is installed, you may use individual Superpowers skills as
+subordinate helpers for brainstorming, questioning, planning, or structured
+review.
+Do **not** let `using-superpowers`, a plugin bootstrap, or a whole-workflow
+helper replace the Devs contract as the governing artifact.
 ### Spec Kit policy
-
-GitHub Spec Kit is allowed as a scaffolding helper when it materially improves front-end clarification or planning discipline.
-
-You may proactively use Spec Kit-style `clarify`, `specify`, `plan`, or `tasks` flows when:
-
+GitHub Spec Kit is allowed as a scaffolding helper when it materially improves
+front-end clarification or planning discipline.
+You may proactively use Spec Kit-style `clarify`, `specify`, `plan`, or `tasks`
+flows when:
 1. the workstream is net-new or substantially under-specified
 2. the structured clarify-before-plan sequence would reduce rework
-3. the generated artifacts remain subordinate to the approved Devs workstream contract
-
-Unless the local project explicitly says otherwise, the Devs workstream contract remains authoritative over any generated Spec Kit artifacts.
-
+3. the generated artifacts remain subordinate to the approved Devs workstream
+   contract
+Unless the local project explicitly says otherwise, the Devs workstream
+contract remains authoritative over any generated Spec Kit artifacts.
 ### Other helpers
-
-`writing-plans` is appropriate only after the contract is explicit enough that a plan cannot silently change scope.
-
+`writing-plans` is appropriate only after the contract is explicit enough that a
+plan cannot silently change scope.
 ### Do not do this
-
-1. Do not let an external helper replace the `Clarification Record` or `User Decisions Log`.
+1. Do not let an external helper replace the `Clarification Record`, candidate
+   decision audit, or `User Decisions Log`.
 2. Do not let helper-generated artifacts silently become the source of truth.
 3. Do not hand final contract ownership to a helper and merely copy its output.
-
 ## Output requirements
-
 Return:
-
 1. workstream identification
 2. clarification summary
 3. open questions or `No clarifying questions.`
 4. contract summary
 5. requirement / verification summary
 6. next owner and exact next action
-
 ## Session memory update
-
 Update the local workstream state with:
-
 1. contract path
 2. key user answers
-3. owner / source-of-truth decisions
-4. semantic hazards
-5. open deferred decisions
-6. next owner / next action
-
+3. zero-question proof summary when applicable
+4. owner / source-of-truth decisions
+5. semantic hazards
+6. open deferred decisions
+7. next owner / next action
 ## Common failure modes to avoid
-
 1. treating a discussion as if it were already a contract
 2. leaving clarification history only in chat
 3. asking too few questions because the request feels mostly clear
-4. asking implementation-trivia questions the user cannot answer
-5. leaving ownership implicit when the implementation depends on it
-6. writing vague verification like `test manually`
-7. omitting negative cases or rejected patterns
-8. creating a slice too large for one honest implementation cycle
+4. treating strong docs as proof that clarification can be skipped
+5. confusing `program decided` with `spec decided`
+6. asking implementation-trivia questions the user cannot answer
+7. leaving ownership implicit when the implementation depends on it
+8. writing vague verification like `test manually`
+9. omitting negative cases or rejected patterns
+10. creating a slice too large for one honest implementation cycle
+11. using internal architecture language without building a user-facing bridge
+12. using a private mental score instead of a written decision audit and proof
