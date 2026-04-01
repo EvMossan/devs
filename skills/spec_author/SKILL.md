@@ -1,7 +1,7 @@
 ---
 name: devs_spec_author
-version: v4.1-draft
-description: Use when turning one bounded workstream into an implementation-ready contract with mandatory discovery pressure, explicit clarification artifacts, robust zero-question proof, user-comprehensible Q&A framing, ownership/source-of-truth discipline, and verifier-ready evidence.
+version: v4.3-draft
+description: Use when turning one bounded workstream into an implementation-ready contract with mandatory discovery pressure, a question floor for new specs, explicit clarification artifacts, user-comprehensible Q&A framing, ownership/source-of-truth discipline, and verifier-ready evidence.
 ---
 # Devs Spec Author
 ## Mission
@@ -59,6 +59,15 @@ bootstrap drift before drafting.
     without an explanatory bridge.
 16. Optimize clarification for user comprehension and answer quality, not for
     brevity.
+17. For a net-new bounded technical spec, at least one real user-facing
+    clarification block is mandatory before drafting.
+18. The only no-new-question exception is a narrow amendment / continuation
+    case where the current accepted workstream or spec already records the
+    relevant answers and the new request reopens no material decision class.
+19. Do not start spec prose, branch creation, workstream creation, or artifact
+    writes that imply clarification is complete until the first required
+    clarification block has happened or the amendment exemption is explicitly
+    proven through the checkpoint rules below.
 ## Clarification artifact rule
 The clarification interview must be visible inside the contract, not only in
 chat and not only in session memory.
@@ -78,12 +87,17 @@ At minimum, the contract must preserve:
     closed later when known
 11. lead decisions made by the spec author when the user did not need to
     choose directly
-12. a short zero-question proof summary when no user escalation was needed
+12. a short amendment-exemption summary when no new user escalation was needed
 If no material clarification was needed, record that explicitly rather than
 omitting the section.
 Do **not** dump raw scoring tables or noisy internal rubric details into the
 spec. Keep the durable clarification outcome in the spec. Keep only a compact
 operational echo in session memory / state when needed.
+If the local spec template lacks a dedicated `Clarification Record` section,
+preserve the same information in the nearest allowed clarification area —
+usually `User Decisions Log`, `Clarifying Questions`, or a short added
+subsection. Do **not** collapse the result to `No user decisions recorded.`
+unless the amendment-exemption summary is also recorded there.
 ## Mandatory discovery sweep
 Before drafting, run a mandatory discovery sweep.
 The goal is not to ask many questions for their own sake.
@@ -166,7 +180,9 @@ Default target:
    or lenses
 2. generate fewer only when you can explicitly show that the work is genuinely
    narrow and fewer material decision classes are relevant
-3. if you end with `1` or `0` user question blocks, the written audit must make
+3. for a net-new bounded spec, the audit must still yield at least `1`
+   user-facing clarification block
+4. stopping at exactly `1` block is allowed only when the written audit makes
    that proportion defensible
 For each candidate, record:
 1. the decision itself
@@ -175,24 +191,60 @@ For each candidate, record:
 4. whether it needs user escalation, a lead decision, explicit deferral, or is
    already decided
 5. the evidence for that status
+When the work changes an existing contract surface, explicitly include at least
+one candidate for each of these angles even if you later close them without
+user input:
+1. public or downstream surface depth
+2. compatibility / migration / cutover strategy
+3. change-boundary or workstream-size control
 An optional numeric count summary is allowed only if it is mechanically derived
 from the written audit. It is secondary. Never let an undocumented mental score
 be the sole reason to skip questions.
-### Zero-question proof gate
-A zero-question outcome is allowed only after explicit proof.
-It is not forbidden, but it is exceptional.
-You may finalize without user questions only if you can show all of the
-following:
-1. every relevant discovery domain is closed or explicitly deferred
-2. every relevant lens is covered, truthfully closed, or explicitly deferred
-3. the candidate decision audit shows no unresolved material user decision
-4. any relevant material decision class from the list above is explicitly:
-   - already decided
-   - explicitly deferred with owner and revisit trigger
-   - or safely taken as a lead decision with written rationale
-5. the contract records a short zero-question proof summary
-6. session memory / state records a compact operational echo of that outcome
-If you cannot produce this proof cleanly, ask at least one real question block.
+### Visible clarification checkpoint
+Before drafting the spec, publishing a final plan, or creating workstream
+artifacts that imply clarification is complete, publish a short plain-chat
+checkpoint.
+The checkpoint must say:
+1. what bounded spec or decision is being prepared
+2. how many candidate decisions were audited
+3. whether the provisional outcome is:
+   - `first question block required`
+   - `additional question blocks likely`
+   - or `amendment exemption candidate`
+4. the main decision themes still open, if any
+5. if an amendment exemption is being considered, `2-5` concise bullets
+   showing why no new user decision is being reopened
+This checkpoint is not a full question block.
+Its job is to make the clarification audit inspectable before the agent moves
+forward.
+For a net-new bounded spec, the checkpoint must be followed by the first real
+question block before any drafting momentum continues.
+If the user challenges one of the closures, reopen clarification before
+drafting.
+### Question floor and amendment-only exemption
+For a net-new bounded technical spec, zero-question is not an allowed normal
+outcome.
+The default floor is:
+1. at least `1` real user-facing clarification block before drafting
+2. more blocks whenever the audit still shows multiple open material themes or
+   decision classes
+3. stopping at `1` block only when the written audit explains why the rest are
+   already decided, explicitly deferred, or safely lead-only
+The only no-new-question exception is an amendment / continuation case.
+Use that exception only if all of the following are true:
+1. the work is not a net-new bounded spec, but an amendment or continuation of
+   an already accepted spec or active workstream
+2. the accepted artifact already records the relevant user answers
+3. the new request does not reopen behavior, scope, ownership, compatibility,
+   migration, or verification decisions in a material way
+4. every relevant discovery domain is closed or explicitly deferred
+5. every relevant lens is covered, truthfully closed, or explicitly deferred
+6. the candidate decision audit shows no reopened material user decision
+7. the visible clarification checkpoint was shown in chat before the agent
+   moved on
+8. the contract records a short amendment-exemption summary
+9. session memory / state records a compact operational echo of that outcome
+If any of these conditions fail, ask at least one real question block.
 Do **not** rely on a private feeling that the repo `already explained enough`.
 ### Discovery pressure rules
 1. Group questions by domain or decision theme.
@@ -211,14 +263,20 @@ Do **not** rely on a private feeling that the repo `already explained enough`.
    questions before the user is aligned on product meaning and scope boundary.
 8. Do not stop after one short batch if two or more material domains are still
    open.
-9. Use strong docs and code to ask better questions, not to auto-cancel the
-   clarification phase.
-10. If you skip a domain or close a relevant lens without user input, record the
+9. For a net-new bounded spec, `lead decisions only` is not enough by itself;
+   surface at least one real user-facing clarification block.
+10. Use strong docs and code to ask better questions, not to auto-cancel the
+    clarification phase.
+11. A spec being chosen by a delivery map does not by itself mean the spec is
+    decision-complete. Architecture-grounded does not automatically mean
+    clarification-complete.
+12. If you skip a domain or close a relevant lens without user input, record the
     truthful reason with a one-line justification.
-11. After each question block, capture what changed in the contract.
-12. If a decision is mostly internal engineering hygiene with weak user-visible
+13. After each question block, capture what changed in the contract.
+14. If a decision is mostly internal engineering hygiene with weak user-visible
     consequence, prefer a lead recommendation with a chance to object over raw
-    escalation.
+    escalation, but do not let that replace the required question floor for a
+    net-new spec.
 ## Question delivery rules
 1. Ask about behavior, priorities, tradeoffs, ownership, and verification.
 2. Do not ask deep implementation trivia the user cannot answer productively.
@@ -287,6 +345,8 @@ For each material decision, use this sequence:
 5. include a short `Why recommended`
 6. if deferring, say where that deferred edge is expected to be closed later
 7. after the answer or objection window, restate the contract impact explicitly
+8. for a net-new bounded spec, ensure the first block is a real decision the
+   user can answer, not only a passive FYI or a silent lead recommendation
 ## Drafting workflow
 ### 1. Build the clarification record first
 Before final prose drafting, create a clarification artifact that records:
@@ -295,7 +355,7 @@ Before final prose drafting, create a clarification artifact that records:
 3. `User Escalation Gate` table
 4. explicit unknowns / deferred decisions
 5. `Lead Decisions` table
-6. zero-question proof summary when applicable
+6. amendment-exemption summary when applicable
 ### 2. Reframe the request
 Write a short problem framing that distinguishes:
 1. what is broken or missing
@@ -308,7 +368,13 @@ When the work touches existing runtime behavior, identify:
 3. current write or reconciliation seams
 4. existing coupling or shared-owner seams
 5. prior failed attempts or verifier findings
-### 4. Ask or close material decisions until the contract can stand on its own
+### 4. Publish the clarification checkpoint, then ask the first required block
+Before you start the contract prose, publish the visible clarification
+checkpoint described above.
+For a net-new bounded spec, immediately follow it with the first required real
+question block.
+Then continue asking or closing material decisions until the contract can stand
+on its own.
 A material decision is one that changes:
 1. behavior
 2. scope
@@ -369,8 +435,12 @@ Before finalizing the contract, confirm:
     interfaces, lifecycle, constraints, recovery, or change strategy
 14. I did not let architecture completeness masquerade as user-clarification
     completeness
-15. if I claimed a zero-question outcome, the written proof would still make
-    sense to a fresh session that never saw this chat
+15. for a net-new bounded spec, I asked at least one real user-facing
+    clarification block before drafting
+16. if I used the amendment exemption, the written proof would still make sense
+    to a fresh session that never saw this chat
+17. if I used the amendment exemption, the visible checkpoint would still let
+    the user see which closures I relied on before drafting
 ## External helper-skill policy
 Use external helpers only when they sharpen this role without displacing the
 Devs contract.
@@ -408,7 +478,7 @@ plan cannot silently change scope.
 Return:
 1. workstream identification
 2. clarification summary
-3. open questions or `No clarifying questions.`
+3. open questions, or a clear statement that the amendment exemption was used
 4. contract summary
 5. requirement / verification summary
 6. next owner and exact next action
@@ -416,7 +486,8 @@ Return:
 Update the local workstream state with:
 1. contract path
 2. key user answers
-3. zero-question proof summary when applicable
+3. first clarification block outcome or amendment-exemption summary when
+   applicable
 4. owner / source-of-truth decisions
 5. semantic hazards
 6. open deferred decisions
@@ -434,3 +505,10 @@ Update the local workstream state with:
 10. creating a slice too large for one honest implementation cycle
 11. using internal architecture language without building a user-facing bridge
 12. using a private mental score instead of a written decision audit and proof
+13. jumping from discovery straight into branch creation, workstream creation,
+    artifact writing, or spec prose before the clarification checkpoint and the
+    first required question block
+14. treating a net-new spec as if an amendment exemption applied just because
+    the architecture docs are strong
+15. treating `No user decisions recorded.` as sufficient when the spec actually
+    depended on hidden clarification closures
