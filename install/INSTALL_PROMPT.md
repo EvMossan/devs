@@ -14,17 +14,19 @@ Requirements:
 2. Treat the referenced Devs repository as the source repo.
 3. Read `install/INSTALL.md`, then follow `install/init_contract.md`.
 4. Use the current authoritative source paths in the Devs repo:
-   - `skills/init_repo/SKILL.md`
-   - `skills/spec_author/SKILL.md`
-   - `skills/runtime_implementer/SKILL.md`
-   - `skills/runtime_verifier/SKILL.md`
+   - `skills/devs-init-repo/`
+   - `skills/devs-spec-author/`
+   - `skills/devs-runtime-implementer/`
+   - `skills/devs-runtime-verifier/`
    - `workstream_templates/spec_template.md`
    - `workstream_templates/state_template.md`
+   - `workstream_templates/clarification_template.md`
 5. Scan this repo only for bootstrap state before asking questions.
 6. Ask only merge questions when patching is ambiguous. On fresh install only,
    ask one optional final question about local guidance docs.
-7. Create or patch the target bootstrap files, repo-local Devs skills, hidden
+7. Create or patch the target bootstrap files, repo-local Devs skill bundles, hidden
    `.devs/` support files, and visible `devs/` artifact directories.
+   Managed role skill directories must match the current source bundles exactly.
 8. Do not expect a source-level `install/templates/` directory.
 9. Do not create `devs/bootstrap/*` mirror files in the target repo.
 10. Do not treat the Devs source repo as a dependency, submodule, or vendored
@@ -40,7 +42,7 @@ Requirements:
 16. Do not discover commands, candidate docs, or inferred repo standards to
     populate `devs/repo.md`.
 17. If Devs is already installed here, treat this run as a refresh: refresh
-    Devs-managed support files and role skills, patch shared bootstrap files
+    Devs-managed support files and role skill bundles, patch shared bootstrap files
     minimally, preserve repo-owned visible artifacts, and never overwrite an existing
     `devs/repo.md` during a normal refresh.
 
@@ -57,8 +59,9 @@ Requirements:
 3. Read `install/INSTALL.md`, then follow `install/init_contract.md`.
 4. Detect the existing Devs install first, then run refresh rather than a blind
    reinstall.
-5. Refresh hidden Devs support files and repo-local Devs role skills from the
-   current source version.
+5. Refresh hidden Devs support files and exact-sync repo-local Devs role skill
+   bundles from the current source version, including removing managed bundle
+   files that are no longer present in the source bundles.
 6. Patch `AGENTS.md` through the Devs-managed marker block when present, and
    patch `CLAUDE.md` plus `devs/README.md` minimally.
 7. Preserve `devs/repo.md`, `devs/specs/`, `devs/workstreams/`, and any
@@ -67,7 +70,8 @@ Requirements:
 9. If `devs/repo.md` is missing, stop and report bootstrap drift instead of
    recreating it.
 10. Run an exact refresh audit and do not report `pass` if a required bootstrap
-    target remains stale.
+    target remains stale or a managed role skill bundle differs from the
+    current source bundle.
 11. Stop after refresh and report exactly which files were updated or patched.
 
 ## Alternate source forms
@@ -99,10 +103,11 @@ A successful install should leave the target repo with:
 4. `.devs/install_manifest.json`
 5. `.devs/templates/spec_template.md`
 6. `.devs/templates/state_template.md`
-7. `devs/README.md`
-8. `devs/specs/`
-9. `devs/workstreams/`
-10. repo-local Devs work roles for Claude and Codex
+7. `.devs/templates/clarification_template.md`
+8. `devs/README.md`
+9. `devs/specs/`
+10. `devs/workstreams/`
+11. repo-local Devs work-role skill bundles for Claude and Codex
 
 The resulting repo should describe one model consistently:
 
@@ -112,6 +117,8 @@ The resulting repo should describe one model consistently:
 - `workstream` is the main continuity and delivery unit
 - same-target fix loops stay inside one workstream
 - one workstream gets one living `state.md`
+- an optional `clarification.md` may hold the full technical clarification
+  trail for new or reopened spec work
 - a formal spec is optional
 - `spec-less` is allowed, but not contract-less
 - specs may plan `Slice S1..N` inside a workstream

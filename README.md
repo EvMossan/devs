@@ -94,7 +94,13 @@ Same-target fix loops stay inside the same workstream.
 A new workstream opens only when the target outcome or scope changes materially.
 
 Each workstream gets one living `state.md`.
+A workstream may also carry a `clarification.md` file during
+`clarify/specify` when the full technical clarification trail is too large for
+chat.
 It may also link to a formal spec, but the formal spec is optional.
+
+`state.md` stays short and operational.
+`clarification.md` does not replace `state.md` or `spec.md`.
 
 `spec-less` work is allowed, but not contract-less work.
 If there is no formal spec, the minimal contract still lives in `state.md`.
@@ -108,7 +114,9 @@ ownership explicit inside that visible layer:
 - `devs/README.md` for the visible Devs-managed artifact map
 - `devs/repo.md` for a repo-owned index of local guidance docs Devs should read
 - `devs/specs/` for formal contract artifacts
-- `devs/workstreams/` for living workstream continuity
+- `devs/workstreams/` for living workstream continuity, with one required
+  `state.md` per workstream and an optional `clarification.md` for the full
+  technical clarification trail of new or reopened spec work
 
 Formal specs may plan `Slice S1..N`.
 A slice is a planned unit inside the workstream, not a second workstream.

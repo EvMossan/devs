@@ -14,7 +14,7 @@ The install or refresh should feel native:
 2. ask only merge questions when patching is ambiguous and, on fresh install
    only, one optional final docs question
 3. create or patch the target bootstrap files
-4. install the current Devs work-role skills and support templates locally
+4. install the current Devs work-role skill bundles and support templates locally
 5. stop after bootstrap
 
 ## Required read order
@@ -22,15 +22,18 @@ The install or refresh should feel native:
 Before writing anything in the target repo:
 
 1. read `install/init_contract.md`
-2. read `skills/init_repo/SKILL.md`
-3. read `skills/spec_author/SKILL.md`
-4. read `skills/runtime_implementer/SKILL.md`
-5. read `skills/runtime_verifier/SKILL.md`
+2. read `skills/devs-init-repo/SKILL.md`
+3. read `skills/devs-spec-author/SKILL.md`
+4. read `skills/devs-runtime-implementer/SKILL.md`
+5. read `skills/devs-runtime-verifier/SKILL.md`
 6. read `workstream_templates/spec_template.md`
 7. read `workstream_templates/state_template.md`
-8. scan the target repo
+8. read `workstream_templates/clarification_template.md`
+9. scan the target repo
 
-If a required source file cannot be found, stop and report the blocker.
+If a required source path cannot be found, stop and report the blocker.
+Treat each role skill bundle directory as authoritative for install and refresh,
+not only its `SKILL.md`.
 
 ## Current authoritative source paths
 
@@ -38,17 +41,21 @@ In the current Devs repository, the authoritative install inputs are:
 
 1. `install/INSTALL.md`
 2. `install/init_contract.md`
-3. `skills/init_repo/SKILL.md`
-4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementer/SKILL.md`
-6. `skills/runtime_verifier/SKILL.md`
+3. `skills/devs-init-repo/`
+4. `skills/devs-spec-author/`
+5. `skills/devs-runtime-implementer/`
+6. `skills/devs-runtime-verifier/`
 7. `workstream_templates/spec_template.md`
 8. `workstream_templates/state_template.md`
+9. `workstream_templates/clarification_template.md`
 
 Do not assume a source-level `install/templates/` directory exists.
 Do not block on it.
 This install version uses the blueprints in `install/init_contract.md` instead of
 source bootstrap templates.
+For role skills, each bundle's `SKILL.md` is the entrypoint and any sibling
+bundle files are authoritative install inputs. Managed target skill directories
+must match the current source bundle contents exactly after install or refresh.
 
 ## Source-repo interpretation rule
 
@@ -75,13 +82,14 @@ embedding.
 
 1. Treat the current repo as the target repo.
 2. Treat the repository containing this file as the source repo.
-3. Do not rewrite the current Devs role skills during install.
-   Copy the authoritative source versions verbatim into the target repo.
+3. Do not rewrite the current Devs role skill bundles during install.
+   Synchronize the authoritative source bundle contents exactly into the
+   managed target skill directories.
 4. Install the repo-local work roles by default:
-   - `devs_spec_author`
-   - `devs_runtime_implementer`
-   - `devs_runtime_verifier`
-5. Do not install or generate `devs_init_repo` inside the target repo unless the
+   - `devs-spec-author`
+   - `devs-runtime-implementer`
+   - `devs-runtime-verifier`
+5. Do not install or generate `devs-init-repo` inside the target repo unless the
    user explicitly asks for local refresh tooling.
 6. Do not create a local mirror of installer internals such as
    `devs/bootstrap/*` unless the user explicitly asks for it.
@@ -103,7 +111,7 @@ embedding.
 19. Same-target fix loops stay inside one workstream.
 20. A formal spec is optional, but `spec-less` never means contract-less.
 21. If the target repo already has Devs installed, treat this run as a refresh:
-    refresh hidden/system support files and repo-local Devs role skills, patch
+    refresh hidden/system support files and repo-local Devs role skill bundles, patch
     shared bootstrap files minimally, preserve repo-owned visible work
     artifacts, and never overwrite an existing `devs/repo.md` during a normal
     refresh.
@@ -118,15 +126,16 @@ embedding.
 4. `.devs/install_manifest.json`
 5. `.devs/templates/spec_template.md`
 6. `.devs/templates/state_template.md`
-7. `devs/README.md`
-8. `devs/specs/`
-9. `devs/workstreams/`
-10. `.claude/skills/devs_spec_author/SKILL.md`
-11. `.claude/skills/devs_runtime_implementer/SKILL.md`
-12. `.claude/skills/devs_runtime_verifier/SKILL.md`
-13. `.agents/skills/devs_spec_author/SKILL.md`
-14. `.agents/skills/devs_runtime_implementer/SKILL.md`
-15. `.agents/skills/devs_runtime_verifier/SKILL.md`
+7. `.devs/templates/clarification_template.md`
+8. `devs/README.md`
+9. `devs/specs/`
+10. `devs/workstreams/`
+11. `.claude/skills/devs-spec-author/`
+12. `.claude/skills/devs-runtime-implementer/`
+13. `.claude/skills/devs-runtime-verifier/`
+14. `.agents/skills/devs-spec-author/`
+15. `.agents/skills/devs-runtime-implementer/`
+16. `.agents/skills/devs-runtime-verifier/`
 
 The target repo should describe the artifact model consistently:
 
@@ -135,6 +144,8 @@ The target repo should describe the artifact model consistently:
 - `devs/repo.md` = repo-owned index of local guidance docs
 - `devs/specs/` = formal contract layer
 - `devs/workstreams/` = living continuity layer
+- `devs/workstreams/` may contain one required `state.md` and one optional
+  `clarification.md` per workstream
 - specs may plan `Slice S1..N` inside a workstream
 - repo workstreams use `ws-*`
 - `stage` means lifecycle position inside one workstream
@@ -142,6 +153,9 @@ The target repo should describe the artifact model consistently:
 One workstream gets one living `state.md`.
 That `state.md` carries the minimal contract whenever the workstream has no
 formal spec.
+Install supports the clarification artifact model by copying the clarification
+template into `.devs/templates/`.
+Install does not pre-create fake `clarification.md` files in workstreams.
 
 ## Refresh behavior
 
@@ -150,14 +164,18 @@ blind reinstall.
 
 Refresh should:
 
-1. refresh Devs-managed hidden support files and repo-local Devs role skills
+1. refresh Devs-managed hidden support files and repo-local Devs role skill
+   bundles
+   - for managed role skill directories, make the target file set and file
+     contents match the current source bundles exactly
 2. patch shared bootstrap files minimally
    - `AGENTS.md` should be updated through the Devs-managed marker block when
      that model is in use
 3. preserve repo-owned visible work artifacts and local guidance docs
 4. not ask the fresh-install docs question during normal refresh
 5. never overwrite an existing `devs/repo.md` during a normal refresh
-6. fail the refresh audit if any required bootstrap target remains stale
+6. fail the refresh audit if any required bootstrap target remains stale or any
+   managed role skill bundle differs from the current source bundle
 
 The exact refresh ownership rules live in `install/init_contract.md`.
 
