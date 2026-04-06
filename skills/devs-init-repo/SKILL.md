@@ -1,7 +1,6 @@
 ---
-name: devs_init_repo
-version: v1.2
-description: Use when installing Devs into the current repository or refreshing an existing Devs install. Scan first, ask only unresolved questions, create or patch the repo-local bootstrap, hidden `.devs/` support files, visible `devs/` artifact layer, install the current Devs work-role skills for Claude and Codex, and stop before feature work begins.
+name: devs-init-repo
+description: Use when installing Devs into the current repository or refreshing an existing Devs install. Scan first, ask only unresolved questions, create or patch the repo-local bootstrap, hidden `.devs/` support files, visible `devs/` artifact layer, install the current Devs work-role skill bundles for Claude and Codex, and stop before feature work begins.
 ---
 
 # Devs Init Repo
@@ -10,7 +9,7 @@ description: Use when installing Devs into the current repository or refreshing 
 
 Install or refresh Devs in the current repository so future sessions can use a
 repo-local Devs bootstrap, hidden support files under `.devs/`, visible work
-artifacts under `devs/`, and repo-local Devs work-role skills without relying
+artifacts under `devs/`, and repo-local Devs work-role skill bundles without relying
 on one long chat.
 
 ## Required reads
@@ -18,15 +17,17 @@ on one long chat.
 Before writing or patching anything:
 
 1. `install/init_contract.md` from the source Devs repo
-2. `skills/spec_author/SKILL.md` from the source Devs repo
-3. `skills/runtime_implementer/SKILL.md` from the source Devs repo
-4. `skills/runtime_verifier/SKILL.md` from the source Devs repo
+2. `skills/devs-spec-author/SKILL.md` from the source Devs repo
+3. `skills/devs-runtime-implementer/SKILL.md` from the source Devs repo
+4. `skills/devs-runtime-verifier/SKILL.md` from the source Devs repo
 5. `workstream_templates/spec_template.md` from the source Devs repo
 6. `workstream_templates/state_template.md` from the source Devs repo
 7. target repo root instruction files if they already exist
 8. target repo manifests and top-level structure
 
 If a required input cannot be read, stop and surface the blocker.
+Treat each role skill bundle directory as the authoritative source unit during
+install or refresh, not only its `SKILL.md`.
 
 ## Core rules
 
@@ -36,9 +37,9 @@ If a required input cannot be read, stop and surface the blocker.
    When patching an existing file, prefer one Devs-managed marker block rather
    than freeform whole-file rewrites.
 4. Keep `CLAUDE.md` as a thin shim over `AGENTS.md`.
-5. Copy the current authoritative work-role skills and support templates
-   verbatim. Do not redesign them during install.
-6. Install repo-local work-role skills for both Claude and Codex by default.
+5. Synchronize the current authoritative work-role skill bundles and support
+   templates from source without redesigning them during install.
+6. Install repo-local work-role skill bundles for both Claude and Codex by default.
 7. Do not install Superpowers or Spec Kit by default.
 8. Do not require or look for `install/templates/*`.
 9. Do not create `devs/bootstrap/*` mirror files unless the user explicitly
@@ -73,13 +74,17 @@ If a required input cannot be read, stop and surface the blocker.
 Read these exact source paths:
 
 1. `install/init_contract.md`
-2. `skills/spec_author/SKILL.md`
-3. `skills/runtime_implementer/SKILL.md`
-4. `skills/runtime_verifier/SKILL.md`
+2. `skills/devs-spec-author/`
+3. `skills/devs-runtime-implementer/`
+4. `skills/devs-runtime-verifier/`
 5. `workstream_templates/spec_template.md`
 6. `workstream_templates/state_template.md`
 
-Do not substitute guessed source paths if these exist.
+Read `SKILL.md` from each role skill bundle before writing, and treat any
+sibling bundle files as authoritative install inputs. Do not substitute guessed
+source paths if these exist. After install or refresh, each managed target role
+skill directory must match the current source bundle file set and contents
+exactly.
 
 ### 3. Scan the target repo
 
@@ -130,19 +135,22 @@ blind reinstall.
 Use the managed patch rule for `AGENTS.md` whenever the target file already
 exists.
 
-### 6. Install local work-role skills
+### 6. Install local work-role skill bundles
 
-Copy the current source role skills into:
+Synchronize the current source role skill bundles into:
 
-- `.claude/skills/devs_spec_author/SKILL.md`
-- `.claude/skills/devs_runtime_implementer/SKILL.md`
-- `.claude/skills/devs_runtime_verifier/SKILL.md`
-- `.agents/skills/devs_spec_author/SKILL.md`
-- `.agents/skills/devs_runtime_implementer/SKILL.md`
-- `.agents/skills/devs_runtime_verifier/SKILL.md`
+- `.claude/skills/devs-spec-author/`
+- `.claude/skills/devs-runtime-implementer/`
+- `.claude/skills/devs-runtime-verifier/`
+- `.agents/skills/devs-spec-author/`
+- `.agents/skills/devs-runtime-implementer/`
+- `.agents/skills/devs-runtime-verifier/`
 
-Do not install `devs_init_repo` into the target repo unless the user explicitly
+Do not install `devs-init-repo` into the target repo unless the user explicitly
 asks for local refresh tooling.
+For managed target role skill directories, make the file set and file contents
+match the current source bundles exactly, including removing files that are no
+longer present in the source bundles.
 
 ### 7. Stop and report
 
@@ -172,7 +180,7 @@ Your final install report must include:
 1. asking too many questions before scanning the repo
 2. blocking on a non-existent `install/templates/` source folder
 3. overwriting existing root instruction files blindly
-4. rewriting the current role skills during install
+4. rewriting the current role skill bundles during install
 5. asking `submodule vs copied repo files` when the user only supplied Devs as a
    remote source repo
 6. copying installer internals into the target repo without a user request

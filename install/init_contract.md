@@ -33,12 +33,14 @@ Rules:
 2. open a new workstream only when the target outcome or scope changes
    materially
 3. one workstream gets one living `state.md`
-4. a formal spec is optional
-5. `spec-less workstream` is allowed, but not contract-less
-6. if no formal spec exists, the minimal contract must live in `state.md`
-7. specs may plan `Slice S1..N` inside a workstream
-8. planned `S1..N` and workstream IDs such as `ws-*` stay distinct
-9. `stage` means the lifecycle position inside one workstream
+4. a workstream may also carry an optional `clarification.md` for the full
+   technical clarification trail during `clarify/specify`
+5. a formal spec is optional
+6. `spec-less workstream` is allowed, but not contract-less
+7. if no formal spec exists, the minimal contract must live in `state.md`
+8. specs may plan `Slice S1..N` inside a workstream
+9. planned `S1..N` and workstream IDs such as `ws-*` stay distinct
+10. `stage` means the lifecycle position inside one workstream
 
 ## Non-Negotiable Rules
 
@@ -47,11 +49,11 @@ Rules:
 3. Ask only the minimum unresolved questions in one concise block.
 4. Keep `AGENTS.md` short, broad, and always-loaded.
 5. Keep `CLAUDE.md` as a thin shim that imports `AGENTS.md`.
-6. Copy the current authoritative Devs work-role skills verbatim from the
-   source repo into the target repo:
-   - `devs_spec_author`
-   - `devs_runtime_implementer`
-   - `devs_runtime_verifier`
+6. Synchronize the current authoritative Devs work-role skill bundles exactly
+   from the source repo into the managed target skill directories:
+   - `devs-spec-author`
+   - `devs-runtime-implementer`
+   - `devs-runtime-verifier`
 7. Copy the current authoritative support templates verbatim from the source
    repo into the target repo.
 8. Install repo-local skills for both Claude and Codex by default so the target
@@ -68,7 +70,7 @@ Rules:
     not a package-install request. Do not default to `submodule vs vendored
     repo copy` questions unless the user explicitly asks for that packaging
     model.
-16. `.devs/**`, `devs/README.md`, and repo-local Devs role skills are
+16. `.devs/**`, `devs/README.md`, and repo-local Devs role skill bundles are
     Devs-owned and refresh-managed.
 17. `devs/repo.md`, `devs/specs/**`, and `devs/workstreams/**` are repo-owned.
 18. Do not fall back to a project-wide state file or a per-session state model.
@@ -116,17 +118,24 @@ Use these exact source paths in the current Devs repo:
 
 ### Role skills
 
-3. `skills/init_repo/SKILL.md`
-4. `skills/spec_author/SKILL.md`
-5. `skills/runtime_implementer/SKILL.md`
-6. `skills/runtime_verifier/SKILL.md`
+3. `skills/devs-init-repo/`
+4. `skills/devs-spec-author/`
+5. `skills/devs-runtime-implementer/`
+6. `skills/devs-runtime-verifier/`
 
 ### Support templates
 
 7. `workstream_templates/spec_template.md`
 8. `workstream_templates/state_template.md`
+9. `workstream_templates/clarification_template.md`
 
-If any required source file above is missing, stop with a bootstrap blocker.
+For role skills, each bundle directory above is authoritative. Read each
+bundle's `SKILL.md` before writing anything, and treat any sibling bundle files
+as authoritative install inputs. After install or refresh, each managed target
+skill directory must match the current source bundle file set and contents
+exactly.
+
+If any required source path above is missing, stop with a bootstrap blocker.
 
 ## Target Repo Scan
 
@@ -186,28 +195,29 @@ On refresh:
 3. `.devs/install_manifest.json`
 4. `.devs/templates/spec_template.md`
 5. `.devs/templates/state_template.md`
+6. `.devs/templates/clarification_template.md`
 
 ### Visible Devs-managed artifact layer
 
-6. `devs/README.md`
+7. `devs/README.md`
 
 ### Visible repo-owned artifact layer
 
-7. `devs/repo.md`
-8. `devs/specs/`
-9. `devs/workstreams/`
+8. `devs/repo.md`
+9. `devs/specs/`
+10. `devs/workstreams/`
 
 ### Repo-local Claude skills
 
-10. `.claude/skills/devs_spec_author/SKILL.md`
-11. `.claude/skills/devs_runtime_implementer/SKILL.md`
-12. `.claude/skills/devs_runtime_verifier/SKILL.md`
+11. `.claude/skills/devs-spec-author/`
+12. `.claude/skills/devs-runtime-implementer/`
+13. `.claude/skills/devs-runtime-verifier/`
 
 ### Repo-local Codex skills
 
-13. `.agents/skills/devs_spec_author/SKILL.md`
-14. `.agents/skills/devs_runtime_implementer/SKILL.md`
-15. `.agents/skills/devs_runtime_verifier/SKILL.md`
+14. `.agents/skills/devs-spec-author/`
+15. `.agents/skills/devs-runtime-implementer/`
+16. `.agents/skills/devs-runtime-verifier/`
 
 ## File Writing Rules
 
@@ -265,12 +275,14 @@ Recommended sections:
    - if that `state.md` links a formal spec and contract details matter, read
      the linked `spec.md`
 5. `Role Routing`
-   - when to use `devs_spec_author`
-   - when to use `devs_runtime_implementer`
-   - when to use `devs_runtime_verifier`
+   - when to use `devs-spec-author` for a new or reopened specification that
+     must end in a formal `devs/specs/<spec-id>/spec.md`
+   - when to use `devs-runtime-implementer`
+   - when to use `devs-runtime-verifier`
 6. `Core Guardrails`
    - no implementation before a bounded workstream contract exists
    - `spec-less` is allowed, but not contract-less
+   - `spec-less` is not a valid completion path for `devs-spec-author`
    - same-target fix loops stay inside one workstream
    - implementation does not self-approve
    - report checks not run
@@ -351,6 +363,12 @@ Copy current authoritative support templates from the source repo:
 
 - `workstream_templates/spec_template.md` -> `.devs/templates/spec_template.md`
 - `workstream_templates/state_template.md` -> `.devs/templates/state_template.md`
+- `workstream_templates/clarification_template.md` ->
+  `.devs/templates/clarification_template.md`
+
+Support the clarification artifact model by copying the clarification template
+into `.devs/templates/`.
+Do not pre-create fake `clarification.md` files in workstreams.
 
 These are hidden Devs support files.
 They are not the visible project artifacts themselves.
@@ -378,6 +396,8 @@ Recommended sections:
    - a workstream is the full loop for one target outcome
    - same-target fix loops stay inside one workstream
    - one workstream gets one living `state.md`
+   - a workstream may also have an optional `clarification.md` during
+     `clarify/specify`
    - a formal spec is optional
    - `spec-less` is allowed, but not contract-less
    - the minimal contract for spec-less work lives in `state.md`
@@ -386,6 +406,8 @@ Recommended sections:
    - `devs/README.md` explains the Devs artifact map
    - `devs/repo.md` lists local guidance docs Devs should read
    - `state.md` is the living truth for one workstream
+   - `clarification.md` is the technical clarification trail when a workstream
+     needs one
    - `spec.md` is the formal contract for that workstream when present
    - role skills define how each role should work
 6. `How To Read This`
@@ -415,27 +437,30 @@ Do not pre-create fake active work artifacts just to fill the directories.
 
 ### Role skills
 
-Copy each authoritative work-role skill file verbatim into both:
+Synchronize each authoritative work-role skill bundle into both:
 
-- `.claude/skills/<skill-name>/SKILL.md`
-- `.agents/skills/<skill-name>/SKILL.md`
+- `.claude/skills/<skill-name>/`
+- `.agents/skills/<skill-name>/`
 
 Install these by default:
 
-- `devs_spec_author`
-- `devs_runtime_implementer`
-- `devs_runtime_verifier`
+- `devs-spec-author`
+- `devs-runtime-implementer`
+- `devs-runtime-verifier`
 
-Do not install `devs_init_repo` into the target repo unless the user explicitly
+Do not install `devs-init-repo` into the target repo unless the user explicitly
 asks for repo-local refresh tooling.
 
 ### Existing local skills
 
 Do not delete unrelated project skills in `.claude/skills` or `.agents/skills`.
 
-For local `devs_*` role skills:
+For local `devs-*` role skill bundles:
 
-- overwrite them with the source versions from this install
+- make each managed target skill directory match the current source bundle
+  exactly
+- remove files from the managed target bundle when they are no longer present
+  in the current source bundle
 - record the refresh in `.devs/install_manifest.json`
 
 ## Refresh Ownership Rules
@@ -446,8 +471,10 @@ When the target repo already has Devs installed:
    - `.devs/install_manifest.json`
    - `.devs/templates/*`
    - `devs/README.md`
-   - `.claude/skills/devs_*`
-   - `.agents/skills/devs_*`
+   - `.claude/skills/devs-*`
+   - `.agents/skills/devs-*`
+   - for managed role skill directories, exact-sync file set and file contents
+     to the current authoritative source bundles
 2. patch minimally:
    - `AGENTS.md` inside the managed marker block
    - `CLAUDE.md`
@@ -470,8 +497,8 @@ Refresh cannot report `pass` unless all of these are true:
    guidance docs
 4. `devs/repo.md` exists
 5. hidden support templates match the authoritative source
-6. repo-local Devs role skills for both Claude and Codex match the
-   authoritative source
+6. repo-local Devs role skill bundles for both Claude and Codex match the
+   authoritative source bundles exactly, with no extra managed bundle files
 7. the install manifest records the optional local-guidance decision and all
    files written or patched
 
@@ -489,11 +516,11 @@ The install is complete only when:
 5. the target repo has hidden Devs support templates in `.devs/templates/`
 6. the target repo has `devs/README.md`
 7. the target repo has visible `devs/specs/` and `devs/workstreams/`
-8. the target repo has repo-local Devs skills for both Claude and Codex
+8. the target repo has repo-local Devs skill bundles for both Claude and Codex
 9. `devs/repo.md` contains only explicitly attached local guidance docs or a
    short empty-state note
 10. the artifact model is described consistently across root guidance, local
-    Devs files, and role skills
+    Devs files, and role skill bundles
 11. the agent has not silently started feature work
 
 ## Final Output Contract
@@ -512,5 +539,5 @@ After installation or refresh, report:
 7. the exact next suggested prompt to start the first real workstream or next
    Devs-role action
 
-Also remind the user that future sessions can use the repo-local role skills
+Also remind the user that future sessions can use the repo-local role skill bundles
 directly.

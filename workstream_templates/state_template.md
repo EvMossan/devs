@@ -30,14 +30,15 @@ required.
 ## Source Links
 
 1. Formal spec: `<path or none>`
-2. Relevant architecture docs: `<path(s) or N/A>`
-3. Related failure artifacts: `<path(s) or N/A>`
-4. Helper artifacts in use (`plan`, `tasks`, etc.): `<path(s) or N/A>`
+2. Clarification artifact: `<path or none>`
+3. Relevant architecture docs: `<path(s) or N/A>`
+4. Related failure artifacts: `<path(s) or N/A>`
+5. Helper artifacts in use (`plan`, `tasks`, etc.): `<path(s) or N/A>`
 
 ## Clarification Status
 
 - Clarification complete: `<yes|no>`
-- Contract source: `<spec path + section anchor or this file>`
+- Contract source: `<clarification path / spec path + section anchor / this file>`
 - Open user questions: `<none or short list>`
 - Explicit deferred decisions: `<none or short list>`
 

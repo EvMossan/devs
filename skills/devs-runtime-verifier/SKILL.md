@@ -1,6 +1,5 @@
 ---
-name: devs_runtime_verifier
-version: v4-draft
+name: devs-runtime-verifier
 description: Use when independently deciding whether one implemented slice is truly complete, semantically correct, evidence-sufficient, proportionate in structure, and ready for acceptance.
 ---
 
