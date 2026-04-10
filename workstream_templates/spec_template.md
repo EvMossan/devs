@@ -1,15 +1,16 @@
 # Formal Spec: <Spec Name>
 
-Use this template for a formal spec when the work needs a larger contract.
+Use this template for a formal spec when the workstream needs a larger
+contract.
+This file lives inside `devs/workstreams/<ws-id>/spec.md`.
 A workstream may also run without a formal spec, but it must still keep a
-minimal contract in `devs/workstreams/<ws-id>/state.md`.
+minimal contract in `state.md`.
 
 ## Metadata
 
-- Spec ID: `<001-short-name>`
+- Workstream ID: `<ws-001-short-name>`
 - Status: `<draft|active|done|superseded>`
 - Last updated by role: `<spec-author|runtime-implementer|runtime-verifier>`
-- Linked workstream: `<ws-001-... or TBD>`
 
 ## Objective
 
@@ -35,6 +36,7 @@ Explain the problem being solved, why it matters, and any essential background.
 | Verification expectations | `<status>` | `<why>` | `<notes>` |
 | Ownership / source of truth | `<status>` | `<why>` | `<notes>` |
 | Integrations / dependencies | `<status>` | `<why>` | `<notes>` |
+| External authority / vendor constraints | `<status>` | `<why>` | `<notes>` |
 | Edge cases / failure behavior | `<status>` | `<why>` | `<notes>` |
 | Tradeoffs needing user input | `<status>` | `<why>` | `<notes>` |
 
@@ -70,6 +72,19 @@ If no lead decisions were needed, state that explicitly in the first row.
 3. Current write / reconciliation seam(s): `<value>`
 4. Known coupling or prior failures: `<value or none>`
 
+## External Authority Sources
+
+Record every external authority that constrains this workstream's contract.
+If no external platform, API, library, or vendor-behavior seam is in scope,
+state `N/A`.
+Preserve any material qualifiers, API-specific defaults, omitted-setting
+branches, opt-out paths, version constraints, or other behavior-changing
+conditions from the canonical source. Do not compress them away.
+
+| Source ID | Concern / Seam | Canonical Source | Preferred Access | Fallback Access | Version / Date Anchor | Authority Rule | Applies to Req-ID(s) |
+|---|---|---|---|---|---|---|---|
+| `EXT-1` | `<seam>` | `<source>` | `<MCP:... | Web:... | RepoMirror:... | N/A>` | `<Web:... | RepoMirror:... | N/A>` | `<version/date or N/A>` | `<constraint confirmed from the source>` | `<REQ-01>` |
+
 ## In Scope
 
 1. `<bounded item>`
@@ -90,10 +105,20 @@ If no lead decisions were needed, state that explicitly in the first row.
 ## Non-Negotiable Rules
 
 1. `<rule>`
-2. Specs plan work as `Slice S1..N` inside the workstream.
-3. Planned `S1..N` and workstream IDs such as `ws-*` stay distinct.
-4. `stage` means lifecycle position inside the workstream.
-5. `spec-less` is allowed elsewhere in the repo, but never contract-less.
+2. If this workstream touches an external platform, API, library, or
+   vendor-behavior seam, `External Authority Sources` is mandatory.
+   `spec-author` must define the source set and access routes, preserve this
+   law at equal or stronger force than the active template, and keep all
+   material qualifiers from the canonical source. `runtime-implementer` must
+   independently re-check the relevant sources before red tests and production
+   code. `runtime-verifier` must independently re-check the relevant sources
+   before verdict. If no such seam exists, record `N/A`.
+3. This `spec.md` lives inside the same workstream as `state.md` and
+   `clarification.md`.
+4. Specs plan work as `Slice S1..N` inside the workstream.
+5. Planned `S1..N` and workstream IDs such as `ws-*` stay distinct.
+6. `stage` means lifecycle position inside the workstream.
+7. `spec-less` is allowed elsewhere in the repo, but never contract-less.
 
 ## Planned Slices
 
@@ -101,7 +126,7 @@ Add one block per planned slice.
 Use `Slice S1`, `Slice S2`, and so on here.
 A slice is a planned unit inside the workstream, not a separate workstream.
 Do not replace these planned IDs with the workstream ID such as `ws-001`.
-When execution starts, record the active slice explicitly in the linked
+When execution starts, record the active slice explicitly in the
 workstream state.
 
 ### Slice S1: <Planned Slice Name>
@@ -137,6 +162,14 @@ workstream state.
 
 ## Verification Plan
 
+Verification commands must be slice-bounded.
+Do not prescribe a whole suite, bundle, or broad test target as an acceptance
+rerun when it contains known unrelated checks, pre-existing failures, or
+mixed-scope coverage.
+Prefer the narrowest command that can prove the requirement truthfully.
+If a broader regression surface is still required, name it explicitly as
+regression coverage, not as the primary proving command for one requirement.
+
 ### Automated Checks
 
 1. `<command or changed-surface check>`
@@ -147,9 +180,12 @@ workstream state.
 
 ### Evidence Artifacts
 
-1. Spec artifact: `<this file path>`
-2. Workstream state artifact: `<path or TBD>`
-3. Manual evidence artifact: `<path or N/A>`
+1. Spec artifact: `spec.md`
+2. Workstream state artifact: `state.md`
+3. External authority source set: `spec.md#external-authority-sources`
+4. Implementer authority recheck evidence: `<state.md ledger entry / implementer handoff / N/A>`
+5. Verifier authority audit evidence: `<verifier verdict / state.md / N/A>`
+6. Manual evidence artifact: `<path or N/A>`
 
 ## Requirement Traceability
 
@@ -169,8 +205,9 @@ workstream.
 ## Verifier Focal Points
 
 1. `<what the verifier should challenge hardest>`
+2. `If an external seam exists, include an independent authority-audit focal point covering the recorded source set, timing law, and fidelity of the implemented rule.`
 
 ## Next Role / Next Action
 
 - Next role: `runtime-implementer`
-- Next action: `<continue the linked workstream on the next planned slice>`
+- Next action: `<continue this workstream on the next planned slice>`

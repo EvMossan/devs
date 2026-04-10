@@ -35,11 +35,10 @@ workstream as long as the acceptance target is still the same.
 
 ## Artifact Model
 
-Devs uses three layers:
+Devs uses two visible concerns inside one visible project layer:
 
-1. hidden system files
-2. visible specification artifacts
-3. visible workstream state artifacts
+1. repo guidance and artifact map
+2. workstream artifact folders
 
 ### Hidden System Layer
 
@@ -64,48 +63,47 @@ Current draft structure:
 ```text
 devs/
 ├── README.md
-├── specs/
-│   └── <spec-id>/
-│       └── spec.md
+├── repo.md
 └── workstreams/
-    ├── INDEX.md
     └── <workstream-id-slug>/
-        └── state.md
+        ├── state.md
+        ├── clarification.md
+        └── spec.md
 ```
 
-## Specs
-
-`specs/` stores larger contracts.
-
-One spec may define multiple planned slices.
-
-A spec changes relatively rarely compared with a workstream state file.
-
-Not every workstream needs a formal spec.
-
-The spec should use `slice` language instead of `phase` language.
-
-Current draft direction:
-
-1. specs should describe planned execution slices as `Slice S1`, `Slice S2`,
-   and so on
-2. this internal spec numbering is separate from workstream IDs such as
-   `ws-001`
-3. a slice is a planned unit inside the workstream, not a separate workstream
-
-## Workstreams
+## Workstream Artifact Set
 
 `workstreams/` stores the active continuity layer between sessions.
 
 Each workstream gets one living `state.md`.
 
-That file is the current memory for that workstream:
+A workstream may also have an optional `clarification.md`.
+
+That file is for the full technical clarification trail during
+`clarify/specify`, for example:
+
+1. `Contract Surface Grid`
+2. interview batches
+3. `Drafting Gate`
+4. spec-author decisions
+5. deferred decisions
+
+It does not replace `state.md`.
+`state.md` remains the short operational continuity record.
+
+The same workstream may also have an optional formal `spec.md`.
+
+When present, `spec.md` is the larger contract for that same workstream.
+It does not introduce a second visible container or a second visible ID model.
+
+`state.md` is the current memory for that workstream:
 
 1. current scope
 2. current truth
 3. evidence status
-4. next owner
-5. next action
+4. external authority requirement when the workstream touches an external seam
+5. next owner
+6. next action
 
 Current draft rule:
 
@@ -119,15 +117,17 @@ The workstream is the continuity unit.
 
 The spec is optional.
 
-When present, the spec is the formal contract for that workstream.
+When present, `spec.md` is the formal contract file inside that workstream.
+That formal contract may also record the authoritative external source set when
+the workstream depends on platform, API, library, or vendor-behavior rules.
 
 That means:
 
 1. one workstream can exist without a formal spec
 2. every state file must belong to a workstream
-3. not every workstream must belong to a spec
+3. the workstream folder is the only visible container for that line of work
 4. one formal spec may belong to one workstream
-5. a workstream may link to one current spec slice or to none
+5. a workstream may carry one current planned slice or none
 6. one formal spec may plan several slices inside the same workstream
 
 ## Spec-less Workstreams
@@ -145,6 +145,18 @@ That minimum should capture:
 
 If that minimal contract stops being enough, the workstream should be promoted
 to a formal spec.
+
+## Parallel Workstreams
+
+Multiple workstreams may exist in parallel.
+
+That includes workstreams still in `draft` or `clarify/specify`.
+
+Parallel workstreams are valid when they pursue different bounded outcomes.
+
+Shared surfaces alone do not force one workstream.
+Open a new workstream only when the target outcome or scope is materially
+distinct.
 
 ## Update Rule for `state.md`
 
@@ -167,13 +179,13 @@ It should record current truth, not a session-by-session diary.
 
 Current naming direction:
 
-1. specs use a spec-oriented ID such as `001-day-freshness`
-2. workstreams use a workstream-oriented ID such as
+1. workstreams use a workstream-oriented ID such as
    `ws-001-home-chat-refresh`
+2. formal specs do not introduce a second visible ID
 3. specs should label planned execution slices as `S1`, `S2`, `S3`
 4. a slice is a planned unit inside the workstream, not a separate
    continuity unit
-5. linkage between spec slices and the current workstream state should be
+5. linkage between planned slices and the current workstream state should be
    recorded in metadata, not forced into one shared numbering scheme
 6. `stage` should describe the current lifecycle position inside one
    workstream, for example `clarify/specify`, `implement`, `verify`
@@ -185,9 +197,12 @@ Current naming direction:
 The current draft model is:
 
 1. `.devs/` for hidden Devs system files
-2. `devs/specs/` for larger contracts
-3. `devs/workstreams/` for living continuity between sessions
+2. `devs/repo.md` for repo-owned local guidance
+3. `devs/workstreams/` for living continuity and workstream-local artifacts
 4. one living `state.md` per workstream
-5. workstream as the main execution and memory unit
-6. spec-less work is allowed, but not contract-less work
-7. planned `S1..N` slices in specs are not the same thing as workstream IDs
+5. one optional `clarification.md` for the full technical clarification trail
+   when clarify/specify work needs it
+6. one optional `spec.md` for the formal contract when the workstream needs it
+7. workstream as the main execution and memory unit
+8. spec-less work is allowed, but not contract-less work
+9. planned `S1..N` slices in specs are not the same thing as workstream IDs

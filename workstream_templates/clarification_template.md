@@ -1,19 +1,19 @@
 # Workstream Clarification: <Workstream Name>
 
 Use this file for the full technical clarification trail of a new or reopened
-specification request.
+workstream specification request.
 
 This artifact may hold the full `Contract Surface Grid`, interview batches,
 `Drafting Gate`, spec-author decisions, and deferred decisions.
 
 It is not a replacement for `state.md`.
 It is not a session diary.
-It is not the final formal spec.
+It is not the final `spec.md`.
 
 ## Metadata
 
 - Workstream ID: `<ws-001-short-name or TBD>`
-- Linked spec: `<devs/specs/<spec-id>/spec.md or none>`
+- Spec file: `<spec.md or not drafted yet>`
 - Status: `<in_progress|ready_for_drafting|superseded>`
 - Last updated by role: `<spec-author>`
 - Source request: `<value>`

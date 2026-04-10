@@ -34,14 +34,16 @@ Requirements:
 11. Stop after install or refresh. Do not start feature work.
 12. Use `.devs/` as the hidden system layer and `devs/` as the visible project
     artifact layer.
-13. Keep `devs/repo.md`, `devs/specs/`, and `devs/workstreams/` repo-owned, and
-    keep `devs/README.md` Devs-managed.
+13. Keep `devs/repo.md` and `devs/workstreams/` repo-owned, and keep
+    `devs/README.md` Devs-managed.
 14. Treat `workstream` as the main continuity and delivery unit.
 15. Allow `spec-less workstream`, but require its minimal contract to live in
     `state.md`.
-16. Do not discover commands, candidate docs, or inferred repo standards to
+16. Allow multiple workstreams to exist in parallel when they pursue different
+    bounded outcomes.
+17. Do not discover commands, candidate docs, or inferred repo standards to
     populate `devs/repo.md`.
-17. If Devs is already installed here, treat this run as a refresh: refresh
+18. If Devs is already installed here, treat this run as a refresh: refresh
     Devs-managed support files and role skill bundles, patch shared bootstrap files
     minimally, preserve repo-owned visible artifacts, and never overwrite an existing
     `devs/repo.md` during a normal refresh.
@@ -64,8 +66,8 @@ Requirements:
    files that are no longer present in the source bundles.
 6. Patch `AGENTS.md` through the Devs-managed marker block when present, and
    patch `CLAUDE.md` plus `devs/README.md` minimally.
-7. Preserve `devs/repo.md`, `devs/specs/`, `devs/workstreams/`, and any
-   local guidance docs already in use.
+7. Preserve `devs/repo.md`, `devs/workstreams/`, and any local guidance docs
+   already in use.
 8. Do not ask the optional local-guidance question during normal refresh.
 9. If `devs/repo.md` is missing, stop and report bootstrap drift instead of
    recreating it.
@@ -105,9 +107,8 @@ A successful install should leave the target repo with:
 6. `.devs/templates/state_template.md`
 7. `.devs/templates/clarification_template.md`
 8. `devs/README.md`
-9. `devs/specs/`
-10. `devs/workstreams/`
-11. repo-local Devs work-role skill bundles for Claude and Codex
+9. `devs/workstreams/`
+10. repo-local Devs work-role skill bundles for Claude and Codex
 
 The resulting repo should describe one model consistently:
 
@@ -116,12 +117,14 @@ The resulting repo should describe one model consistently:
 - `devs/README.md` is the Devs-managed artifact map
 - `workstream` is the main continuity and delivery unit
 - same-target fix loops stay inside one workstream
+- multiple workstreams may exist in parallel when they pursue different bounded outcomes
 - one workstream gets one living `state.md`
 - an optional `clarification.md` may hold the full technical clarification
   trail for new or reopened spec work
+- an optional `spec.md` may hold the formal contract inside that same workstream
 - a formal spec is optional
 - `spec-less` is allowed, but not contract-less
-- specs may plan `Slice S1..N` inside a workstream
+- formal specs may plan `Slice S1..N` inside a workstream
 - repo workstreams use `ws-*`
 - `stage` means lifecycle position inside one workstream
 

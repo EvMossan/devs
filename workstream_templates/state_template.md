@@ -3,6 +3,8 @@
 Use this file as the one living continuity record for a repo workstream.
 Keep same-target fix loops inside this file and this workstream.
 Open a new workstream only when the target outcome or scope changes materially.
+When the workstream needs a larger contract, keep it as sibling `spec.md` in
+the same directory.
 
 If there is no formal spec, the minimal contract section below is still
 required.
@@ -14,8 +16,8 @@ required.
 - Overall status: `<draft|in_progress|candidate|blocked|done>`
 - Current stage: `<clarify/specify|implement|verify>`
 - Latest verdict: `<pending|pass|blocked>`
-- Linked spec: `<devs/specs/<spec-id>/spec.md or none>`
-- Current spec slice: `<S1|S2|none>`
+- Spec file: `<spec.md|none>`
+- Current planned slice: `<S1|S2|none>`
 - Next role: `<spec-author|runtime-implementer|runtime-verifier|user>`
 - Next action: `<single concrete next action>`
 
@@ -25,20 +27,22 @@ required.
 - In scope now: `<value>`
 - Out of scope now: `<value>`
 - Acceptance target: `<value>`
+- External authority recheck requirement: `<required via spec.md#external-authority-sources / state-local external source set / N/A>`
 - Source request or link: `<value>`
 
 ## Source Links
 
-1. Formal spec: `<path or none>`
-2. Clarification artifact: `<path or none>`
+1. Formal spec artifact: `<spec.md or none>`
+2. Clarification artifact: `<clarification.md or none>`
 3. Relevant architecture docs: `<path(s) or N/A>`
-4. Related failure artifacts: `<path(s) or N/A>`
-5. Helper artifacts in use (`plan`, `tasks`, etc.): `<path(s) or N/A>`
+4. External authority source set: `<spec.md#external-authority-sources / state-local external source set / N/A>`
+5. Related failure artifacts: `<path(s) or N/A>`
+6. Helper artifacts in use (`plan`, `tasks`, etc.): `<path(s) or N/A>`
 
 ## Clarification Status
 
 - Clarification complete: `<yes|no>`
-- Contract source: `<clarification path / spec path + section anchor / this file>`
+- Contract source: `<clarification.md / spec.md + section anchor / this file>`
 - Open user questions: `<none or short list>`
 - Explicit deferred decisions: `<none or short list>`
 
@@ -56,18 +60,36 @@ required.
 - Causal seam: `<value or N/A>`
 - Tempting wrong local patch: `<value or N/A>`
 - Runtime path that must be proven: `<value or N/A>`
+- External authority seam and source set: `<value or N/A>`
 
 ## Evidence Ledger
 
-| Check / Scenario | Status (`pass|fail|blocked|not_run`) | Timestamp | Evidence / Note |
-|---|---|---|---|
-| `<command or scenario>` | `<status>` | `<timestamp>` | `<note>` |
+Allowed status values: `pass`, `fail`, `blocked`, `not_run`.
+Keep table cells short and scannable. Put long commands, output snippets, and
+nuanced explanations in `Evidence Details`, not inside table cells.
+
+| Evidence ID | Check / Scenario | Status | Timestamp | Summary |
+|---|---|---|---|---|
+| `EV-01` | `<short label>` | `<status>` | `<timestamp>` | `<one-sentence outcome>` |
+
+## Evidence Details
+
+- `EV-01`: `<exact command, output snippet, nuance, and why it matters>`
+
+## External Authority Evidence
+
+- Source set artifact: `<spec.md#external-authority-sources / state-local external source set / N/A>`
+- Implementer authority recheck evidence: `<ledger row(s) / implementer handoff / N/A>`
+- Verifier authority audit evidence: `<verifier verdict / ledger row(s) / N/A>`
 
 ## Requirement Status Snapshot
 
-| Req-ID | Status (`open|candidate_pass|pass|blocked|not_run`) | Latest Evidence |
-|---|---|---|
-| `<REQ-01>` | `<status>` | `<evidence>` |
+Allowed status values: `open`, `candidate_pass`, `pass`, `blocked`,
+`not_run`.
+
+| Req-ID | Status | Evidence Ref | Short Note |
+|---|---|---|---|
+| `REQ-01` | `<status>` | `<EV-01>` | `<short human-readable summary>` |
 
 ## Checks Not Run / Pending Evidence
 

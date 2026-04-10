@@ -22,8 +22,7 @@ Use this model consistently:
 1. `.devs/` = hidden Devs system layer
 2. `devs/README.md` = visible Devs-managed artifact map
 3. `devs/repo.md` = visible repo-owned index of local guidance docs
-4. `devs/specs/` = formal contract layer
-5. `devs/workstreams/` = living continuity layer
+4. `devs/workstreams/` = workstream artifact layer
 
 The main continuity and delivery unit is the `workstream`.
 
@@ -32,15 +31,17 @@ Rules:
 1. same-target fix loops stay inside the same workstream
 2. open a new workstream only when the target outcome or scope changes
    materially
-3. one workstream gets one living `state.md`
-4. a workstream may also carry an optional `clarification.md` for the full
+3. multiple workstreams may exist in parallel, including during
+   `clarify/specify`, when they pursue different bounded outcomes
+4. one workstream gets one living `state.md`
+5. a workstream may also carry an optional `clarification.md` for the full
    technical clarification trail during `clarify/specify`
-5. a formal spec is optional
-6. `spec-less workstream` is allowed, but not contract-less
-7. if no formal spec exists, the minimal contract must live in `state.md`
-8. specs may plan `Slice S1..N` inside a workstream
-9. planned `S1..N` and workstream IDs such as `ws-*` stay distinct
-10. `stage` means the lifecycle position inside one workstream
+6. a workstream may also carry an optional formal `spec.md`
+7. `spec-less workstream` is allowed, but not contract-less
+8. if no formal spec exists, the minimal contract must live in `state.md`
+9. formal specs may plan `Slice S1..N` inside a workstream
+10. planned `S1..N` and workstream IDs such as `ws-*` stay distinct
+11. `stage` means the lifecycle position inside one workstream
 
 ## Non-Negotiable Rules
 
@@ -72,7 +73,7 @@ Rules:
     model.
 16. `.devs/**`, `devs/README.md`, and repo-local Devs role skill bundles are
     Devs-owned and refresh-managed.
-17. `devs/repo.md`, `devs/specs/**`, and `devs/workstreams/**` are repo-owned.
+17. `devs/repo.md` and `devs/workstreams/**` are repo-owned.
 18. Do not fall back to a project-wide state file or a per-session state model.
 19. If Devs is already installed, treat the run as a refresh, not a blind
     reinstall.
@@ -204,20 +205,19 @@ On refresh:
 ### Visible repo-owned artifact layer
 
 8. `devs/repo.md`
-9. `devs/specs/`
-10. `devs/workstreams/`
+9. `devs/workstreams/`
 
 ### Repo-local Claude skills
 
-11. `.claude/skills/devs-spec-author/`
-12. `.claude/skills/devs-runtime-implementer/`
-13. `.claude/skills/devs-runtime-verifier/`
+10. `.claude/skills/devs-spec-author/`
+11. `.claude/skills/devs-runtime-implementer/`
+12. `.claude/skills/devs-runtime-verifier/`
 
 ### Repo-local Codex skills
 
-14. `.agents/skills/devs-spec-author/`
-15. `.agents/skills/devs-runtime-implementer/`
-16. `.agents/skills/devs-runtime-verifier/`
+13. `.agents/skills/devs-spec-author/`
+14. `.agents/skills/devs-runtime-implementer/`
+15. `.agents/skills/devs-runtime-verifier/`
 
 ## File Writing Rules
 
@@ -265,18 +265,19 @@ Recommended sections:
 3. `Local Devs Files`
    - point to `devs/README.md`
    - point to `devs/repo.md`
-   - point to `devs/specs/` and `devs/workstreams/`
+   - point to `devs/workstreams/`
 4. `Context Loading`
    - read `AGENTS.md` first
    - when entering Devs operational work, read `devs/README.md`
    - then read `devs/repo.md` for any repo-specific guidance docs Devs should
      read
    - for a specific workstream, read the relevant `state.md`
-   - if that `state.md` links a formal spec and contract details matter, read
-     the linked `spec.md`
+   - if the workstream has `spec.md` and contract details matter, read it
+   - if clarification is active or spec-authoring context matters, read the
+     workstream `clarification.md`
 5. `Role Routing`
    - when to use `devs-spec-author` for a new or reopened specification that
-     must end in a formal `devs/specs/<spec-id>/spec.md`
+     must end in a formal `devs/workstreams/<ws-id>/spec.md`
    - when to use `devs-runtime-implementer`
    - when to use `devs-runtime-verifier`
 6. `Core Guardrails`
@@ -385,20 +386,21 @@ Recommended sections:
    - `devs/` stores visible project-facing Devs artifacts
 2. `Structure`
    - `devs/repo.md` stores a repo-owned index of local guidance docs
-   - `devs/specs/` stores formal specs
-   - `devs/workstreams/` stores repo workstreams
+   - `devs/workstreams/` stores repo workstreams and their artifacts
 3. `Ownership`
    - `devs/README.md` is Devs-managed
    - `devs/repo.md` is repo-owned
-   - `devs/specs/` and `devs/workstreams/` are repo-owned
+   - `devs/workstreams/` is repo-owned
 4. `Workstream Rules`
    - `workstream` is the main continuity and delivery unit
    - a workstream is the full loop for one target outcome
    - same-target fix loops stay inside one workstream
+   - multiple workstreams may exist in parallel when they pursue different
+     bounded outcomes
    - one workstream gets one living `state.md`
    - a workstream may also have an optional `clarification.md` during
      `clarify/specify`
-   - a formal spec is optional
+   - a workstream may also have an optional formal `spec.md`
    - `spec-less` is allowed, but not contract-less
    - the minimal contract for spec-less work lives in `state.md`
 5. `Artifact Roles`
@@ -408,17 +410,18 @@ Recommended sections:
    - `state.md` is the living truth for one workstream
    - `clarification.md` is the technical clarification trail when a workstream
      needs one
-   - `spec.md` is the formal contract for that workstream when present
+   - `spec.md` is the formal contract file inside that workstream when present
    - role skills define how each role should work
 6. `How To Read This`
    - start with `AGENTS.md`
    - read `devs/README.md` when doing Devs operational work
    - read `devs/repo.md` for any local guidance docs Devs should read
    - read the relevant workstream `state.md` before acting
-   - read the linked `spec.md` when the state points to one and contract details
-     matter
+   - read workstream `spec.md` when it exists and contract details matter
+   - read workstream `clarification.md` when clarification is active or
+     spec-authoring context matters
 7. `Naming`
-   - specs may plan `Slice S1..N`
+   - formal specs may plan `Slice S1..N`
    - a slice is a planned unit inside the workstream, not a separate workstream
    - repo workstreams use `ws-*`
    - `stage` means the lifecycle position inside one workstream
@@ -430,7 +433,6 @@ It is visible but Devs-managed.
 
 Ensure these directories exist:
 
-- `devs/specs/`
 - `devs/workstreams/`
 
 Do not pre-create fake active work artifacts just to fill the directories.
@@ -482,7 +484,6 @@ When the target repo already has Devs installed:
    - if `devs/repo.md` is missing, stop and surface bootstrap drift
 4. preserve as repo-owned:
    - `devs/repo.md` once it exists
-   - `devs/specs/**`
    - `devs/workstreams/**`
    - local guidance docs the user attached intentionally
 
@@ -515,7 +516,7 @@ The install is complete only when:
 4. the target repo has `.devs/install_manifest.json`
 5. the target repo has hidden Devs support templates in `.devs/templates/`
 6. the target repo has `devs/README.md`
-7. the target repo has visible `devs/specs/` and `devs/workstreams/`
+7. the target repo has visible `devs/workstreams/`
 8. the target repo has repo-local Devs skill bundles for both Claude and Codex
 9. `devs/repo.md` contains only explicitly attached local guidance docs or a
    short empty-state note
