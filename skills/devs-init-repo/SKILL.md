@@ -49,14 +49,17 @@ install or refresh, not only its `SKILL.md`.
 11. `.devs/` is the hidden system layer.
 12. `devs/` is the visible project artifact layer.
 13. `devs/README.md` is Devs-managed and refreshable.
-14. `devs/repo.md`, `devs/specs/`, and `devs/workstreams/` are repo-owned.
+14. `devs/repo.md` and `devs/workstreams/` are repo-owned.
 15. `workstream` is the main continuity and delivery unit.
 16. Same-target fix loops stay inside one workstream.
-17. A formal spec is optional, but `spec-less` never means contract-less.
-18. Specs use planned `Slice S1..N` inside a workstream, while repo workstreams use `ws-*`.
-19. `stage` means lifecycle position inside one workstream.
-20. Do not infer repo truth from repo contents during install.
-21. Stop after installation. Do not start feature work.
+17. Multiple workstreams may exist in parallel when they pursue different
+    bounded outcomes.
+18. A formal spec is optional, but `spec-less` never means contract-less.
+19. Formal specs use planned `Slice S1..N` inside workstream-local `spec.md`,
+    while repo workstreams use `ws-*`.
+20. `stage` means lifecycle position inside one workstream.
+21. Do not infer repo truth from repo contents during install.
+22. Stop after installation. Do not start feature work.
 
 ## Workflow
 
@@ -123,8 +126,7 @@ Create or patch:
 5. `.devs/templates/spec_template.md`
 6. `.devs/templates/state_template.md`
 7. `devs/README.md`
-8. `devs/specs/`
-9. `devs/workstreams/`
+8. `devs/workstreams/`
 
 Use the blueprints in `install/init_contract.md` for generated files.
 Do not block on missing source bootstrap templates.

@@ -106,16 +106,18 @@ embedding.
 15. `devs/README.md` is Devs-managed and may be refreshed directly.
 16. `devs/repo.md` is a repo-owned index of local guidance docs and must not be
     overwritten during normal refresh.
-17. Visible `devs/specs/` and `devs/workstreams/` artifacts are project-owned.
+17. Visible `devs/workstreams/` artifacts are project-owned.
 18. `workstream` is the main continuity and delivery unit.
 19. Same-target fix loops stay inside one workstream.
-20. A formal spec is optional, but `spec-less` never means contract-less.
-21. If the target repo already has Devs installed, treat this run as a refresh:
+20. Multiple workstreams may exist in parallel when they pursue different
+    bounded outcomes.
+21. A formal spec is optional, but `spec-less` never means contract-less.
+22. If the target repo already has Devs installed, treat this run as a refresh:
     refresh hidden/system support files and repo-local Devs role skill bundles, patch
     shared bootstrap files minimally, preserve repo-owned visible work
     artifacts, and never overwrite an existing `devs/repo.md` during a normal
     refresh.
-22. Do not discover commands, candidate docs, or other repo truth to populate
+23. Do not discover commands, candidate docs, or other repo truth to populate
     `devs/repo.md`.
 
 ## What this install writes by default
@@ -128,31 +130,31 @@ embedding.
 6. `.devs/templates/state_template.md`
 7. `.devs/templates/clarification_template.md`
 8. `devs/README.md`
-9. `devs/specs/`
-10. `devs/workstreams/`
-11. `.claude/skills/devs-spec-author/`
-12. `.claude/skills/devs-runtime-implementer/`
-13. `.claude/skills/devs-runtime-verifier/`
-14. `.agents/skills/devs-spec-author/`
-15. `.agents/skills/devs-runtime-implementer/`
-16. `.agents/skills/devs-runtime-verifier/`
+9. `devs/workstreams/`
+10. `.claude/skills/devs-spec-author/`
+11. `.claude/skills/devs-runtime-implementer/`
+12. `.claude/skills/devs-runtime-verifier/`
+13. `.agents/skills/devs-spec-author/`
+14. `.agents/skills/devs-runtime-implementer/`
+15. `.agents/skills/devs-runtime-verifier/`
 
 The target repo should describe the artifact model consistently:
 
 - `.devs/` = hidden system support files
 - `devs/README.md` = Devs-managed artifact map
 - `devs/repo.md` = repo-owned index of local guidance docs
-- `devs/specs/` = formal contract layer
-- `devs/workstreams/` = living continuity layer
-- `devs/workstreams/` may contain one required `state.md` and one optional
-  `clarification.md` per workstream
-- specs may plan `Slice S1..N` inside a workstream
+- `devs/workstreams/` = living continuity and workstream-local artifact layer
+- `devs/workstreams/` may contain one required `state.md` and optional
+  `clarification.md` and `spec.md` per workstream
+- formal specs may plan `Slice S1..N` inside a workstream
 - repo workstreams use `ws-*`
 - `stage` means lifecycle position inside one workstream
 
 One workstream gets one living `state.md`.
 That `state.md` carries the minimal contract whenever the workstream has no
 formal spec.
+Multiple workstreams may exist in parallel when they pursue different bounded
+outcomes.
 Install supports the clarification artifact model by copying the clarification
 template into `.devs/templates/`.
 Install does not pre-create fake `clarification.md` files in workstreams.

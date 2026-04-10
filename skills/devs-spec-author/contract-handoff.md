@@ -75,12 +75,20 @@ templates as the source of truth:
 - `.devs/templates/state_template.md`
 - `.devs/templates/clarification_template.md`
 
+Mandatory template laws may be preserved intact or made stricter in the
+authored spec, but they must not be omitted, weakened, or paraphrased into a
+softer contract.
+
 Repository artifacts must remain in English unless the local project says
 otherwise.
 
 For a new or reopened specification run under `devs-spec-author`, completion
-requires a formal `devs/specs/<spec-id>/spec.md`.
+requires a formal `devs/workstreams/<ws-id>/spec.md`.
 `spec-less` is not a valid final output for this role.
+A generic plan, `<proposed_plan>`, or implementation-oriented handoff is not a
+valid completion format while the required `clarification.md`, `state.md`, and
+`spec.md` artifacts for this role are still missing.
+Do not create a second visible spec container outside the active workstream.
 
 ## Handoff Self-Check
 
@@ -99,6 +107,13 @@ Before finalizing, confirm:
 10. architecture completeness did not masquerade as user-clarification
     completeness
 11. a zero-question path still left a visible closure summary in the contract
+12. no mandatory template law was weakened or dropped in the authored spec
+13. if an external seam exists, the spec explicitly distinguishes the external
+    source set, implementer recheck evidence, and verifier authority audit
+14. if an external seam exists, the implementer timing law says before red
+    tests and production code, and the verifier timing law says before verdict
+15. the verification plan is slice-bounded and does not prescribe mixed-scope
+    suites or bundles as the primary proving path for this slice
 
 ## Helper Policy
 
@@ -124,7 +139,7 @@ Return:
 2. clarification summary
 3. open questions, or a closure summary explaining why no new user
    clarification was needed
-4. formal spec path
+4. spec artifact path
 5. contract summary
 6. requirement and verification summary
 7. next owner and exact next action
@@ -163,3 +178,6 @@ Update the local workstream state with:
     `devs-spec-author`
 15. asking the user to choose between formal spec and `spec-less` output while
     this role is active
+16. weakening a mandatory template law while rewriting the spec in local prose
+17. keeping an external authority source table without carrying the resulting
+    cross-role law, timing law, and evidence-surface split into the contract

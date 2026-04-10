@@ -10,7 +10,7 @@ description: Use when writing a new Devs specification, or reopening one in a wa
 Take a new or reopened specification request and turn it into a clear Devs
 contract before any drafting begins.
 When this role is active for a new or reopened specification, the run must end
-with a formal `devs/specs/<spec-id>/spec.md`.
+with a formal `devs/workstreams/<ws-id>/spec.md`.
 
 Core principle: every specification begins with direct user questions and real
 user feedback. Zero-question path is invalid for a new specification.
@@ -20,6 +20,12 @@ If the request, the allowed context, the existing code, or external
 constraints expose a contract decision, risk, limitation, or scope boundary
 that the user has not confirmed yet, bring it to the user as a question
 instead of silently absorbing it into the specification.
+If an external platform, API, library, or vendor-behavior seam constrains the
+workstream, the authoritative source set and access route must be recorded in
+`## External Authority Sources` inside the active `spec.md`.
+Recording the source table alone is not enough. The authored spec must also
+carry the explicit cross-role law, timing law, and evidence-surface
+distinctions that follow from that source set.
 
 ## When to Use
 
@@ -42,10 +48,16 @@ instead of silently absorbing it into the specification.
 Before drafting:
 
 1. Read only the allowed context: the user request and user-provided context;
-   `AGENTS.md`, `devs/repo.md`, the active `state.md`, the linked `spec.md`,
+   `AGENTS.md`, `devs/repo.md`, the active workstream `state.md`, the active
+   workstream `clarification.md`, the active workstream `spec.md` when present,
    and only the local guidance explicitly linked from that chain. If platform,
-   API, or library constraints affect what can be specified, read the
-   corresponding official documentation too.
+   API, library, or vendor-behavior constraints affect what can be specified,
+   read the corresponding authoritative sources too and record them in
+   `## External Authority Sources` with explicit `Preferred Access` and
+   `Fallback Access` routes. Preserve any material qualifiers, API-specific
+   defaults, omitted-setting branches, opt-out paths, or other
+   behavior-changing conditions from the source. If no such seam exists,
+   record `N/A`.
 2. If the request changes an existing system, read the relevant existing code
    before you write questions or define the contract.
 3. Build the full technical clarification trail before you word the
@@ -70,6 +82,9 @@ Before drafting:
 7. Ask the synthesized clarification questions in normal chat and get the
    user’s answers before drafting.
 8. Restate the confirmed contract in chat, then draft the formal spec from it.
+9. Before finalizing, verify that no mandatory template law was weakened,
+   omitted, or paraphrased into a softer contract. Mandatory template laws may
+   be preserved intact or made stricter, never weaker.
 
 ## Quick Reference
 
@@ -81,6 +96,20 @@ Before drafting:
 - Raise every contract decision, risk, limitation, and scope boundary surfaced
   by the request, the allowed context, the code you read for this task, or the
   official documentation you read for this task.
+- `External Authority Sources` is mandatory whenever the workstream touches an
+  external seam; otherwise record `N/A`.
+- Recording `External Authority Sources` alone is insufficient; the authored
+  spec must also state the cross-role law, timing law, and evidence surfaces
+  that follow from the recorded source set.
+- Do not write external behavior, schema rules, or vendor constraints into the
+  spec without naming the authoritative source set and the access route.
+- Verification plans must be slice-bounded: prefer the narrowest proving
+  commands; do not prescribe a mixed-scope suite or bundle as the primary
+  acceptance rerun for a bounded slice.
+- Do not weaken or omit a mandatory template law while rewriting the spec in
+  project-specific terms.
+- Preserve material qualifiers, API-specific defaults, omitted-setting
+  branches, and opt-out paths from the authoritative source.
 - During clarification, bias toward surfacing more user-answerable contract
   questions, not fewer; under-questioning is riskier than over-questioning.
 - For a new or reopened specification, 100-row extraction mode is mandatory
@@ -89,6 +118,14 @@ Before drafting:
   or `spec-less` output.
 - Do not ask the user to choose between formal spec and `spec-less` output
   while this role is active.
+- Do not create a second visible spec container outside the active workstream.
+- If this role is explicitly invoked, its artifact and completion contract
+  override generic planning or brainstorming end-state formats.
+- Plan Mode or brainstorming may shape interaction style, but they must not
+  replace required repo artifacts or final role-specific outputs.
+- Do not emit a generic plan-only result or shift into implementation-oriented
+  output while workstream `clarification.md`, `state.md`, and `spec.md` are
+  still required by this role.
 - Persist the full technical clarification trail in
   `devs/workstreams/<ws-id>/clarification.md`.
 - Keep the full `Contract Surface Grid` and `Drafting Gate` out of chat unless
@@ -137,8 +174,22 @@ Before drafting:
   scope, behavior, constraints, or success criteria.
 - Asking for answers the user cannot reasonably give without reading code or
   internal architecture.
+- Writing external rules into the spec from memory, local code, or secondary
+  summaries without recording the authoritative source set.
+- Keeping the external source table but dropping the explicit cross-role law
+  that should flow from it.
+- Writing a verification plan that names a broad suite or bundle even though
+  only a narrower subset actually proves the slice.
 - Hiding questions or their rationale inside reasoning instead of normal chat.
 - Turning confirmed answers into an incomplete contract before drafting.
+- Leaving the implementer to guess which external sources are authoritative for
+  the workstream.
+- Weakening a mandatory template law while translating the template into
+  project-specific prose.
+- Compressing an external authority summary until material branches, defaults,
+  or opt-out paths disappear.
+- Collapsing source inventory, implementer recheck evidence, and verifier
+  authority audit into one generic evidence bucket.
 - Ending a new or reopened spec-author run without a formal
-  `devs/specs/<spec-id>/spec.md`.
+  `devs/workstreams/<ws-id>/spec.md`.
 - Starting spec prose before the confirmed contract has been restated in chat.

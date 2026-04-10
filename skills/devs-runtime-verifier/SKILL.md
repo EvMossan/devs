@@ -32,22 +32,29 @@ Read before deciding:
 1. repository bootstrap (`AGENTS.md` or equivalent)
 2. local guidance index (`devs/repo.md`) when Devs is installed
 3. active workstream state / session memory
-4. target contract and exact slice under verification (`spec.md` when linked,
-   otherwise the contract captured in `state.md`)
-5. any additional local guidance or task-specific references explicitly linked
-   from `devs/repo.md`, the active `state.md`, or the linked `spec.md` when
-   they matter to this verification
-6. every changed file in scope
-7. implementer evidence and self-review
-8. helper artifacts already in local use only if the project intentionally uses them
+4. target contract and exact slice under verification (workstream-local
+   `spec.md` when present, otherwise the contract captured in `state.md`)
+5. the relevant `External Authority Sources` recorded in the active `spec.md`
+   or `state.md` when this slice touches an external platform, API, library,
+   or vendor-behavior seam
+6. any additional local guidance or task-specific references explicitly linked
+   from `devs/repo.md`, the active `state.md`, or the workstream `spec.md`
+   when they matter to this verification
+7. every changed file in scope
+8. implementer evidence and self-review
+9. helper artifacts already in local use only if the project intentionally uses them
 
 If a required local input cannot be read, stop and surface the blocker.
 If Devs is installed but `devs/repo.md` is missing, stop and surface
 bootstrap drift before verifying.
-Do not stop at repo-level guidance alone: if the active `state.md` or linked
-`spec.md` explicitly points to task-specific docs needed for this verification,
-read them. Do not discover extra repo guidance outside those explicit
-references.
+Do not stop at repo-level guidance alone: if the active `state.md` or
+workstream `spec.md` explicitly points to task-specific docs needed for this
+verification, read them. Do not discover extra repo guidance outside those
+explicit references.
+If the active contract records `Preferred Access` and `Fallback Access` routes
+for an external authority source, use the preferred route first, then the
+fallback route if needed. Do not invent a third route or trust memory when
+both routes fail.
 
 ## Gate model
 
@@ -71,11 +78,21 @@ Classify findings under one or more of these categories:
 1. Re-verify from scratch; do not trust the implementer summary.
 2. Do not quietly finish the work.
 3. Missing or stale evidence is a real finding.
-4. Green changed-surface tests do not prove the slice if they miss the runtime path.
-5. Required manual or runtime evidence is an acceptance gate, not paperwork.
-6. Do not block for taste alone.
-7. Do block when structure meaningfully increases future semantic drift or obscures ownership.
-8. Persist the verdict in the local workstream state.
+4. If the slice touches an external seam, re-check the relevant external
+   authority sources independently before issuing a verdict.
+5. Green changed-surface tests do not prove the slice if they miss the runtime path.
+6. Required manual or runtime evidence is an acceptance gate, not paperwork.
+7. Do not block for taste alone.
+8. Do block when structure meaningfully increases future semantic drift or obscures ownership.
+9. Persist the verdict in the local workstream state.
+10. Do not turn a blocked rerun path into the task itself.
+11. If a rerun fails before reaching the requirement layer because of
+    toolchain, environment, or infrastructure factors, treat it as an
+    environment blocker unless the user explicitly asked to debug that environment.
+12. Perform at most 1-2 narrow diagnostic checks. If the blocker remains
+    external to the slice, stop and return `BLOCKED`; do not switch to an ad
+    hoc fallback route unless the contract, repo-owned policy, or explicit
+    user instruction makes that route valid.
 
 ## Verification workflow
 
@@ -86,11 +103,21 @@ Before rerunning anything, answer:
 1. what must be true for the slice to pass?
 2. what would a green-but-wrong implementation look like here?
 3. which rejected patterns or semantic hazards matter most?
+4. which external authority sources constrain this slice, or why is it `N/A`?
 
 ### 2. Re-run relevant checks
 
 Re-run the checks needed for the slice.
 Do not rely only on reported results.
+
+### 2A. Classify blocked rerun paths
+
+If a rerun fails before reaching the requirement layer:
+
+1. run at most 1-2 narrow diagnostic checks
+2. if the failure is external to the slice, stop and return `BLOCKED`
+3. record the failed command, exit code, timestamp, short output snippet, and
+   why the run did not reach the requirement layer
 
 ### 3. Audit evidence quality
 
@@ -101,6 +128,7 @@ Confirm that the evidence contains:
 3. timestamps
 4. short notes or output snippets
 5. truthful scope claims
+6. external authority recheck evidence when the contract requires it
 
 ### 4. Audit artifact consistency and staleness
 
@@ -112,6 +140,8 @@ Treat these as real findings:
 2. state files that still imply green when open gates remain
 3. checks recorded as complete in one artifact but pending or contradicted in another
 4. manual evidence referenced but missing, ambiguous, or tied to the wrong slice
+5. external authority routes or source IDs referenced in one artifact but
+   missing, incomplete, or contradicted in another
 
 ### 5. Audit semantic truth
 
@@ -121,7 +151,9 @@ Confirm:
 2. the correct owner remains authoritative
 3. derived data did not become pseudo-truth
 4. the implementation did not solve a proxy instead of the real requirement
-5. any required manual or runtime evidence is present when the contract requires it
+5. the implementation still matches the authoritative external contract for
+   the touched seam when such a seam exists
+6. any required manual or runtime evidence is present when the contract requires it
 
 ### 6. Audit structural proportionality
 
@@ -189,11 +221,12 @@ Return:
 3. commands rerun
 4. evidence audit summary
 5. artifact-consistency summary
-6. requirement-to-verdict mapping
-7. semantic truth summary
-8. structural proportionality verdict
-9. exact fixes required before re-verification
-10. next owner / next action
+6. external authority audit
+7. requirement-to-verdict mapping
+8. semantic truth summary
+9. structural proportionality verdict
+10. exact fixes required before re-verification
+11. next owner / next action
 
 ## Session memory update
 
@@ -202,9 +235,10 @@ Update the local workstream state with:
 1. final verdict
 2. finding categories
 3. acceptance evidence
-4. checks not run or evidence still pending
-5. complexity / refactor note
-6. exact next owner / next action
+4. external authority audit note
+5. checks not run or evidence still pending
+6. complexity / refactor note
+7. exact next owner / next action
 
 ## Common failure modes to avoid
 
@@ -214,3 +248,7 @@ Update the local workstream state with:
 4. passing code whose evidence is stale across artifacts
 5. blocking on subjective style when semantics and maintainability are both fine
 6. passing code that works today but clearly duplicates truth or obscures ownership
+7. accepting a plausible local interpretation of vendor behavior without
+   re-checking the recorded authority set
+8. turning a blocked verification path into infrastructure debugging
+9. substituting an ad hoc fallback verification route without contract basis

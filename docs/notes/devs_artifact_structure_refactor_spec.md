@@ -93,7 +93,7 @@ continuity rules, and mismatched install/template outputs.
 
 ## In Scope
 
-1. Finalize the artifact model for `.devs/`, `devs/specs/`, and
+1. Finalize the artifact model for `.devs/`, `devs/repo.md`, and
    `devs/workstreams/`
 2. Finalize `workstream` as the main continuity and delivery unit
 3. Finalize the same-target boundary rule for fix loops inside one workstream
@@ -191,7 +191,7 @@ continuity rules, and mismatched install/template outputs.
 | Concern | Canonical Owner | Write / Reconcile Seam | Derived Surfaces | Notes |
 |---|---|---|---|---|
 | hidden Devs system files | `.devs/` | install / refresh logic | internal Devs support files | System-owned and refreshable |
-| larger contracts | `devs/specs/` | spec authoring and repo-facing docs | later slice planning | One spec may define several planned slices |
+| larger contracts | `devs/workstreams/<ws-id>/spec.md` | spec authoring and repo-facing docs | later slice planning | One spec may define several planned slices inside the same workstream |
 | continuity between sessions | `devs/workstreams/` | workstream state updates and templates | next-session startup context | One living `state.md` per workstream |
 
 ## Semantic Hazards and Tempting Wrong Fixes
