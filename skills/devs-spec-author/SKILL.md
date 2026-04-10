@@ -110,6 +110,9 @@ Before drafting:
   project-specific terms.
 - Preserve material qualifiers, API-specific defaults, omitted-setting
   branches, and opt-out paths from the authoritative source.
+- Keep spec tables renderer-safe and scannable: put allowed values outside
+  table headers, keep cells short, and use detail refs instead of
+  paragraph-length prose in cells.
 - During clarification, bias toward surfacing more user-answerable contract
   questions, not fewer; under-questioning is riskier than over-questioning.
 - For a new or reopened specification, 100-row extraction mode is mandatory
@@ -188,6 +191,10 @@ Before drafting:
   project-specific prose.
 - Compressing an external authority summary until material branches, defaults,
   or opt-out paths disappear.
+- Putting literal `|` enum syntax into spec table headers or other table text
+  that breaks markdown rendering.
+- Packing paragraph-length prose into spec tables instead of short summaries
+  plus detail refs.
 - Collapsing source inventory, implementer recheck evidence, and verifier
   authority audit into one generic evidence bucket.
 - Ending a new or reopened spec-author run without a formal

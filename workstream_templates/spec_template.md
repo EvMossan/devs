@@ -24,30 +24,47 @@ Explain the problem being solved, why it matters, and any essential background.
 
 ### Clarification Coverage Summary
 
-| Domain | Status (`answered|already_decided|deferred|n/a`) | Why This Status Is Acceptable | Notes / Contract Impact |
+Allowed status values: `answered`, `already_decided`, `deferred`, `n/a`.
+Keep table cells short and scannable. Put longer rationale and contract nuance
+in `Clarification Coverage Details`.
+
+| Domain | Status | Short Basis | Detail Ref |
 |---|---|---|---|
-| Requested outcome | `<status>` | `<why>` | `<notes>` |
-| User-visible behavior and flow | `<status>` | `<why>` | `<notes>` |
-| Environment / platform | `<status>` | `<why>` | `<notes>` |
-| Hard constraints | `<status>` | `<why>` | `<notes>` |
-| In-scope slice | `<status>` | `<why>` | `<notes>` |
-| Out-of-scope items | `<status>` | `<why>` | `<notes>` |
-| Success criteria / acceptance bar | `<status>` | `<why>` | `<notes>` |
-| Verification expectations | `<status>` | `<why>` | `<notes>` |
-| Ownership / source of truth | `<status>` | `<why>` | `<notes>` |
-| Integrations / dependencies | `<status>` | `<why>` | `<notes>` |
-| External authority / vendor constraints | `<status>` | `<why>` | `<notes>` |
-| Edge cases / failure behavior | `<status>` | `<why>` | `<notes>` |
-| Tradeoffs needing user input | `<status>` | `<why>` | `<notes>` |
+| Requested outcome | `<status>` | `<short reason>` | `<CC-01 or none>` |
+| User-visible behavior and flow | `<status>` | `<short reason>` | `<CC-02 or none>` |
+| Environment / platform | `<status>` | `<short reason>` | `<CC-03 or none>` |
+| Hard constraints | `<status>` | `<short reason>` | `<CC-04 or none>` |
+| In-scope slice | `<status>` | `<short reason>` | `<CC-05 or none>` |
+| Out-of-scope items | `<status>` | `<short reason>` | `<CC-06 or none>` |
+| Success criteria / acceptance bar | `<status>` | `<short reason>` | `<CC-07 or none>` |
+| Verification expectations | `<status>` | `<short reason>` | `<CC-08 or none>` |
+| Ownership / source of truth | `<status>` | `<short reason>` | `<CC-09 or none>` |
+| Integrations / dependencies | `<status>` | `<short reason>` | `<CC-10 or none>` |
+| External authority / vendor constraints | `<status>` | `<short reason>` | `<CC-11 or none>` |
+| Edge cases / failure behavior | `<status>` | `<short reason>` | `<CC-12 or none>` |
+| Tradeoffs needing user input | `<status>` | `<short reason>` | `<CC-13 or none>` |
+
+### Clarification Coverage Details
+
+- `CC-01`: `<longer rationale and contract impact>`
+- `CC-02`: `<longer rationale and contract impact>`
 
 ### User Escalation Gate
 
-| # | Domain | Question | Why It Matters | Options Presented | Recommended Option | Why Recommended | User Answer / Waiver | Contract Impact |
-|---|---|---|---|---|---|---|---|---|
-| `UE-1` | `<domain>` | `<question>` | `<why>` | `<options>` | `<recommended>` | `<why recommended>` | `<answer>` | `<impact>` |
+Allowed decision modes: `options_presented`, `user_waived`, `not_needed`.
+Keep table cells short and scannable. Put long option text, rationale, and
+answer nuance in `User Escalation Details`.
+
+| # | Domain | Short Question | Decision Mode | Detail Ref | Contract Impact |
+|---|---|---|---|---|---|
+| `UE-1` | `<domain>` | `<short user-facing question>` | `<mode>` | `<UE-1 or none>` | `<short impact>` |
 
 If no material clarification was needed, still include one row stating that no
 material clarification was required.
+
+### User Escalation Details
+
+- `UE-1`: `Why it matters`: `<longer reason>` `Options`: `<options>` `Recommended`: `<recommended>` `Why`: `<why recommended>` `Answer / waiver`: `<answer>`
 
 ### Explicit Unknowns / Deferred Decisions
 
@@ -83,7 +100,7 @@ conditions from the canonical source. Do not compress them away.
 
 | Source ID | Concern / Seam | Canonical Source | Preferred Access | Fallback Access | Version / Date Anchor | Authority Rule | Applies to Req-ID(s) |
 |---|---|---|---|---|---|---|---|
-| `EXT-1` | `<seam>` | `<source>` | `<MCP:... | Web:... | RepoMirror:... | N/A>` | `<Web:... | RepoMirror:... | N/A>` | `<version/date or N/A>` | `<constraint confirmed from the source>` | `<REQ-01>` |
+| `EXT-1` | `<seam>` | `<source>` | `<MCP:... / Web:... / RepoMirror:... / N/A>` | `<Web:... / RepoMirror:... / N/A>` | `<version/date or N/A>` | `<constraint confirmed from the source>` | `<REQ-01>` |
 
 ## In Scope
 

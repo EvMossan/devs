@@ -114,6 +114,8 @@ Before finalizing, confirm:
     tests and production code, and the verifier timing law says before verdict
 15. the verification plan is slice-bounded and does not prescribe mixed-scope
     suites or bundles as the primary proving path for this slice
+16. spec tables are renderer-safe and scannable, with short cell text and
+    detail refs instead of paragraph-length prose in the table body
 
 ## Helper Policy
 
@@ -181,3 +183,5 @@ Update the local workstream state with:
 16. weakening a mandatory template law while rewriting the spec in local prose
 17. keeping an external authority source table without carrying the resulting
     cross-role law, timing law, and evidence-surface split into the contract
+18. shipping a spec whose table headers or cells are renderer-fragile or too
+    dense to scan quickly
