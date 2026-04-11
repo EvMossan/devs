@@ -23,6 +23,10 @@ instead of silently absorbing it into the specification.
 If an external platform, API, library, or vendor-behavior seam constrains the
 workstream, the authoritative source set and access route must be recorded in
 `## External Authority Sources` inside the active `spec.md`.
+Treat this as a contract-level decision, not a file-type heuristic. If any
+planned requirement, acceptance rule, compatibility promise, validation rule,
+or runtime behavior derives its correctness from external semantics, that is an
+external seam even when the edited files are repo-local.
 Recording the source table alone is not enough. The authored spec must also
 carry the explicit cross-role law, timing law, and evidence-surface
 distinctions that follow from that source set.
@@ -50,14 +54,19 @@ Before drafting:
 1. Read only the allowed context: the user request and user-provided context;
    `AGENTS.md`, `devs/repo.md`, the active workstream `state.md`, the active
    workstream `clarification.md`, the active workstream `spec.md` when present,
-   and only the local guidance explicitly linked from that chain. If platform,
-   API, library, or vendor-behavior constraints affect what can be specified,
-   read the corresponding authoritative sources too and record them in
+   and only the local guidance explicitly linked from that chain. Before
+   relying on local code or tests, classify whether any planned requirement,
+   acceptance rule, compatibility promise, validation rule, or runtime
+   behavior depends on external platform, API, library, protocol, or
+   vendor-defined semantics. If yes, read the corresponding authoritative
+   sources too and record them in
    `## External Authority Sources` with explicit `Preferred Access` and
    `Fallback Access` routes. Preserve any material qualifiers, API-specific
    defaults, omitted-setting branches, opt-out paths, or other
    behavior-changing conditions from the source. If no such seam exists,
-   record `N/A`.
+   record `N/A` only with an explicit explanation of why the workstream
+   contract does not depend on any external validation rule, protocol default,
+   platform behavior, or vendor-defined semantics.
 2. If the request changes an existing system, read the relevant existing code
    before you write questions or define the contract.
 3. Build the full technical clarification trail before you word the
@@ -98,11 +107,23 @@ Before drafting:
   official documentation you read for this task.
 - `External Authority Sources` is mandatory whenever the workstream touches an
   external seam; otherwise record `N/A`.
+- Determine external-seam status from the workstream contract and acceptance
+  semantics, not from whether the edited files look repo-local.
+- Repo-local prompts, schemas, config, payload shapes, adapters, and tests may
+  still require external authority if their correctness depends on external
+  platform, API, protocol, or vendor rules.
 - Recording `External Authority Sources` alone is insufficient; the authored
   spec must also state the cross-role law, timing law, and evidence surfaces
   that follow from the recorded source set.
+- `External Authority Sources: N/A` requires an explicit explanation of why the
+  workstream contract does not depend on external semantics.
 - Do not write external behavior, schema rules, or vendor constraints into the
   spec without naming the authoritative source set and the access route.
+- Local code, snapshots, and tests may provide evidence about current repo
+  behavior, but they do not replace authoritative external documentation when
+  the contract depends on external semantics.
+- `No additional user clarification needed` does not imply `no external
+  authority needed`.
 - Verification plans must be slice-bounded: prefer the narrowest proving
   commands; do not prescribe a mixed-scope suite or bundle as the primary
   acceptance rerun for a bounded slice.
@@ -179,12 +200,18 @@ Before drafting:
   internal architecture.
 - Writing external rules into the spec from memory, local code, or secondary
   summaries without recording the authoritative source set.
+- Treating inherited external constraints as out of scope because only
+  repo-local files or tests are being edited.
 - Keeping the external source table but dropping the explicit cross-role law
   that should flow from it.
+- Treating local tests or existing code as a substitute for authoritative
+  external documentation.
 - Writing a verification plan that names a broad suite or bundle even though
   only a narrower subset actually proves the slice.
 - Hiding questions or their rationale inside reasoning instead of normal chat.
 - Turning confirmed answers into an incomplete contract before drafting.
+- Letting `no more user questions` collapse into `no external authority
+  recheck`.
 - Leaving the implementer to guess which external sources are authoritative for
   the workstream.
 - Weakening a mandatory template law while translating the template into

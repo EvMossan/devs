@@ -116,6 +116,10 @@ Before finalizing, confirm:
     suites or bundles as the primary proving path for this slice
 16. spec tables are renderer-safe and scannable, with short cell text and
     detail refs instead of paragraph-length prose in the table body
+17. if `External Authority Sources` is `N/A`, the spec explicitly explains why
+    the workstream contract does not depend on external semantics
+18. local tests or existing code were not used as a substitute for
+    authoritative external documentation when an external seam exists
 
 ## Helper Policy
 
@@ -185,3 +189,7 @@ Update the local workstream state with:
     cross-role law, timing law, and evidence-surface split into the contract
 18. shipping a spec whose table headers or cells are renderer-fragile or too
     dense to scan quickly
+19. recording `External Authority Sources: N/A` without proving why the
+    workstream contract is independent from external semantics
+20. letting local tests or existing code overrule the need for authoritative
+    external documentation

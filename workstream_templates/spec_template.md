@@ -94,6 +94,12 @@ If no lead decisions were needed, state that explicitly in the first row.
 Record every external authority that constrains this workstream's contract.
 If no external platform, API, library, or vendor-behavior seam is in scope,
 state `N/A`.
+Determine this from the workstream contract, planned requirements, acceptance
+rules, validation rules, compatibility promises, and runtime semantics, not
+only from touched file type.
+`N/A` is allowed only when the spec explicitly explains why the workstream
+contract does not depend on any external validation rule, protocol default,
+platform behavior, or vendor-defined semantics.
 Preserve any material qualifiers, API-specific defaults, omitted-setting
 branches, opt-out paths, version constraints, or other behavior-changing
 conditions from the canonical source. Do not compress them away.
